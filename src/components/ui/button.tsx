@@ -15,7 +15,7 @@ const buttonVariants = cva(
         warning: "bg-warning text-white hover:bg-warning/80",
         fit: "border-[1.5px] border-gray-300 hover:bg-primary/20 hover:border-primary font-normal",
         icon: "text-base border-[1.5px] border-gray-300 flex flex-col items-center justify-center gap-1 font-normal",
-        login: "bg-social-kakao hover:bg-social-kakao/80 text-white",
+        login: "bg-social-kakao hover:bg-social-kakao/80 text-black/90",
       },
       size: {
         default: "w-full py-3",
