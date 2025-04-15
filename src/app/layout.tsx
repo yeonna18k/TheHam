@@ -1,5 +1,10 @@
 import { Viewport } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
+
+const pretendard = localFont({
+  src: "../../public/fonts/PretendardVariable.woff2",
+});
 
 export const metadata = {
   title: "My PWA App",
@@ -22,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={`${pretendard} antialiased`}>{children}</body>
     </html>
   );
 }
