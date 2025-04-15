@@ -1,3 +1,15 @@
+import { Info } from "lucide-react";
+import SignupFormField from "./SignupFormField";
+
 export default function SignUp() {
-  return <main>signup</main>;
+  return (
+    <section className="flex flex-col gap-6 items-center">
+      <h1 className="text-2xl font-bold">회원가입</h1>
+      <SignupFormField />
+      <span className="text-xs text-gray-600 flex items-center gap-1">
+        <Info size={16} /> 나중에 마이페이지에서 즐겨찾는 카테고리 변경이
+        가능해요!
+      </span>
+    </section>
+  );
 }
