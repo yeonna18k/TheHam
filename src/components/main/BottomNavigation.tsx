@@ -18,7 +18,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ activeTab }) => {
     {
       name: '홈',
       icon: 'home',
-      path: '/',
+      path: '/main',
       active: activeTab === 'home'
     },
     {
