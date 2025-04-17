@@ -5,16 +5,16 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-semibold transition-all hover:cursor-pointer disabled:pointer-events-none disabled:bg-gray-300 disabled:text-gray-600",
+  "title5 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-all hover:cursor-pointer disabled:pointer-events-none disabled:bg-gray-300 disabled:text-gray-600",
   {
     variants: {
       variant: {
         default:
           "border-[1.5px] border-gray-300 hover:bg-primary/20 hover:border-primary focus:bg-primary focus:text-white",
-        primary: "bg-primary hover:bg-primary/80",
+        primary: "bg-primary hover:bg-primary/80 text-white",
         warning: "bg-warning text-white hover:bg-warning/80",
         fit: "border-[1.5px] border-gray-300 hover:bg-primary/20 hover:border-primary font-normal",
-        icon: "text-base border-[1.5px] border-gray-300 flex flex-col items-center justify-center gap-1 font-normal",
+        icon: "title4 border-[1.5px] border-gray-300 flex flex-col items-center justify-center gap-1",
         login: "bg-social-kakao hover:bg-social-kakao/80 text-black/90",
       },
       size: {
