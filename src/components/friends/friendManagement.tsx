@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface Friend {
   id: string;
@@ -24,9 +24,9 @@ const FriendManagement: React.FC = () => {
         } else {
           // Initial data if no friends are stored
           const initialFriends: Friend[] = [
-            { id: '1', name: '강나연', challengeCount: 2, profileImage: '/profiles/default.png' },
-            { id: '2', name: '강나연', challengeCount: 2, profileImage: '/profiles/default.png' },
-            { id: '3', name: '강나연', challengeCount: 2, profileImage: '/profiles/default.png' },
+            { id: '1', name: '강나연', challengeCount: 2, profileImage: '/icons/test.jpg' },
+            { id: '2', name: '김철수', challengeCount: 2, profileImage: '/icons/test.jpg' },
+            { id: '3', name: '신혜서', challengeCount: 2, profileImage: '/icons/test.jpg' },
           ];
           setFriends(initialFriends);
           localStorage.setItem('friends', JSON.stringify(initialFriends));
@@ -40,21 +40,17 @@ const FriendManagement: React.FC = () => {
   }, []);
 
   const addFriendToChallenge = (friendId: string) => {
-    // Logic to add friend to current challenge
     console.log(`Adding friend ${friendId} to challenge`);
-    // This would typically call an API or update state in a parent component
     alert(`친구가 챌린지에 추가되었습니다.`);
   };
 
   const sendKakaoInvite = async () => {
     try {
-      // Check if Kakao SDK is loaded
       if (!window.Kakao) {
         alert('카카오톡 SDK가 로드되지 않았습니다.');
         return;
       }
 
-      // Send KakaoTalk message
       window.Kakao.Link.sendDefault({
         objectType: 'text',
         text: '함께 챌린지에 참여해보세요!',
@@ -70,9 +66,15 @@ const FriendManagement: React.FC = () => {
     }
   };
 
-  const handleKakaoResponse = (response: any) => {
-    // This function would be called after user clicks "하러가기" button
-    // and is redirected back to the app with user info
+  interface KakaoResponse {
+    id: string;
+    properties: {
+      nickname: string;
+      profile_image?: string;
+    };
+  }
+
+  const handleKakaoResponse = (response: KakaoResponse) => {
     if (response && response.id) {
       const newFriend: Friend = {
         id: response.id,
@@ -87,21 +89,21 @@ const FriendManagement: React.FC = () => {
     }
   };
 
+  const searchParams = useSearchParams();
+
   useEffect(() => {
-    // Check URL for Kakao redirect parameters
-    const { query } = router;
-    if (query.kakao_user) {
+    const kakaoUser = searchParams.get('kakao_user');
+    if (kakaoUser) {
       try {
-        const userData = JSON.parse(decodeURIComponent(query.kakao_user as string));
+        const userData = JSON.parse(decodeURIComponent(kakaoUser));
         handleKakaoResponse(userData);
         
-        // Clean up URL
-        router.replace('/friends', undefined, { shallow: true });
+        router.replace('/friends');
       } catch (e) {
         console.error('Failed to parse Kakao user data', e);
       }
     }
-  }, [router]);
+  }, [router, searchParams]);
 
   return (
     <div className="px-4 py-6 bg-white min-h-screen">
@@ -165,7 +167,7 @@ const FriendManagement: React.FC = () => {
 
       <button 
         onClick={sendKakaoInvite}
-        className="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-black font-medium py-3 px-8 rounded-lg shadow-md flex items-center"
+        className="fixed bottom-25 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-black font-medium py-3 px-8 rounded-lg shadow-md flex items-center"
       >
         <svg className="mr-2" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M10 2.5C5.3075 2.5 1.5 5.52 1.5 9.205C1.5 11.5975 3.03 13.7 5.3825 14.89C5.199 15.4725 4.5465 17.2275 4.4315 17.5625C4.2915 17.975 4.591 17.9675 4.7985 17.8475C4.9585 17.7525 7.2035 16.265 8.1785 15.6425C8.769 15.7325 9.379 15.785 10 15.785C14.6925 15.785 18.5 12.765 18.5 9.08C18.5 5.395 14.6925 2.5 10 2.5Z" fill="black"/>

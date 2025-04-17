@@ -1,5 +1,17 @@
 'use client'
 import { useEffect } from 'react';
+import BottomNavigation from '@/components/main/BottomNavigation';
+
+declare global {
+  interface Window {
+    Kakao?: {
+      Link: any;
+      isInitialized: () => boolean;
+      init: (key: string) => void;
+    };
+  }
+}
+
 import Head from 'next/head';
 import FriendManagement from '../../components/friends/friendManagement';
 
@@ -30,14 +42,15 @@ const FriendsPage: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <div className='max-w-md mx-auto'>
       <Head>
         <title>친구 관리</title>
         <meta name="description" content="친구 관리 및 챌린지 초대" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </Head>
       <FriendManagement />
-    </>
+      <BottomNavigation activeTab="friends" />
+    </div>
   );
 };
 
