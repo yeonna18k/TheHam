@@ -1,13 +1,14 @@
-import { useRouter } from 'next/router';
+'use client'
+import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { useChallengeStore } from '../../store/challengeStore';
-import { ChallengeDetailHeader } from '../../components/goals/ChallengeDetailHeader';
-import { ChallengeProgress } from '../../components/goals/ChallengeProgress';
-import { ParticipantList } from '../../components/goals/ParticipantList';
-import { PublicToggle } from '../../components/goals/PublicToggle';
-import { ActionButtons } from '../../components/goals/ActionButtons';
-import { PaymentSection } from '../../components/goals/PaymentSection';
-import BottomNavigation from '../../components/main/BottomNavigation';
+import { useChallengeStore } from '../../../store/challengeStore';
+import { ChallengeDetailHeader } from '../../../components/goals/ChallengeDetailHeader';
+import { ChallengeProgress } from '../../../components/goals/ChallengeProgress';
+import { ParticipantList } from '../../../components/goals/ParticipantList';
+import { PublicToggle } from '../../../components/goals/PublicToggle';
+import { ActionButtons } from '../../../components/goals/ActionButtons';
+import { PaymentSection } from '../../../components/goals/PaymentSection';
+import BottomNavigation from '../../../components/main/BottomNavigation';
 
 export default function ChallengeDetail() {
   const router = useRouter();
@@ -30,7 +31,7 @@ export default function ChallengeDetail() {
   }
 
   return (
-    <div className="pb-16">
+    <div className="pb-16 max-w-md mx-auto">
       <ChallengeDetailHeader title="챌린지 상세" />
       
       <div className="p-4">

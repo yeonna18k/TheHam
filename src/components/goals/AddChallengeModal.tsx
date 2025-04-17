@@ -33,7 +33,6 @@ export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) =
 
     addChallenge(newChallenge);
     onClose();
-    // Reset form
     setTitle('');
     setDescription('');
     setTargetAmount('');
@@ -43,7 +42,7 @@ export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) =
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 max-w-md mx-auto">
       <div className="bg-white p-6 rounded-lg w-full max-w-md mx-4">
         <h2 className="text-xl font-bold mb-4">새 챌린지 추가하기</h2>
         

@@ -8,7 +8,7 @@ export default function Home() {
         <div className="flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-2 font-bold text-xl">
             <PiggyBank className="h-6 w-6 text-green-500" />
-            <span>Growith</span>
+            <span>MonChall</span>
           </div>
           <div className="flex items-center gap-3">
             <Link 

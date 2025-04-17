@@ -1,6 +1,6 @@
-"use client"
+'use client'
 import { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useChallengeStore } from '../../store/challengeStore';
 import { ChallengeDetailHeader } from '../../components/goals/ChallengeDetailHeader';
 import { TabNav } from '../../components/goals/TabNav';
@@ -26,7 +26,7 @@ export default function ChallengeList() {
   };
 
   return (
-    <div className="pb-16">
+    <div className="pb-16 max-w-md mx-auto">
       <ChallengeDetailHeader title="챌린지" />
       
       <div className="p-4">
@@ -47,7 +47,8 @@ export default function ChallengeList() {
         </div>
       </div>
       
-      <AddChallengeButton onClick={() => setIsModalOpen(true)} />
+        <AddChallengeButton onClick={() => setIsModalOpen(true)} />
+      
       <AddChallengeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       
       <BottomNavigation activeTab="goals" />
