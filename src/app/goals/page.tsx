@@ -15,14 +15,13 @@ export default function ChallengeList() {
   const selectChallenge = useChallengeStore(state => state.selectChallenge);
   
   const [activeTab, setActiveTab] = useState(0);
-  const [bottomTab, setBottomTab] = useState('challenges');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const tabs = ['모든 챌린지', '신규 챌린지', '내 챌린지'];
 
   const handleChallengeClick = (challengeId: string) => {
     selectChallenge(challengeId);
-    router.push(`/challenge/${challengeId}`);
+    router.push(`/goals/${challengeId}`);
   };
 
   return (
