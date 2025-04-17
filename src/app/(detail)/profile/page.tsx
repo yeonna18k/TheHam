@@ -1,9 +1,11 @@
 import AccountInfo from "@/components/profile/AccountInfo";
 import AchievementsCard from "@/components/profile/AchievementsCard";
 import StatisticsCard from "@/components/profile/StatisticsCard";
-import WarningCard from "@/components/profile/WarningCard";
+import WarningsCard from "@/components/profile/WarningCard";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MOCK_ACHIEVEMENTS from "@/mock/achievementsData";
+import { MOCK_CHALLENGES } from "@/mock/challengeStatisticsData";
 import MOCK_WARNING_CARDS from "@/mock/warningCardsData";
 
 const PROFILE_TABS = [
@@ -56,6 +58,13 @@ export default function Profile() {
             </div>
             <TabContent tabValue={tab.value} />
           </section>
+          {tab.value === "account" && (
+            <section className="rounded-lg shadow-sm bg-white py-6 px-3 flex flex-col gap-6 mt-3">
+              <h1 className="title1">계정 관리</h1>
+              <Button>로그아웃</Button>
+              <Button variant="warning">탈퇴하기</Button>
+            </section>
+          )}
         </TabsContent>
       ))}
     </Tabs>
@@ -75,12 +84,19 @@ function TabContent({ tabValue }: { tabValue: string }) {
         </div>
       );
     case "statistics":
-      return <StatisticsCard />;
+      return (
+        <div className="flex flex-col gap-4">
+          {MOCK_CHALLENGES.map((stat) => (
+            <StatisticsCard key={stat.id} {...stat} />
+          ))}
+          ;
+        </div>
+      );
     case "warnings":
       return (
         <div className="flex flex-col gap-4">
           {MOCK_WARNING_CARDS.map((warning) => (
-            <WarningCard key={warning.id} {...warning} />
+            <WarningsCard key={warning.id} {...warning} />
           ))}
         </div>
       );
