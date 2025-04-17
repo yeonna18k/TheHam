@@ -2,8 +2,8 @@ import { cn } from "@/lib/utils";
 import { WarningCard } from "@/mock/warningCardsData";
 import { PiggyBank } from "lucide-react";
 
-export default function WarningCard({
-  type,
+export default function WarningsCard({
+  // type,
   severity,
   title,
   description,
