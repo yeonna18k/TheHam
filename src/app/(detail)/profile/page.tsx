@@ -1,4 +1,10 @@
+import AccountInfo from "@/components/profile/AccountInfo";
+import AchievementsCard from "@/components/profile/AchievementsCard";
+import StatisticsCard from "@/components/profile/StatisticsCard";
+import WarningCard from "@/components/profile/WarningCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import MOCK_ACHIEVEMENTS from "@/mock/achievementsData";
+import MOCK_WARNING_CARDS from "@/mock/warningCardsData";
 
 const PROFILE_TABS = [
   {
@@ -48,9 +54,37 @@ export default function Profile() {
               <h1 className="title1">{tab.title}</h1>
               <p className="body1 text-gray-500">{tab.description}</p>
             </div>
+            <TabContent tabValue={tab.value} />
           </section>
         </TabsContent>
       ))}
     </Tabs>
   );
+}
+
+function TabContent({ tabValue }: { tabValue: string }) {
+  switch (tabValue) {
+    case "account":
+      return <AccountInfo />;
+    case "achievements":
+      return (
+        <div className="flex flex-col gap-4">
+          {MOCK_ACHIEVEMENTS.map((achievement) => (
+            <AchievementsCard key={achievement.id} {...achievement} />
+          ))}
+        </div>
+      );
+    case "statistics":
+      return <StatisticsCard />;
+    case "warnings":
+      return (
+        <div className="flex flex-col gap-4">
+          {MOCK_WARNING_CARDS.map((warning) => (
+            <WarningCard key={warning.id} {...warning} />
+          ))}
+        </div>
+      );
+    default:
+      return null;
+  }
 }
