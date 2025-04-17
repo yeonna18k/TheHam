@@ -3,11 +3,10 @@ import { useEffect } from 'react';
 import Head from 'next/head';
 import FriendManagement from '../../components/friends/friendManagement';
 
-const KAKAO_APP_KEY = 'YOUR_KAKAO_APP_KEY'; // Replace with your actual Kakao API key
+const KAKAO_APP_KEY = process.env.NEXT_PUBLIC_KAKAO_APP_KEY;
 
 const FriendsPage: React.FC = () => {
   useEffect(() => {
-    // Load Kakao SDK
     const loadKakaoSDK = () => {
       const script = document.createElement('script');
       script.src = 'https://developers.kakao.com/sdk/js/kakao.js';
