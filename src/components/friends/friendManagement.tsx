@@ -120,6 +120,7 @@ const FriendManagement: React.FC = () => {
         console.error("Failed to parse Kakao user data", e);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, searchParams]);
 
   return (

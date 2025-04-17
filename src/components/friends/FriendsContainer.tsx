@@ -2,7 +2,6 @@
 import { useEffect } from "react";
 import BottomNavigation from "../main/BottomNavigation";
 import FriendManagement from "./friendManagement";
-import "./types/external/kakao";
 
 export default function FriendsContainer() {
   useEffect(() => {
