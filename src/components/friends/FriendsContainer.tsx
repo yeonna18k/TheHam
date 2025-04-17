@@ -2,16 +2,7 @@
 import { useEffect } from "react";
 import BottomNavigation from "../main/BottomNavigation";
 import FriendManagement from "./friendManagement";
-
-declare global {
-  interface Window {
-    Kakao?: {
-      Share: any;
-      isInitialized: () => boolean;
-      init: (key: string) => void;
-    };
-  }
-}
+import "./types/external/kakao";
 
 export default function FriendsContainer() {
   useEffect(() => {
