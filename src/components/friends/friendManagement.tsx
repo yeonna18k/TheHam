@@ -1,6 +1,8 @@
+import { Plus, SearchIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { Input } from "../ui/input";
 
 interface Friend {
   id: string;
@@ -124,62 +126,22 @@ const FriendManagement: React.FC = () => {
   }, [router, searchParams]);
 
   return (
-    <div className="px-4 py-6 bg-white min-h-screen">
-      <div className="flex items-center mb-4">
-        <button onClick={() => router.back()} className="mr-4">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M15 18L9 12L15 6"
-              stroke="black"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
-        <h1 className="text-xl font-bold flex-1 text-center">친구</h1>
-      </div>
-
+    <div>
       <div className="relative mb-6">
-        <input
+        <Input
           type="text"
           placeholder="친구의 ID를 검색해세요"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full py-3 px-10 border rounded-lg"
         />
-        <svg
-          className="absolute left-3 top-3.5"
-          width="18"
-          height="18"
-          viewBox="0 0 18 18"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M8.25 14.25C11.5637 14.25 14.25 11.5637 14.25 8.25C14.25 4.93629 11.5637 2.25 8.25 2.25C4.93629 2.25 2.25 4.93629 2.25 8.25C2.25 11.5637 4.93629 14.25 8.25 14.25Z"
-            stroke="#AAAAAA"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15.7499 15.7499L12.4874 12.4874"
-            stroke="#AAAAAA"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <SearchIcon
+          size={18}
+          className="text-gray-500 absolute left-3 top-3.5"
+        />
       </div>
 
-      <h2 className="text-lg font-bold mb-4">내 친구</h2>
+      <h2 className="title2 mb-4">내 친구</h2>
 
       <div className="space-y-4">
         {friends
@@ -215,28 +177,7 @@ const FriendManagement: React.FC = () => {
                 onClick={() => addFriendToChallenge(friend.id)}
                 className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center"
               >
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 14 14"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M7 2.91675V11.0834"
-                    stroke="#555555"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2.91675 7H11.0834"
-                    stroke="#555555"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <Plus size={14} className="text-gray-900" />
               </button>
             </div>
           ))}
@@ -246,6 +187,7 @@ const FriendManagement: React.FC = () => {
         onClick={sendKakaoInvite}
         className="title3 cursor-pointer fixed bottom-25 left-1/2 transform -translate-x-1/2 bg-social-kakao text-black font-medium py-3 px-8 rounded-lg shadow-md flex items-center"
       >
+        {/* <KakaoIcon width={20} height={20} className="mr-2" /> */}
         <svg
           className="mr-2"
           width="20"

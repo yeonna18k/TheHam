@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect } from "react";
 import BottomNavigation from "../main/BottomNavigation";
 import FriendManagement from "./friendManagement";
@@ -29,9 +30,9 @@ export default function FriendsContainer() {
     loadKakaoSDK();
   }, []);
   return (
-    <div className="max-w-md mx-auto">
+    <>
       <FriendManagement />
       <BottomNavigation activeTab="friends" />
-    </div>
+    </>
   );
 }
