@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { ChallengeStatistics } from "@/mock/challengeStatisticsData";
 import { PiggyBank } from "lucide-react";
+import IconCardLayout from "../common/IconCardLayout";
 
 export default function StatisticsCard({
   type,
@@ -9,7 +10,7 @@ export default function StatisticsCard({
   count,
 }: ChallengeStatistics) {
   return (
-    <div className="p-4 border border-gray-200 rounded-md flex gap-2 flex-col items-center">
+    <IconCardLayout className="gap-2 flex-col items-center">
       <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
         <PiggyBank size={24} className="text-primary" />
       </div>
@@ -21,6 +22,6 @@ export default function StatisticsCard({
       >
         {type === "amount" ? `₩ ${amount?.toLocaleString()}` : count}
       </h1>
-    </div>
+    </IconCardLayout>
   );
 }

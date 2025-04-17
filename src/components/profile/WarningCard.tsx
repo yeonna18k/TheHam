@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { WarningCard } from "@/mock/warningCardsData";
 import { PiggyBank } from "lucide-react";
+import IconCardLayout from "../common/IconCardLayout";
 
 export default function WarningsCard({
   // type,
@@ -9,15 +10,12 @@ export default function WarningsCard({
   description,
 }: WarningCard) {
   return (
-    <div
-      className={cn(
-        "p-4 border border-gray-200 rounded-md flex gap-2 flex-col items-center",
-        {
-          "text-primary": severity === "low",
-          "text-social-kakao": severity === "medium",
-          "text-warning": severity === "high",
-        }
-      )}
+    <IconCardLayout
+      className={cn("gap-2 flex-col items-center", {
+        "text-primary": severity === "low",
+        "text-social-kakao": severity === "medium",
+        "text-warning": severity === "high",
+      })}
     >
       <div
         className={cn(
@@ -35,6 +33,6 @@ export default function WarningsCard({
       <p className="body1 text-gray-500 break-keep text-center">
         {description}
       </p>
-    </div>
+    </IconCardLayout>
   );
 }
