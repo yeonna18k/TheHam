@@ -8,7 +8,7 @@ export default function AchievementsCard({
   acquiredDate,
 }: Achievement) {
   return (
-    <IconCardLayout className="gap-4">
+    <IconCardLayout className="gap-4 ">
       <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
         <PiggyBank size={24} className="text-primary" />
       </div>
