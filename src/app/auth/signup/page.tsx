@@ -3,7 +3,7 @@ import SignupFormField from "./SignupFormField";
 
 export default function SignUp() {
   return (
-    <section className="flex flex-col gap-6 items-center">
+    <section className="flex flex-col gap-6 items-center max-w-md mx-auto">
       <h1 className="text-2xl font-bold">회원가입</h1>
       <SignupFormField />
       <span className="text-xs text-gray-600 flex items-center gap-1">
