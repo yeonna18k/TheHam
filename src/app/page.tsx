@@ -1,5 +1,6 @@
-import { PiggyBank, Users, Trophy, Menu } from "lucide-react"
-import Link from "next/link"
+import { PiggyBank, Users, Trophy, Menu } from "lucide-react";
+import Link from "next/link";
+import "@/lib/firebase/settingFCM";
 
 export default function Home() {
   return (
