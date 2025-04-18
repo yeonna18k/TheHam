@@ -124,7 +124,7 @@ const FriendManagement: React.FC = () => {
 
   return (
     <div>
-      <div className="relative mb-6">
+      <div className="relative mb-6 max-w-md mx-auto">
         <Input
           type="text"
           placeholder="친구의 ID를 검색해세요"

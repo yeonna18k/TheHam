@@ -69,7 +69,7 @@ export default function Home() {
 
   async function getDeviceToken() {
     try {
-      let currentToken = null; // Declare currentToken
+      let currentToken = null;
       if (messaging) {
         currentToken = await getToken(messaging, { vapidKey });
         if (currentToken) {
