@@ -1,4 +1,14 @@
-export function TopCategories({ categories }) {
+interface Category {
+  name: string;
+  color: string;
+  value: number;
+}
+
+interface TopCategoriesProps {
+  categories: Category[];
+}
+
+export function TopCategories({ categories }: TopCategoriesProps) {
     return (
       <div className="mb-8">
         <h2 className="text-xl font-bold mb-4">TOP3 카테고리</h2>
