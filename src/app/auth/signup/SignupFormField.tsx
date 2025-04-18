@@ -52,7 +52,6 @@ export default function SignupFormField() {
   };
   return (
     <form
-      // onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6 justify-center"
     >
       <div className="flex flex-col gap-2 w-full">
