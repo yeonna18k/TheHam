@@ -1,4 +1,10 @@
-export function CategoryList({ categories }) {
+interface Category {
+  name: string;
+  color: string;
+  value: number;
+}
+
+export function CategoryList({ categories }: { categories: Category[] }) {
     return (
       <div>
         <h2 className="text-xl font-bold mb-4">전체 카테고리</h2>
