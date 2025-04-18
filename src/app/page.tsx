@@ -32,7 +32,7 @@ export default function Home() {
               함께 <span className="text-green-500">성장</span>하세요
             </h1>
             <p className="text-lg text-muted-foreground mb-8">
-              Growith와 함께 친구들과 절약 챌린지를 시작하고, 건강한 금융 습관을 만들어보세요.
+              MonChall와 함께 친구들과 절약 챌린지를 시작하고, 건강한 금융 습관을 만들어보세요.
             </p>
             <div className="flex justify-center mt-4">
               <Link 
@@ -80,7 +80,7 @@ export default function Home() {
             <PiggyBank className="h-5 w-5 text-green-500" />
             <span>Growith</span>
           </div>
-          <p className="text-sm text-muted-foreground">© 2024 Growith. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">© 2024 MonChall. All rights reserved.</p>
         </div>
       </footer>
     </div>
