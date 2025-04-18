@@ -81,10 +81,10 @@ export default function Home() {
   };
   
   const [calendarData] = useState(generateCalendarData());
-  const [selectedDayTransactions, setSelectedDayTransactions] = useState<any[]>([]);
+  // Removed unused selectedDayTransactions state
   
-  const handleDayClick = (day: any) => {
-    setSelectedDayTransactions(day.transactions);
+  const handleDayClick = (day: { date: number; spending: number; saving: number; transactions: { id: number; title: string; amount: number; category: string; }[] }) => {
+    // Removed setSelectedDayTransactions as it is not used
     console.log(`Selected day: ${day.date}, with ${day.transactions.length} transactions`);
   };
 

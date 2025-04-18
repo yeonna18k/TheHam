@@ -58,9 +58,8 @@ export default function Statistics() {
 }
 
 //이거 나중에 API로 변경해야함
-export async function GET(request) {
-  const { searchParams } = new URL(request.url);
-  const period = searchParams.get('period') || 'daily';
+export async function GET() {
+  //const period = new URL(request.url).searchParams.get('period') || 'daily';
 
   const categoryData = [
     { name: '식비', value: 300000, color: '#4ade80' },

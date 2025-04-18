@@ -9,11 +9,11 @@ import { ActionButtons } from '../../../components/goals/ActionButtons';
 import { PaymentSection } from '../../../components/goals/PaymentSection';
 import BottomNavigation from '../../../components/main/BottomNavigation';
 
-interface PageProps {
-  params: { id: string };
-}
+// interface PageProps {
+//   params: { id: string };
+// }
 
-export default function ChallengeDetail({ params }: PageProps) {
+export default function ChallengeDetail() {
   //const { id } = params;
   const id = '1';
   const selectedChallenge = useChallengeStore(state => state.selectedChallenge);
