@@ -9,7 +9,6 @@ interface TransactionItemProps {
 }
 
 const TransactionItem: React.FC<TransactionItemProps> = ({
-  category,
   categoryIcon,
   title,
   time,
