@@ -46,7 +46,7 @@ export default function Statistics() {
       
       <main className="flex-1 px-4 py-6">
         <div className="flex justify-center">
-        <PeriodTabs className="w-full max-w-md" period={period} setPeriod={setPeriod} />
+        <PeriodTabs period={period} setPeriod={setPeriod} />
         </div>
         <DonutChart data={chartData} />
         <TopCategories categories={topCategories} />
