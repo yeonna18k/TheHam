@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import BottomNavigation from "../main/BottomNavigation";
 import FriendManagement from "./friendManagement";
 
@@ -31,7 +31,9 @@ export default function FriendsContainer() {
   }, []);
   return (
     <>
-      <FriendManagement />
+      <Suspense fallback={<div>로딩 중...</div>}>
+        <FriendManagement />
+      </Suspense>
       <BottomNavigation activeTab="friends" />
     </>
   );

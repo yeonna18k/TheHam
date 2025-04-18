@@ -70,8 +70,8 @@ const FriendManagement: React.FC = () => {
         objectType: "text",
         text: "함께 챌린지에 참여해보세요!",
         link: {
-            mobileWebUrl: `${window.location.origin}/goals`,
-            webUrl:       `${window.location.origin}/goals`,
+          mobileWebUrl: `${window.location.origin}/goals`,
+          webUrl: `${window.location.origin}/goals`,
         },
         buttonTitle: "하러가기",
         serverCallbackArgs: {},
@@ -120,7 +120,6 @@ const FriendManagement: React.FC = () => {
         console.error("Failed to parse Kakao user data", e);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, searchParams]);
 
   return (
@@ -185,7 +184,6 @@ const FriendManagement: React.FC = () => {
         onClick={sendKakaoInvite}
         className="title3 cursor-pointer fixed bottom-25 left-1/2 transform -translate-x-1/2 bg-social-kakao text-black font-medium py-3 px-8 rounded-lg shadow-md flex items-center"
       >
-        {/* <KakaoIcon width={20} height={20} className="mr-2" /> */}
         <svg
           className="mr-2"
           width="20"
