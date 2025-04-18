@@ -13,7 +13,7 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-3">
             <Link 
-              href="/auth/signup" 
+              href="/main" 
               className="px-4 py-2 text-sm font-medium bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
             >
               시작하기
@@ -36,7 +36,7 @@ export default function Home() {
             </p>
             <div className="flex justify-center mt-4">
               <Link 
-                href="/auth/signup" 
+                href="/main" 
                 className="w-30 block px-6 py-3 font-medium bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors text-center"
               >
                 시작하기
