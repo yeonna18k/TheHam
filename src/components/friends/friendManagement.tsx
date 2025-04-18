@@ -15,14 +15,12 @@ const FriendManagement: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // Load friends from local storage or API
     const loadFriends = async () => {
       try {
         const storedFriends = localStorage.getItem('friends');
         if (storedFriends) {
           setFriends(JSON.parse(storedFriends));
         } else {
-          // Initial data if no friends are stored
           const initialFriends: Friend[] = [
             { id: '1', name: '강나연', challengeCount: 2, profileImage: '/icons/test.jpg' },
             { id: '2', name: '김철수', challengeCount: 2, profileImage: '/icons/test.jpg' },
@@ -55,8 +53,8 @@ const FriendManagement: React.FC = () => {
         objectType: 'text',
         text: '함께 챌린지에 참여해보세요!',
         link: {
-          mobileWebUrl: window.location.origin,
-          webUrl: window.location.origin,
+            mobileWebUrl: `${window.location.origin}/goals`,
+            webUrl:       `${window.location.origin}/goals`,
         },
         buttonTitle: '하러가기',
       });
@@ -80,7 +78,7 @@ const FriendManagement: React.FC = () => {
         id: response.id,
         name: response.properties.nickname || '새 친구',
         challengeCount: 0,
-        profileImage: response.properties.profile_image || '/profiles/default.png',
+        profileImage: response.properties.profile_image || '/icons/test.jpg',
       };
       
       const updatedFriends = [...friends, newFriend];
