@@ -1,3 +1,4 @@
+import { Challenge } from '@/types/challenge';
 import { useState } from 'react';
 import { useChallengeStore } from '../../store/challengeStore';
 import { Challenge } from '../../types/challenge';
