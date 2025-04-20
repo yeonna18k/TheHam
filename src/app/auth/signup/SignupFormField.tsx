@@ -6,48 +6,71 @@ import { Label } from '@/components/ui/label';
 import { EXPENSE_CATEGORIES } from '@/constants/categories';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const formSchema = z.object({
-  nickname: z.string(),
+  nickname: z.string().min(1, '닉네임을 입력해주세요'),
   selectedCategories: z
     .array(z.number())
-    .min(7, '카테고리를 7개 선택해주세요')
-    .max(7, '카테고리는 7개만 선택 가능합니다'),
+    .length(7, '카테고리를 7개 선택해주세요'),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 export default function SignupFormField() {
-  const { register, setValue, getValues } = useForm<FormValues>({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    watch,
+    trigger,
+    formState: { isValid },
+  } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       nickname: '',
       selectedCategories: [],
     },
+    mode: 'onChange',
   });
+
+  const selectedCategories = watch('selectedCategories');
+
   const handleCategoryClick = (categoryId: number) => {
     if (getValues('selectedCategories').includes(categoryId)) {
       setValue(
         'selectedCategories',
-        getValues('selectedCategories').filter((id) => id !== categoryId)
+        selectedCategories.filter((id) => id !== categoryId)
       );
     } else {
       setValue(
         'selectedCategories',
-        [...getValues('selectedCategories'), categoryId].slice(0, 7)
+        [...selectedCategories, categoryId].slice(0, 7)
       );
     }
   };
 
+  const onSubmit = (data: FormValues) => {
+    console.log(data);
+  };
+
+  useEffect(() => {
+    trigger('selectedCategories');
+  }, [selectedCategories, trigger]);
+
   return (
-    <form className="flex flex-col gap-6 justify-center">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-6 justify-center"
+    >
       <div className="flex flex-col gap-2 w-full">
         <Label>닉네임</Label>
         <div className="w-full flex gap-2 items-center">
           <Input id="nickname" {...register('nickname')} />
-          <Button variant="fit" size="fitSm">
+          <Button variant="fit" size="fitSm" type="button">
             중복 확인
           </Button>
         </div>
@@ -62,6 +85,7 @@ export default function SignupFormField() {
           return (
             <Button
               key={category.id}
+              type="button"
               variant="fit"
               size="fit"
               className={cn('', {
@@ -76,7 +100,9 @@ export default function SignupFormField() {
           );
         })}
       </div>
-      <Button variant="primary">시작하기</Button>
+      <Button variant="primary" disabled={!isValid}>
+        시작하기
+      </Button>
     </form>
   );
 }

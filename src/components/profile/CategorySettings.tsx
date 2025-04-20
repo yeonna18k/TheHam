@@ -34,9 +34,6 @@ export default function CategorySettings() {
 
   const selectedCategories = watch("selectedCategories");
 
-  console.log(getValues("selectedCategories"));
-  console.log(isValid);
-
   const handleCategoryClick = (categoryId: number) => {
     if (getValues("selectedCategories").includes(categoryId)) {
       setValue(
