@@ -1,17 +1,17 @@
-"use client";
-import { PiggyBank, Upload } from "lucide-react";
-import Image from "next/image";
-import { ChangeEvent, useRef, useState } from "react";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
+'use client';
+import { PiggyBank, Upload } from 'lucide-react';
+import Image from 'next/image';
+import { ChangeEvent, useRef, useState } from 'react';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
 
 export default function AccountInfo() {
   const [image, setImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [nickname, setNickname] = useState<string>("");
+  const [nickname, setNickname] = useState<string>('');
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -25,7 +25,7 @@ export default function AccountInfo() {
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        if (typeof reader.result === "string") {
+        if (typeof reader.result === 'string') {
           setPreviewUrl(reader.result);
         }
       };
@@ -40,16 +40,16 @@ export default function AccountInfo() {
   const handleSaveImage = () => {
     if (image) {
       // 이미지를 업로드 API
-      console.log("이미지 저장:", image.name);
+      console.log('이미지 저장:', image.name);
 
-      alert("프로필 이미지가 변경되었습니다!");
+      alert('프로필 이미지가 변경되었습니다!');
     } else {
-      alert("먼저 이미지를 선택해주세요!");
+      alert('먼저 이미지를 선택해주세요!');
     }
   };
 
   const handleSaveNickname = () => {
-    console.log("닉네임 저장:", nickname);
+    console.log('닉네임 저장:', nickname);
     // 닉네임 저장 API
   };
 

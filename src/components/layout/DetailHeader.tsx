@@ -1,6 +1,6 @@
-import { ChevronLeft } from "lucide-react";
-import Link from "next/link";
-import { ReactNode } from "react";
+import { ChevronLeft } from 'lucide-react';
+import Link from 'next/link';
+import { ReactNode } from 'react';
 
 export default function DetailHeader({ children }: { children: ReactNode }) {
   return (

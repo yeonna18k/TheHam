@@ -12,7 +12,7 @@ const TransactionItem: React.FC<TransactionItemProps> = ({
   categoryIcon,
   title,
   time,
-  amount
+  amount,
 }) => {
   return (
     <div className="bg-white rounded-lg p-4 mb-3 shadow-sm flex items-center justify-between">
@@ -25,7 +25,9 @@ const TransactionItem: React.FC<TransactionItemProps> = ({
           <p className="text-gray-500 text-sm">{time}</p>
         </div>
       </div>
-      <p className="text-red-500 font-medium">{amount < 0 ? amount.toLocaleString() : `+${amount.toLocaleString()}`}원</p>
+      <p className="text-red-500 font-medium">
+        {amount < 0 ? amount.toLocaleString() : `+${amount.toLocaleString()}`}원
+      </p>
     </div>
   );
 };

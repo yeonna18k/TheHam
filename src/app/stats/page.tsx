@@ -23,12 +23,16 @@ export default function Statistics() {
     { name: '기타', value: 50000, color: '#cbd5e1' },
   ];
 
-  const topCategories = [...categoryData].sort((a, b) => b.value - a.value).slice(0, 3);
-  const allCategories = [...categoryData].sort((a, b) => a.name.localeCompare(b.name));
-  const chartData = topCategories.map(cat => ({
+  const topCategories = [...categoryData]
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 3);
+  const allCategories = [...categoryData].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+  const chartData = topCategories.map((cat) => ({
     name: cat.name,
     value: cat.value,
-    color: cat.color
+    color: cat.color,
   }));
 
   return (
