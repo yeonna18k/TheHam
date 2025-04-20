@@ -1,5 +1,4 @@
-import ExpenditureContainer from "@/components/transactions/ExpenditureContainer";
-import IncomeContainer from "@/components/transactions/IncomeContainer";
+import TransactionsContainer from "@/components/transactions/TransactionsContainer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const REGISTER_TABS = [
@@ -19,11 +18,7 @@ export default function Register() {
       </TabsList>
       {REGISTER_TABS.map((tab) => (
         <TabsContent key={tab.value} value={tab.value}>
-          {tab.value === "expenditure" ? (
-            <ExpenditureContainer />
-          ) : (
-            <IncomeContainer />
-          )}
+          <TransactionsContainer page={tab.value} />
         </TabsContent>
       ))}
     </Tabs>
