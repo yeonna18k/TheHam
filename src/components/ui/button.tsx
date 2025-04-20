@@ -17,6 +17,9 @@ const buttonVariants = cva(
         icon: "title4 border-gray-300 flex flex-col items-center justify-center gap-1",
         login:
           "bg-social-kakao hover:bg-social-kakao/80 text-black/90 border-none",
+        outline:
+          "border-gray-300 hover:bg-primary/20 hover:border-primary focus:border-ring focus:ring-ring/50 focus:ring-[3px]",
+        ghost: "border-none hover:bg-primary/20",
       },
       size: {
         default: "w-full py-3",
