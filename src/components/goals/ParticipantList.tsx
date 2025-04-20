@@ -1,4 +1,4 @@
-import { Participant } from '../../../types/Participant';
+import { Participant } from '../../types/Participant';
 
 export const ParticipantList = ({ participants }: { participants: Participant[] }) => {
   return (

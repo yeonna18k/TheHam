@@ -23,7 +23,6 @@ export default function AccountInfo() {
     if (file) {
       setImage(file);
 
-      // Create a preview URL
       const reader = new FileReader();
       reader.onloadend = () => {
         if (typeof reader.result === "string") {
@@ -55,7 +54,7 @@ export default function AccountInfo() {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 ">
       <div className="flex flex-col items-center gap-3">
         <div className="relative w-24 h-24 rounded-full bg-primary/20 flex items-center justify-center">
           {previewUrl ? (

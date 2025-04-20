@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Challenge } from '../../../types/challenge';
+import { Challenge } from '../../types/challenge';
 import { useChallengeStore } from '../../store/challengeStore';
 
 interface AddChallengeModalProps {

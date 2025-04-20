@@ -1,6 +1,11 @@
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
-export function DonutChart({ data }) {
+interface DonutChartData {
+  value: number;
+  color: string;
+}
+
+export function DonutChart({ data }: { data: DonutChartData[] }) {
   return (
     <div className="w-full aspect-square max-w-xs mx-auto mb-8">
       <ResponsiveContainer width="100%" height="100%">

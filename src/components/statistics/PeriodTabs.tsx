@@ -1,4 +1,4 @@
-export function PeriodTabs({ period, setPeriod }) {
+export function PeriodTabs({ period, setPeriod }: { period: string; setPeriod: (tab: string) => void }) {
   return (
     <div className="bg-gray-100 rounded-full p-2 mb-4 w-full max-w-xs mx-auto shadow-inner flex">
       {['일간', '주간', '월간'].map((tab) => {

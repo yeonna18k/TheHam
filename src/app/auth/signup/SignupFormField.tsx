@@ -22,10 +22,8 @@ type FormValues = z.infer<typeof formSchema>;
 export default function SignupFormField() {
   const {
     register,
-    handleSubmit,
     setValue,
     getValues,
-    formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,12 +45,8 @@ export default function SignupFormField() {
     }
   };
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
-  };
   return (
     <form
-      // onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6 justify-center"
     >
       <div className="flex flex-col gap-2 w-full">

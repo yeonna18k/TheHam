@@ -10,7 +10,7 @@ export default function StatisticsCard({
   count,
 }: ChallengeStatistics) {
   return (
-    <IconCardLayout className="gap-2 flex-col items-center">
+    <IconCardLayout className="gap-2 flex-col items-center ">
       <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
         <PiggyBank size={24} className="text-primary" />
       </div>
