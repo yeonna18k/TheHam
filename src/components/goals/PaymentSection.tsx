@@ -1,5 +1,6 @@
 import { Payment } from '../../types/Payment';
 
+
 interface PaymentSectionProps {
   totalSavings: number;
   payments: Payment[];
