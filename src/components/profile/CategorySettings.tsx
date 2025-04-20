@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { EXPENSE_CATEGORIES } from "@/constants/categories";
-import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "../ui/button";
+import { EXPENSE_CATEGORIES } from '@/constants/categories';
+import { cn } from '@/lib/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Button } from '../ui/button';
 
 const formSchema = z.object({
   selectedCategories: z
     .array(z.number())
-    .length(7, "카테고리를 7개 선택해주세요"),
+    .length(7, '카테고리를 7개 선택해주세요'),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -29,20 +29,20 @@ export default function CategorySettings() {
     defaultValues: {
       selectedCategories: [1, 4, 5, 7, 9, 10, 13],
     },
-    mode: "onChange",
+    mode: 'onChange',
   });
 
-  const selectedCategories = watch("selectedCategories");
+  const selectedCategories = watch('selectedCategories');
 
   const handleCategoryClick = (categoryId: number) => {
-    if (getValues("selectedCategories").includes(categoryId)) {
+    if (getValues('selectedCategories').includes(categoryId)) {
       setValue(
-        "selectedCategories",
+        'selectedCategories',
         selectedCategories.filter((id) => id !== categoryId)
       );
     } else {
       setValue(
-        "selectedCategories",
+        'selectedCategories',
         [...selectedCategories, categoryId].slice(0, 7)
       );
     }
@@ -52,7 +52,7 @@ export default function CategorySettings() {
   };
 
   useEffect(() => {
-    trigger("selectedCategories");
+    trigger('selectedCategories');
   }, [selectedCategories, trigger]);
 
   return (
@@ -65,8 +65,8 @@ export default function CategorySettings() {
               type="button"
               variant="fit"
               size="fit"
-              className={cn("", {
-                "bg-primary text-white": selectedCategories.includes(
+              className={cn('', {
+                'bg-primary text-white': selectedCategories.includes(
                   category.id
                 ),
               })}
