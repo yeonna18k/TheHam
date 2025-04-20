@@ -1,7 +1,7 @@
-import { cn } from "@/lib/utils";
-import { ChallengeStatistics } from "@/mock/challengeStatisticsData";
-import { PiggyBank } from "lucide-react";
-import IconCardLayout from "../common/IconCardLayout";
+import { cn } from '@/lib/utils';
+import { ChallengeStatistics } from '@/mock/challengeStatisticsData';
+import { PiggyBank } from 'lucide-react';
+import IconCardLayout from '../common/IconCardLayout';
 
 export default function StatisticsCard({
   type,
@@ -16,11 +16,11 @@ export default function StatisticsCard({
       </div>
       <p className="body1 text-gray-500">{description}</p>
       <h1
-        className={cn("h1", {
-          "text-primary": type === "amount",
+        className={cn('h1', {
+          'text-primary': type === 'amount',
         })}
       >
-        {type === "amount" ? `₩ ${amount?.toLocaleString()}` : count}
+        {type === 'amount' ? `₩ ${amount?.toLocaleString()}` : count}
       </h1>
     </IconCardLayout>
   );

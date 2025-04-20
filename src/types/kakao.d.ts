@@ -5,7 +5,7 @@ declare global {
     Kakao?: {
       Share: {
         sendDefault: (settings: {
-          objectType: "text" | "feed" | "list" | "location" | "commerce";
+          objectType: 'text' | 'feed' | 'list' | 'location' | 'commerce';
           text?: string;
           link: {
             webUrl?: string;

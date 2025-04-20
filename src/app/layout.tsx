@@ -1,23 +1,23 @@
-import { Viewport } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
+import { Viewport } from 'next';
+import localFont from 'next/font/local';
+import './globals.css';
 
 const pretendard = localFont({
-  src: "../../public/fonts/PretendardVariable.woff2",
+  src: '../../public/fonts/PretendardVariable.woff2',
 });
 
 export const metadata = {
-  title: "My PWA App",
-  description: "Next.js App Router 기반 PWA",
-  manifest: "/manifest.json",
+  title: 'My PWA App',
+  description: 'Next.js App Router 기반 PWA',
+  manifest: '/manifest.json',
   icons: {
-    icon: "/icons/icon-192x192.png",
-    apple: "/icons/icon-192x192.png",
+    icon: '/icons/icon-192x192.png',
+    apple: '/icons/icon-192x192.png',
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "black",
+  themeColor: 'black',
 };
 
 export default function RootLayout({
