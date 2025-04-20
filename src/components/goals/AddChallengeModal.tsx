@@ -54,9 +54,7 @@ export const AddChallengeModal = ({
           <label className="block text-sm font-medium text-gray-700 mb-1">
             제목
           </label>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            제목
-          </label>
+
           <input
             type="text"
             className="w-full border border-gray-300 rounded-md px-3 py-2"
@@ -70,9 +68,7 @@ export const AddChallengeModal = ({
           <label className="block text-sm font-medium text-gray-700 mb-1">
             설명
           </label>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            설명
-          </label>
+
           <textarea
             className="w-full border border-gray-300 rounded-md px-3 py-2"
             value={description}
@@ -83,9 +79,6 @@ export const AddChallengeModal = ({
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            목표 금액
-          </label>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             목표 금액
           </label>
@@ -103,9 +96,6 @@ export const AddChallengeModal = ({
             <label className="block text-sm font-medium text-gray-700 mb-1">
               시작일
             </label>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              시작일
-            </label>
             <input
               type="date"
               className="w-full border border-gray-300 rounded-md px-3 py-2"
@@ -117,9 +107,7 @@ export const AddChallengeModal = ({
             <label className="block text-sm font-medium text-gray-700 mb-1">
               종료일
             </label>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              종료일
-            </label>
+
             <input
               type="date"
               className="w-full border border-gray-300 rounded-md px-3 py-2"
@@ -137,9 +125,6 @@ export const AddChallengeModal = ({
               checked={isPublic}
               onChange={(e) => setIsPublic(e.target.checked)}
             />
-            <span className="ml-2 text-sm text-gray-700">
-              공개 챌린지로 설정
-            </span>
             <span className="ml-2 text-sm text-gray-700">
               공개 챌린지로 설정
             </span>

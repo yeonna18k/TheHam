@@ -1,4 +1,4 @@
-import { Challenge } from "../../types/challenge";
+import { Challenge } from '../../types/challenge';
 
 export const ChallengeProgress = ({ challenge }: { challenge: Challenge }) => {
   const progress = Math.round(
