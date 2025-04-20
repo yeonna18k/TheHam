@@ -1,8 +1,8 @@
-import { Plus, SearchIcon } from "lucide-react";
-import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { Input } from "../ui/input";
+import { Plus, SearchIcon } from 'lucide-react';
+import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { Input } from '../ui/input';
 
 interface Friend {
   id: string;
@@ -13,41 +13,41 @@ interface Friend {
 
 const FriendManagement: React.FC = () => {
   const [friends, setFriends] = useState<Friend[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const router = useRouter();
 
   useEffect(() => {
     const loadFriends = async () => {
       try {
-        const storedFriends = localStorage.getItem("friends");
+        const storedFriends = localStorage.getItem('friends');
         if (storedFriends) {
           setFriends(JSON.parse(storedFriends));
         } else {
           const initialFriends: Friend[] = [
             {
-              id: "1",
-              name: "강나연",
+              id: '1',
+              name: '강나연',
               challengeCount: 2,
-              profileImage: "/icons/test.jpg",
+              profileImage: '/icons/test.jpg',
             },
             {
-              id: "2",
-              name: "김철수",
+              id: '2',
+              name: '김철수',
               challengeCount: 2,
-              profileImage: "/icons/test.jpg",
+              profileImage: '/icons/test.jpg',
             },
             {
-              id: "3",
-              name: "신혜서",
+              id: '3',
+              name: '신혜서',
               challengeCount: 2,
-              profileImage: "/icons/test.jpg",
+              profileImage: '/icons/test.jpg',
             },
           ];
           setFriends(initialFriends);
-          localStorage.setItem("friends", JSON.stringify(initialFriends));
+          localStorage.setItem('friends', JSON.stringify(initialFriends));
         }
       } catch (error) {
-        console.error("Failed to load friends:", error);
+        console.error('Failed to load friends:', error);
       }
     };
 
@@ -62,23 +62,23 @@ const FriendManagement: React.FC = () => {
   const sendKakaoInvite = async () => {
     try {
       if (!window.Kakao) {
-        alert("카카오톡 SDK가 로드되지 않았습니다.");
+        alert('카카오톡 SDK가 로드되지 않았습니다.');
         return;
       }
 
       window.Kakao.Share.sendDefault({
-        objectType: "text",
-        text: "함께 챌린지에 참여해보세요!",
+        objectType: 'text',
+        text: '함께 챌린지에 참여해보세요!',
         link: {
           mobileWebUrl: `${window.location.origin}/goals`,
           webUrl: `${window.location.origin}/goals`,
         },
-        buttonTitle: "하러가기",
+        buttonTitle: '하러가기',
         serverCallbackArgs: {},
       });
     } catch (error) {
-      console.error("Failed to send Kakao invite:", error);
-      alert("카카오톡 초대장 전송에 실패했습니다.");
+      console.error('Failed to send Kakao invite:', error);
+      alert('카카오톡 초대장 전송에 실패했습니다.');
     }
   };
 
@@ -94,30 +94,30 @@ const FriendManagement: React.FC = () => {
     if (response && response.id) {
       const newFriend: Friend = {
         id: response.id,
-        name: response.properties.nickname || "새 친구",
+        name: response.properties.nickname || '새 친구',
         challengeCount: 0,
         profileImage:
-          response.properties.profile_image || "/profiles/default.png",
+          response.properties.profile_image || '/profiles/default.png',
       };
 
       const updatedFriends = [...friends, newFriend];
       setFriends(updatedFriends);
-      localStorage.setItem("friends", JSON.stringify(updatedFriends));
+      localStorage.setItem('friends', JSON.stringify(updatedFriends));
     }
   };
 
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const kakaoUser = searchParams.get("kakao_user");
+    const kakaoUser = searchParams.get('kakao_user');
     if (kakaoUser) {
       try {
         const userData = JSON.parse(decodeURIComponent(kakaoUser));
         handleKakaoResponse(userData);
 
-        router.replace("/friends");
+        router.replace('/friends');
       } catch (e) {
-        console.error("Failed to parse Kakao user data", e);
+        console.error('Failed to parse Kakao user data', e);
       }
     }
   }, [router, searchParams]);

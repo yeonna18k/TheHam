@@ -1,7 +1,7 @@
-import { cn } from "@/lib/utils";
-import { WarningCard } from "@/mock/warningCardsData";
-import { PiggyBank } from "lucide-react";
-import IconCardLayout from "../common/IconCardLayout";
+import { cn } from '@/lib/utils';
+import { WarningCard } from '@/mock/warningCardsData';
+import { PiggyBank } from 'lucide-react';
+import IconCardLayout from '../common/IconCardLayout';
 
 export default function WarningsCard({
   // type,
@@ -11,19 +11,19 @@ export default function WarningsCard({
 }: WarningCard) {
   return (
     <IconCardLayout
-      className={cn("gap-2 flex-col items-center", {
-        "text-primary": severity === "low",
-        "text-social-kakao": severity === "medium",
-        "text-warning": severity === "high",
+      className={cn('gap-2 flex-col items-center', {
+        'text-primary': severity === 'low',
+        'text-social-kakao': severity === 'medium',
+        'text-warning': severity === 'high',
       })}
     >
       <div
         className={cn(
-          "w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center shrink-0",
+          'w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center shrink-0',
           {
-            "bg-primary/20": severity === "low",
-            "bg-social-kakao/20": severity === "medium",
-            "bg-warning/20": severity === "high",
+            'bg-primary/20': severity === 'low',
+            'bg-social-kakao/20': severity === 'medium',
+            'bg-warning/20': severity === 'high',
           }
         )}
       >

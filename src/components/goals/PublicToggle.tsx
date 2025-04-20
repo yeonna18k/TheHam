@@ -6,7 +6,9 @@ interface PublicToggleProps {
 }
 
 export const PublicToggle = ({ challengeId, isPublic }: PublicToggleProps) => {
-  const updateChallengePublic = useChallengeStore(state => state.updateChallengePublic);
+  const updateChallengePublic = useChallengeStore(
+    (state) => state.updateChallengePublic
+  );
 
   const handleToggle = (checked: boolean) => {
     updateChallengePublic(challengeId, checked);

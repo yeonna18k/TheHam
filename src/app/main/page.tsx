@@ -11,11 +11,15 @@ import { getToken } from 'firebase/messaging';
 import { messaging } from '@/lib/firebase/settingFCM';
 import '@/lib/firebase/settingFCM';
 
-const SpendingCalendar = dynamic(() => import('@/components/main/SpendingCalendar'), {
-  ssr: false,
-});
+const SpendingCalendar = dynamic(
+  () => import('@/components/main/SpendingCalendar'),
+  {
+    ssr: false,
+  }
+);
 
-const vapidKey = 'BEp5OHU0tBKWYoWoNmoxLPYUFdukvdzdjWEc6-fxTRNkK7JJOs0XcUF1_xgtcNqxLynSm45l53_zuuKBmd7bRrg';
+const vapidKey =
+  'BEp5OHU0tBKWYoWoNmoxLPYUFdukvdzdjWEc6-fxTRNkK7JJOs0XcUF1_xgtcNqxLynSm45l53_zuuKBmd7bRrg';
 
 export default function Home() {
   const budgetData = {
@@ -118,7 +122,9 @@ export default function Home() {
         return {
           id: date * 100 + j,
           title: isExpense
-            ? ['점심', '커피', '택시', '간식', '쇼핑'][Math.floor(Math.random() * 5)]
+            ? ['점심', '커피', '택시', '간식', '쇼핑'][
+                Math.floor(Math.random() * 5)
+              ]
             : '용돈',
           amount: isExpense
             ? -Math.floor(Math.random() * 15000) - 1000
@@ -142,9 +148,16 @@ export default function Home() {
     date: number;
     spending: number;
     saving: number;
-    transactions: { id: number; title: string; amount: number; category: string }[];
+    transactions: {
+      id: number;
+      title: string;
+      amount: number;
+      category: string;
+    }[];
   }) => {
-    console.log(`Selected day: ${day.date}, transactions: ${day.transactions.length}`);
+    console.log(
+      `Selected day: ${day.date}, transactions: ${day.transactions.length}`
+    );
   };
 
   const handleAddTransaction = () => {

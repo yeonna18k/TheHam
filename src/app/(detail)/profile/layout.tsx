@@ -1,4 +1,4 @@
-import DetailHeader from "@/components/layout/DetailHeader";
+import DetailHeader from '@/components/layout/DetailHeader';
 
 export default function layout({ children }: { children: React.ReactNode }) {
   return (

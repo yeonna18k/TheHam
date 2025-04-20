@@ -16,9 +16,11 @@ import BottomNavigation from '../../../components/main/BottomNavigation';
 export default function ChallengeDetail() {
   //const { id } = params;
   const id = '1';
-  const selectedChallenge = useChallengeStore(state => state.selectedChallenge);
-  const selectChallenge = useChallengeStore(state => state.selectChallenge);
-  const payments = useChallengeStore(state => state.payments);
+  const selectedChallenge = useChallengeStore(
+    (state) => state.selectedChallenge
+  );
+  const selectChallenge = useChallengeStore((state) => state.selectChallenge);
+  const payments = useChallengeStore((state) => state.payments);
 
   useEffect(() => {
     selectChallenge(id);
@@ -37,10 +39,7 @@ export default function ChallengeDetail() {
           isPublic={selectedChallenge.isPublic}
         />
         <ActionButtons />
-        <PaymentSection
-          totalSavings={27000}
-          payments={payments}
-        />
+        <PaymentSection totalSavings={27000} payments={payments} />
       </div>
       <BottomNavigation activeTab="goals" />
     </div>

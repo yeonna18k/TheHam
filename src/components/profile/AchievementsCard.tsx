@@ -1,6 +1,6 @@
-import { Achievement } from "@/mock/achievementsData";
-import { PiggyBank } from "lucide-react";
-import IconCardLayout from "../common/IconCardLayout";
+import { Achievement } from '@/mock/achievementsData';
+import { PiggyBank } from 'lucide-react';
+import IconCardLayout from '../common/IconCardLayout';
 
 export default function AchievementsCard({
   title,
