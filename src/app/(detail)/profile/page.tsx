@@ -1,5 +1,6 @@
 import AccountInfo from '@/components/profile/AccountInfo';
 import AchievementsCard from '@/components/profile/AchievementsCard';
+import CategorySettings from '@/components/profile/CategorySettings';
 import StatisticsCard from '@/components/profile/StatisticsCard';
 import WarningsCard from '@/components/profile/WarningCard';
 import { Button } from '@/components/ui/button';
@@ -32,6 +33,13 @@ const PROFILE_TABS = [
     label: '경고',
     title: '과소비 경고',
     description: '예산 한도가 얼마나 남았는지 알려드려요',
+  },
+  {
+    value: 'categories',
+    label: '관리',
+    title: '카테고리 관리',
+    description:
+      '자주 사용하는 카테고리를 7개 선택해주세요\n 선택하신 카테고리는 지출 등록 시 상위에 나타나요',
   },
 ];
 
@@ -100,6 +108,8 @@ function TabContent({ tabValue }: { tabValue: string }) {
           ))}
         </div>
       );
+    case 'categories':
+      return <CategorySettings />;
     default:
       return null;
   }

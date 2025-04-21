@@ -79,3 +79,11 @@ export interface detailChallenge {
   modifyDate: string; 
 }
 
+export interface Invitation {
+  id: number;
+  requestUsername: string;
+  challengeName: string;
+  isAccept: boolean;
+  requestAt: string; 
+  updateAt: string; 
+}
