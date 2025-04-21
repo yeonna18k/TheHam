@@ -1,25 +1,56 @@
 // api/axiosInstance.ts
-import axios from 'axios';
+import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-// axios 인스턴스 생성
+interface CustomInternalAxiosRequestConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean;
+}
+
 const axiosInstance = axios.create({
-  baseURL: 'http://43.202.207.48:8080', // 서버의 기본 URL
-  timeout: 10000, // 타임아웃 설정
+  baseURL: 'http://43.202.207.48:8080',
+  withCredentials: true,
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// 요청 인터셉터 추가 (토큰 자동 추가)
 axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+  (response) => response,
+  async (error: AxiosError) => {
+    const initialRequest = error.config as CustomInternalAxiosRequestConfig;
+
+    if (error.response?.status === 401 && !initialRequest._retry) {
+      initialRequest._retry = true;
+
+      try {
+        await axios.post(
+          `/api/v1/auth/reissue`,
+          {},
+          {
+            baseURL: 'http://43.202.207.48:8080',
+            withCredentials: true,
+          }
+        );
+        return axiosInstance(initialRequest);
+      } catch (refreshError) {
+        console.error('Token refresh failed:', refreshError);
+
+        try {
+          await axios.post(
+            `/api/v1/auth/logout`,
+            {},
+            { baseURL: 'http://43.202.207.48:8080', withCredentials: true }
+          );
+        } catch (logoutError) {
+          console.error('Logout failed:', logoutError);
+        } finally {
+          window.location.href = '/auth/signin';
+        }
+        return Promise.reject(refreshError);
+      }
     }
-    return config;
-  },
-  (error) => Promise.reject(error)
+    return Promise.reject(error);
+  }
 );
 
 // 응답 인터셉터 추가 (선택 사항)
