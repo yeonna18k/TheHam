@@ -1,3 +1,4 @@
+import { logoutApi } from '@/api/auth';
 import AccountInfo from '@/components/profile/AccountInfo';
 import AchievementsCard from '@/components/profile/AchievementsCard';
 import CategorySettings from '@/components/profile/CategorySettings';
@@ -44,6 +45,15 @@ const PROFILE_TABS = [
 ];
 
 export default function Profile() {
+  const onClickLogout = async () => {
+    try {
+      await logoutApi();
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('로그아웃 처리 중 오류가 발생했습니다.', error);
+    }
+  };
+
   return (
     <Tabs defaultValue="account" className="w-full">
       <TabsList className="w-fit ">
@@ -69,7 +79,7 @@ export default function Profile() {
           {tab.value === 'account' && (
             <section className="rounded-lg shadow-sm bg-white py-6 px-3 flex flex-col gap-6 mt-3">
               <h1 className="title1">계정 관리</h1>
-              <Button>로그아웃</Button>
+              <Button onClick={onClickLogout}>로그아웃</Button>
               <Button variant="warning">탈퇴하기</Button>
             </section>
           )}
