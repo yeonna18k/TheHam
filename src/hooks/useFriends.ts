@@ -6,7 +6,7 @@ export const useSharedKakao = (token: string) => {
   return useQuery({
     queryKey: ['sharedKakao', token],
     queryFn: () => SharedKakao(token),
-    enabled: !!token, // token이 있을 때만 호출
+    enabled: !!token, 
   });
 };
 

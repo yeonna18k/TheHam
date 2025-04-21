@@ -9,15 +9,16 @@ import {
   ParticipantChallenge,
   InvitingChallenge,
   AcceptChallenge,
-  RejectChallenge,
-  name, // 초대 목록
+  RejectChallenge, 
+  getInvitations
 } from '@/api/ChallengeAPI';
+import { GetChallengeParams, CreateChallengeParams } from '@/types/challenge';
 
 // 챌린지 목록 조회
-export const useGetChallenge = (title: string, text: string, page: number, size: number) =>
+export const useGetChallenge = (params: GetChallengeParams) =>
   useQuery({
-    queryKey: ['challenges', title, text, page, size],
-    queryFn: () => GetChallenge(title, text, page, size),
+    queryKey: ['challenges', params],
+    queryFn: () => GetChallenge(params),
   });
 
 // 챌린지 상세 조회
@@ -32,8 +33,7 @@ export const useDetailChallenge = (id: number) =>
 export const useCreateChallenge = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (params: Parameters<typeof CreateChallenge>[0]) =>
-      CreateChallenge(...(params as unknown as [string, string, string, number, number, string, string, string])),
+    mutationFn: (params: CreateChallengeParams) => CreateChallenge(params),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['challenges'] });
     },
@@ -44,8 +44,9 @@ export const useCreateChallenge = () => {
 export const useChangeChallenge = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ChangeChallenge,
-    onSuccess: (_data, id) => {
+    mutationFn: ({ id, params }: { id: number; params: CreateChallengeParams }) =>
+      ChangeChallenge(id, params),
+    onSuccess: (_data, { id }) => {
       queryClient.invalidateQueries({ queryKey: ['challengeDetail', id] });
     },
   });
@@ -96,5 +97,5 @@ export const useRejectChallenge = () =>
 export const useInviteList = () =>
   useQuery({
     queryKey: ['challengeInvites'],
-    queryFn: name,
+    queryFn: () => getInvitations,
   });

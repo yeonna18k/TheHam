@@ -87,3 +87,27 @@ export interface Invitation {
   requestAt: string; 
   updateAt: string; 
 }
+
+// 요청 파라미터를 위한 타입
+export interface GetChallengeParams {
+  title?: string;
+  text?: string;
+  page: number;
+  size: number;
+}
+
+export interface CreateChallengeParams {
+  title: string;
+  text: string;
+  release: string;
+  amount: number;
+  capacity: number;
+  category: string;
+  startDate: string;
+  endDate: string;
+}
+
+export interface InvitationParams {
+  id: number;
+}
+
