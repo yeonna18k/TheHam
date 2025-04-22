@@ -8,17 +8,19 @@ import { ChallengeCard } from '../../components/goals/ChallengeCard';
 import { AddChallengeButton } from '../../components/goals/AddChallengeButton';
 import { AddChallengeModal } from '../../components/goals/AddChallengeModal';
 import BottomNavigation from '../../components/main/BottomNavigation';
+import { useGetChallenge } from '@/hooks/useChallenges';
+import { Challenge } from '@/types/challenge';
 
 export default function ChallengeList() {
   const router = useRouter();
-  const challenges = useChallengeStore((state) => state.challenges);
   const selectChallenge = useChallengeStore((state) => state.selectChallenge);
-
   const [activeTab, setActiveTab] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const tabs = ['모든 챌린지', '신규 챌린지', '내 챌린지'];
-
+  
+  //챌린지 목록 가져오기
+  const { data : challenges = [] } = useGetChallenge({ tab: activeTab, page: 1, size: 10 });
   const handleChallengeClick = (challengeId: string) => {
     selectChallenge(challengeId);
     router.push(`/goals/${challengeId}`);
@@ -32,7 +34,7 @@ export default function ChallengeList() {
         <TabNav tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
 
         <div className="mt-4">
-          {challenges.map((challenge) => (
+          {Array.isArray(challenges) && challenges.map((challenge: Challenge) => (
             <ChallengeCard
               key={challenge.id}
               challenge={challenge}

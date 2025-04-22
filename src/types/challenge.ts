@@ -94,6 +94,7 @@ export interface GetChallengeParams {
   text?: string;
   page: number;
   size: number;
+  tab?: number;
 }
 
 export interface CreateChallengeParams {
