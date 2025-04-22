@@ -6,6 +6,7 @@ interface Category {
 
 interface TopCategoriesProps {
   categories: Category[];
+  onSelect?: (cat: Category) => void;
 }
 
 export function TopCategories({ categories }: TopCategoriesProps) {

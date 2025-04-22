@@ -30,3 +30,14 @@ export const getCategoryById = (id: ExpenseCategoryId) => {
 export const getCategoryByName = (name: string) => {
   return EXPENSE_CATEGORIES.find((category) => category.name === name);
 };
+
+export const CATEGORY_MAP: Record<string, { name: string; color: string }> = {
+  식비: { name: '식비', color: '#4ade80' },
+  카페: { name: '카페', color: '#60a5fa' },
+  쇼핑: { name: '쇼핑', color: '#f472b6' },
+  여가: { name: '여가', color: '#a78bfa' },
+  건강: { name: '건강', color: '#fb923c' },
+  주거: { name: '주거', color: '#94a3b8' },
+  교통: { name: '교통', color: '#fbbf24' },
+  기타: { name: '기타', color: '#cbd5e1' },
+};

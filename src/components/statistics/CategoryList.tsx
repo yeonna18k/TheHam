@@ -4,7 +4,12 @@ interface Category {
   value: number;
 }
 
-export function CategoryList({ categories }: { categories: Category[] }) {
+type CategoryListProps = {
+  categories: Category[];
+  onSelect?: (cat: Category) => void;
+};
+
+export function CategoryList({ categories, onSelect }: CategoryListProps) {
   return (
     <div>
       <h2 className="text-xl font-bold mb-4">전체 카테고리</h2>
@@ -12,7 +17,8 @@ export function CategoryList({ categories }: { categories: Category[] }) {
         {categories.map((category) => (
           <div
             key={category.name}
-            className="flex items-center justify-between p-3 border rounded-lg"
+            className="flex items-center justify-between p-3 border rounded-lg cursor-pointer hover:bg-gray-100"
+            onClick={() => onSelect?.(category)}
           >
             <div className="flex items-center">
               <div

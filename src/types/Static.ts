@@ -4,6 +4,7 @@ export interface State {
 }
 
 export interface StateCategory {
+    items: never;
     id : number,
     title: string, 
     category: string, 
@@ -22,6 +23,14 @@ export interface Repeat {
 
 
 export interface ConsumeCategory {
+    change: number;
     consume: number;
 }
+
+export type Category = {
+    name: string;
+    value: number;
+    color: string;
+  };
+  
 
