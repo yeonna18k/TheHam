@@ -10,6 +10,7 @@ import BottomNavigation from '@/components/main/BottomNavigation';
 import { getToken } from 'firebase/messaging';
 import { messaging } from '@/lib/firebase/settingFCM';
 import '@/lib/firebase/settingFCM';
+import { useFcmToken } from '@/hooks/useFcmController'; // useFcmToken 훅을 임포트
 
 const SpendingCalendar = dynamic(
   () => import('@/components/main/SpendingCalendar'),
@@ -55,6 +56,9 @@ export default function Home() {
   const [currentYear] = useState(currentDate.getFullYear());
   const [dailyBudget] = useState(30000);
   const [calendarData] = useState(generateCalendarData());
+  
+  // FCM 토큰을 보내는 함수
+  const { mutate: createFcmToken } = useFcmToken();  // useFcmToken 훅에서 mutate 함수를 추출
 
   useEffect(() => {
     handleAllowNotification();
@@ -79,6 +83,8 @@ export default function Home() {
         if (currentToken) {
           console.log('FCM 토큰:', currentToken);
           alert('FCM 토큰: ' + currentToken);
+
+          createFcmToken(currentToken); 
         } else {
           console.log('토큰을 가져오지 못했습니다.');
         }
@@ -122,9 +128,7 @@ export default function Home() {
         return {
           id: date * 100 + j,
           title: isExpense
-            ? ['점심', '커피', '택시', '간식', '쇼핑'][
-                Math.floor(Math.random() * 5)
-              ]
+            ? ['점심', '커피', '택시', '간식', '쇼핑'][Math.floor(Math.random() * 5)]
             : '용돈',
           amount: isExpense
             ? -Math.floor(Math.random() * 15000) - 1000
