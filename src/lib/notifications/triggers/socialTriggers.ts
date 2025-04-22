@@ -1,3 +1,3 @@
-export function hasNewFriendRequest(userId: string): boolean {
+export function hasNewFriendRequest(): boolean {
   return true;
 }
