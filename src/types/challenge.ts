@@ -102,10 +102,12 @@ export interface CreateChallengeParams {
   text: string;
   release: string;
   amount: number;
+  targetAmount: number;
   capacity: number;
   category: string;
   startDate: string;
   endDate: string;
+  description: string;
 }
 
 export interface InvitationParams {
