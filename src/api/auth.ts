@@ -1,7 +1,7 @@
 import { baseFetch } from './BaseAPI';
 
 export const startKakaoLogin = () => {
-  window.location.href = 'http://43.202.207.48:8080/oauth2/authorization/kakao';
+  window.location.href = process.env.NEXT_PUBLIC_KAKAO_AUTH_URL!;
 };
 
 interface SignUpRequest {
