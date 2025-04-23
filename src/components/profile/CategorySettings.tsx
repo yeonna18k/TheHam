@@ -1,6 +1,6 @@
 'use client';
 
-import { EXPENSE_CATEGORIES } from '@/constants/categories';
+import { CATEGORIES } from '@/constants/categories';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
@@ -10,7 +10,7 @@ import { Button } from '../ui/button';
 
 const formSchema = z.object({
   selectedCategories: z
-    .array(z.number())
+    .array(z.string())
     .length(7, '카테고리를 7개 선택해주세요'),
 });
 
@@ -27,23 +27,31 @@ export default function CategorySettings() {
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      selectedCategories: [1, 4, 5, 7, 9, 10, 13],
+      selectedCategories: [
+        'food',
+        'cafe_snack',
+        'education',
+        'shopping',
+        'health',
+        'living',
+        'card_payment',
+      ],
     },
     mode: 'onChange',
   });
 
   const selectedCategories = watch('selectedCategories');
 
-  const handleCategoryClick = (categoryId: number) => {
-    if (getValues('selectedCategories').includes(categoryId)) {
+  const handleCategoryClick = (addCategory: string) => {
+    if (getValues('selectedCategories').includes(addCategory)) {
       setValue(
         'selectedCategories',
-        selectedCategories.filter((id) => id !== categoryId)
+        selectedCategories.filter((category) => category !== addCategory)
       );
     } else {
       setValue(
         'selectedCategories',
-        [...selectedCategories, categoryId].slice(0, 7)
+        [...selectedCategories, addCategory].slice(0, 7)
       );
     }
   };
@@ -58,7 +66,7 @@ export default function CategorySettings() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
       <div className="flex flex-wrap gap-2 w-full justify-center">
-        {EXPENSE_CATEGORIES.map((category) => {
+        {CATEGORIES.map((category) => {
           return (
             <Button
               key={category.id}
@@ -67,12 +75,12 @@ export default function CategorySettings() {
               size="fit"
               className={cn('', {
                 'bg-primary text-white': selectedCategories.includes(
-                  category.id
+                  category.english
                 ),
               })}
-              onClick={() => handleCategoryClick(category.id)}
+              onClick={() => handleCategoryClick(category.english)}
             >
-              {category.name}
+              {category.korean}
             </Button>
           );
         })}

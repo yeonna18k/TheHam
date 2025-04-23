@@ -4,7 +4,7 @@ import { signUpApi } from '@/api/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { EXPENSE_CATEGORIES } from '@/constants/categories';
+import { CATEGORIES } from '@/constants/categories';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSearchParams } from 'next/navigation';
@@ -93,7 +93,7 @@ export default function SignupFormField() {
         선택하신 카테고리는 지출 등록 시 상위에 나타나요
       </span>
       <div className="flex flex-wrap gap-2 w-full justify-center">
-        {EXPENSE_CATEGORIES.map((category) => {
+        {CATEGORIES.slice(0, 17).map((category) => {
           return (
             <Button
               key={category.id}
@@ -103,11 +103,11 @@ export default function SignupFormField() {
               className={cn('', {
                 'bg-primary text-white': getValues(
                   'selectedCategories'
-                ).includes(category.name),
+                ).includes(category.english),
               })}
-              onClick={() => handleCategoryClick(category.name)}
+              onClick={() => handleCategoryClick(category.english)}
             >
-              {category.name}
+              {category.korean}
             </Button>
           );
         })}

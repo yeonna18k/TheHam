@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { EXPENSE_CATEGORIES } from "@/constants/categories";
-import { useState } from "react";
-import { Button } from "../ui/button";
+import { CATEGORIES } from '@/constants/categories';
+import { useState } from 'react';
+import { Button } from '../ui/button';
 
 export default function ExpenditureCategoriesList() {
   const [showAll, setShowAll] = useState(false);
 
   return (
     <div className="grid grid-cols-2 w-full gap-2">
-      {(showAll ? EXPENSE_CATEGORIES : EXPENSE_CATEGORIES.slice(0, 7)).map(
+      {(showAll ? CATEGORIES.slice(0, 20) : CATEGORIES.slice(0, 7)).map(
         (category) => (
           <Button variant="icon" key={category.id}>
-            {category.name}
+            {category.korean}
           </Button>
         )
       )}
