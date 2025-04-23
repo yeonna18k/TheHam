@@ -1,11 +1,13 @@
 'use client';
 
+import { signUpApi } from '@/api/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { EXPENSE_CATEGORIES } from '@/constants/categories';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -13,7 +15,7 @@ import { z } from 'zod';
 const formSchema = z.object({
   nickname: z.string().min(1, '닉네임을 입력해주세요'),
   selectedCategories: z
-    .array(z.number())
+    .array(z.string())
     .length(7, '카테고리를 7개 선택해주세요'),
 });
 
@@ -39,22 +41,32 @@ export default function SignupFormField() {
 
   const selectedCategories = watch('selectedCategories');
 
-  const handleCategoryClick = (categoryId: number) => {
-    if (getValues('selectedCategories').includes(categoryId)) {
+  const searchParams = useSearchParams();
+  const userEmail = searchParams.get('email');
+  console.log(searchParams.get('email'));
+
+  const handleCategoryClick = (addCategory: string) => {
+    if (getValues('selectedCategories').includes(addCategory)) {
       setValue(
         'selectedCategories',
-        selectedCategories.filter((id) => id !== categoryId)
+        selectedCategories.filter((category) => category !== addCategory)
       );
     } else {
       setValue(
         'selectedCategories',
-        [...selectedCategories, categoryId].slice(0, 7)
+        [...selectedCategories, addCategory].slice(0, 7)
       );
     }
   };
 
   const onSubmit = (data: FormValues) => {
     console.log(data);
+    if (userEmail) {
+      signUpApi(userEmail, {
+        nickname: data.nickname,
+        categories: data.selectedCategories,
+      });
+    }
   };
 
   useEffect(() => {
@@ -91,9 +103,9 @@ export default function SignupFormField() {
               className={cn('', {
                 'bg-primary text-white': getValues(
                   'selectedCategories'
-                ).includes(category.id),
+                ).includes(category.name),
               })}
-              onClick={() => handleCategoryClick(category.id)}
+              onClick={() => handleCategoryClick(category.name)}
             >
               {category.name}
             </Button>
