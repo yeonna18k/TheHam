@@ -1,15 +1,18 @@
-import { Participant } from './Participant';
-
 export interface Challenge {
   id: string;
   title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  targetAmount: number;
-  currentAmount: number;
-  participants: Participant[];
-  isPublic: boolean;
+  description?: string;
+  currentParticipants?: number;
+  maxParticipants?: number;
+  daysLeft?: number;
+  isInvited?: boolean;
+  invitedBy?: string;
+  progress?: number;
+  goal?: number;
+  isCompleted?: boolean;
+  isFailed?: boolean;
+  status?: 'active' | 'completed' | 'failed';
+  isNew?: boolean;
 }
 
 export interface Sort {

@@ -1,6 +1,6 @@
-import { PiggyBank, Users, Trophy, Menu } from 'lucide-react';
-import Link from 'next/link';
 import '@/lib/firebase/settingFCM';
+import { Menu, PiggyBank, Trophy, Users } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -13,7 +13,7 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-3">
             <Link
-              href="/main"
+              href="/auth/signin"
               className="px-4 py-2 text-sm font-medium bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
             >
               시작하기
@@ -37,7 +37,7 @@ export default function Home() {
             </p>
             <div className="flex justify-center mt-4">
               <Link
-                href="/main"
+                href="/auth/signin"
                 className="w-30 block px-6 py-3 font-medium bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors text-center"
               >
                 시작하기
