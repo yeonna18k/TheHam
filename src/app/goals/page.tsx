@@ -8,6 +8,8 @@ import PopularChallenges from '../../components/goals/PopularChallenges';
 import NewChallenges from '../../components/goals/NewChallenges';
 import InvitedChallenges from '../../components/goals/InvitedChallenges';
 import MyChallenges from '../../components/goals/MyChallenges';
+import { AddChallengeButton } from '@/components/goals/AddChallengeButton';
+import { AddChallengeModal } from '@/components/goals/AddChallengeModal';
 
 type Tab = '인기 챌린지' | '신규 챌린지' | '초대 챌린지' | '내 챌린지';
 
@@ -71,24 +73,12 @@ export default function ChallengeList() {
         {activeTab === '내 챌린지' && <MyChallenges challenges={challenges} onChallengeClick={handleChallengeClick} />}
       </div>
 
-      <button 
-        onClick={() => setIsModalOpen(true)}
-        className="absolute bottom-6 right-6 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg"
-      >
-        <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-        </svg>
-      </button>
+      <AddChallengeButton onClick={() => setIsModalOpen(true)} />
 
-      {/* We need to assume AddChallengeModal exists or create it */}
-      {isModalOpen && (
-        <div className="modal">
-          {/* Replace with your actual modal component */}
-          <div className="modal-content">
-            <button onClick={() => setIsModalOpen(false)}>Close</button>
-          </div>
-        </div>
-      )}
+      <AddChallengeModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
 
       <BottomNavigation activeTab="goals" />
     </div>

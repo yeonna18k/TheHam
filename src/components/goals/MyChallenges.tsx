@@ -13,9 +13,7 @@ export default function MyChallenges() {
   const filterOptions = ['전체보기', '진행중인 챌린지', '종료된 챌린지', '내가 만든 챌린지'];
 
   useEffect(() => {
-    // Mock API call - replace with your API
     const fetchChallenges = async () => {
-      // Simulate API call delay
       await new Promise(resolve => setTimeout(resolve, 500));
       
       const mockChallenges: Challenge[] = [
@@ -47,7 +45,6 @@ export default function MyChallenges() {
         }
       ];
       
-      // Filter challenges based on selection
       let filteredChallenges = [...mockChallenges];
       if (filter === '진행중인 챌린지') {
         filteredChallenges = mockChallenges.filter(c => c.status === 'active');
@@ -55,15 +52,16 @@ export default function MyChallenges() {
         filteredChallenges = mockChallenges.filter(c => 
           c.status === 'completed' || c.status === 'failed');
       } else if (filter === '내가 만든 챌린지') {
-        // Add logic for your own challenges if needed
-      }
+
       
       setChallenges(filteredChallenges);
       setLoading(false);
     };
+  }
 
     fetchChallenges();
   }, [filter]);
+  
 
   const handleChallengeClick = (challengeId: string) => {
     selectChallenge(challengeId);
