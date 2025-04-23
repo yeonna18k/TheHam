@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Challenge } from '@/types/challenge';
 import { useRouter } from 'next/navigation';
 import { useChallengeStore } from '@/store/challengeStore';
+import ChallengeJoinButton from './JoinButton';
 
 export default function NewChallenges() {
   const router = useRouter();
@@ -78,10 +79,11 @@ export default function NewChallenges() {
           )}
           
           <div className="mt-2">
-            <div className="flex justify-between text-sm text-gray-500">
+            <div className="flex justify-between text-sm text-gray-500 mb-4">
               <span>현재까지 {challenge.currentParticipants}명 참여</span>
               {challenge.daysLeft !== undefined && <span>{challenge.daysLeft}일 남음</span>}
             </div>
+            <ChallengeJoinButton challengeId={challenge.id} />
           </div>
         </div>
       ))}
