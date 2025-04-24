@@ -1,7 +1,9 @@
+'use client';
+
 import { logoutApi } from '@/api/auth';
 import AccountInfo from '@/components/profile/AccountInfo';
+import AccountSettings from '@/components/profile/AccountSettings';
 import AchievementsCard from '@/components/profile/AchievementsCard';
-import CategorySettings from '@/components/profile/CategorySettings';
 import StatisticsCard from '@/components/profile/StatisticsCard';
 import WarningsCard from '@/components/profile/WarningCard';
 import { Button } from '@/components/ui/button';
@@ -9,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import MOCK_ACHIEVEMENTS from '@/mock/achievementsData';
 import { MOCK_CHALLENGES } from '@/mock/challengeStatisticsData';
 import MOCK_WARNING_CARDS from '@/mock/warningCardsData';
+import { useState } from 'react';
 
 const PROFILE_TABS = [
   {
@@ -36,15 +39,36 @@ const PROFILE_TABS = [
     description: '예산 한도가 얼마나 남았는지 알려드려요',
   },
   {
-    value: 'categories',
+    value: 'settings',
     label: '관리',
-    title: '카테고리 관리',
-    description:
-      '자주 사용하는 카테고리를 7개 선택해주세요\n 선택하신 카테고리는 지출 등록 시 상위에 나타나요',
+    title: '계정 관리',
+    description: '',
+  },
+];
+
+const SETTINGS_TABS = [
+  {
+    value: 'main',
+    label: '계정 관리',
+    description: '',
+  },
+  {
+    value: 'categories',
+    label: '카테고리 관리',
+    description: '선택하신 7개의 카테고리는 지출 등록 시 상위에 나타나요',
+  },
+  {
+    value: 'account-connect',
+    label: '계좌 연동',
+    description: '소비내역을 연동할 계좌 정보를 입력해주세요',
   },
 ];
 
 export default function Profile() {
+  const [settingsView, setSettingsView] = useState<
+    'main' | 'categories' | 'account-connect'
+  >('main');
+
   const onClickLogout = async () => {
     try {
       await logoutApi();
@@ -54,8 +78,22 @@ export default function Profile() {
     }
   };
 
+  const resetSettingsView = () => {
+    setSettingsView('main');
+  };
+
+  const handleTabChange = (value: string) => {
+    if (value !== 'settings') {
+      resetSettingsView();
+    }
+  };
+
   return (
-    <Tabs defaultValue="account" className="w-full">
+    <Tabs
+      defaultValue="account"
+      className="w-full"
+      onValueChange={handleTabChange}
+    >
       <TabsList className="w-fit ">
         {PROFILE_TABS.map((tab) => (
           <TabsTrigger key={tab.value} value={tab.value}>
@@ -71,10 +109,29 @@ export default function Profile() {
                 tab.value === 'account' ? 'hidden' : 'block'
               } flex flex-col gap-3`}
             >
-              <h1 className="title1">{tab.title}</h1>
-              <p className="body1 text-gray-500">{tab.description}</p>
+              <h1 className="title1">
+                {settingsView === 'categories'
+                  ? SETTINGS_TABS[1].label
+                  : settingsView === 'account-connect'
+                    ? SETTINGS_TABS[2].label
+                    : tab.title}
+              </h1>
+              <p className="body1 text-gray-500">
+                {settingsView === 'categories'
+                  ? SETTINGS_TABS[1].description
+                  : settingsView === 'account-connect'
+                    ? SETTINGS_TABS[2].description
+                    : tab.description}
+              </p>
             </div>
-            <TabContent tabValue={tab.value} />
+            {tab.value === 'settings' ? (
+              <AccountSettings
+                settingsView={settingsView}
+                setSettingsView={setSettingsView}
+              />
+            ) : (
+              <TabContent tabValue={tab.value} />
+            )}
           </section>
           {tab.value === 'account' && (
             <section className="rounded-lg shadow-sm bg-white py-6 px-3 flex flex-col gap-6 mt-3">
@@ -118,8 +175,6 @@ function TabContent({ tabValue }: { tabValue: string }) {
           ))}
         </div>
       );
-    case 'categories':
-      return <CategorySettings />;
     default:
       return null;
   }

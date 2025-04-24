@@ -64,7 +64,7 @@ export default function CategorySettings() {
   }, [selectedCategories, trigger]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
       <div className="flex flex-wrap gap-2 w-full justify-center">
         {CATEGORIES.map((category) => {
           return (
@@ -74,9 +74,8 @@ export default function CategorySettings() {
               variant="fit"
               size="fit"
               className={cn('', {
-                'bg-primary text-white': selectedCategories.includes(
-                  category.english
-                ),
+                'bg-primary text-white hover:text-black':
+                  selectedCategories.includes(category.english),
               })}
               onClick={() => handleCategoryClick(category.english)}
             >
