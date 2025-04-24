@@ -1,6 +1,6 @@
 'use client';
 
-import { signUpApi } from '@/api/auth';
+import { postAuthSignUp } from '@/api/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -62,7 +62,7 @@ export default function SignupFormField() {
   const onSubmit = (data: FormValues) => {
     console.log(data);
     if (userEmail) {
-      signUpApi(userEmail, {
+      postAuthSignUp(userEmail, {
         nickname: data.nickname,
         categories: data.selectedCategories,
       });
