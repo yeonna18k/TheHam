@@ -1,7 +1,11 @@
 'use client';
+
+import { getUsersProfile } from '@/api/profileApi';
+import { UsersProfileResponse } from '@/types/profile';
+import { useQuery } from '@tanstack/react-query';
 import { PiggyBank, Upload } from 'lucide-react';
 import Image from 'next/image';
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
@@ -9,9 +13,25 @@ import { Label } from '../ui/label';
 export default function AccountInfo() {
   const [image, setImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [nickname, setNickname] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [nickname, setNickname] = useState<string>('');
+  const { data: profileData, isLoading } = useQuery<UsersProfileResponse>({
+    queryKey: ['userProfile'],
+    queryFn: getUsersProfile,
+  });
+
+  useEffect(() => {
+    if (profileData) {
+      setNickname(profileData.nickname || '');
+      setEmail(profileData.email || '');
+
+      if (profileData.profileImageUrl) {
+        setPreviewUrl(profileData.profileImageUrl);
+      }
+    }
+  }, [profileData]);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -95,14 +115,19 @@ export default function AccountInfo() {
       <div className="flex flex-col gap-2">
         <Label>닉네임</Label>
         <Input
-          placeholder="닉네임을 입력하세요"
+          placeholder={isLoading ? 'Loading...' : '닉네임을 입력해주세요'}
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
+          disabled={isLoading}
         />
       </div>
       <div className="flex flex-col gap-2">
         <Label>카카오 계정</Label>
-        <Input disabled value="growith@kakao.com" />
+        <Input
+          disabled
+          className={isLoading ? 'text-gray-500' : ''}
+          value={isLoading ? 'Loading...' : email}
+        />
       </div>
       <Button variant="primary" onClick={handleSaveNickname}>
         저장하기
