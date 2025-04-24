@@ -1,5 +1,6 @@
 'use client';
 
+import { getAuthLogout } from '@/api/authApi';
 import AccountInfo from '@/components/profile/AccountInfo';
 import AccountSettings from '@/components/profile/AccountSettings';
 import AchievementsCard from '@/components/profile/AchievementsCard';
@@ -11,7 +12,6 @@ import MOCK_ACHIEVEMENTS from '@/mock/achievementsData';
 import { MOCK_CHALLENGES } from '@/mock/challengeStatisticsData';
 import MOCK_WARNING_CARDS from '@/mock/warningCardsData';
 import { useState } from 'react';
-import { getAuthLogout } from '../../../api/auth';
 
 const PROFILE_TABS = [
   {

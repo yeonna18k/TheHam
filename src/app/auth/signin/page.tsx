@@ -1,6 +1,6 @@
 'use client';
 
-import { startKakaoLogin } from '@/api/auth';
+import { startKakaoLogin } from '@/api/authApi';
 import { Button } from '@/components/ui/button';
 
 export default function SignIn() {

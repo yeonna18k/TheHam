@@ -6,5 +6,5 @@ export interface UsersProfileResponse {
 
 export interface UsersProfileRequest {
   nickname: string;
-  profileImageUrl: string | null;
+  profileImageUrl: File | string | null;
 }

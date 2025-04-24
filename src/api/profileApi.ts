@@ -12,7 +12,9 @@ export const getUsersProfile = async (): Promise<UsersProfileResponse> => {
   }
 };
 
-export const putUsersProfile = async (requestData: UsersProfileRequest) => {
+export const putUsersProfile = async (
+  requestData: UsersProfileRequest
+): Promise<UsersProfileResponse> => {
   try {
     return await baseFetch<UsersProfileResponse>(`/users/profile`, {
       method: 'PUT',

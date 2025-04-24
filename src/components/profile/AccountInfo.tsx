@@ -1,9 +1,9 @@
 'use client';
 
-import { getUsersProfile } from '@/api/profileApi';
+import { getUsersProfile, putUsersProfile } from '@/api/profileApi';
 import { UsersProfileResponse } from '@/types/profile';
-import { useQuery } from '@tanstack/react-query';
-import { PiggyBank, Upload } from 'lucide-react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Loader, PiggyBank, Upload } from 'lucide-react';
 import Image from 'next/image';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Button } from '../ui/button';
@@ -11,15 +11,25 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 
 export default function AccountInfo() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [image, setImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [nickname, setNickname] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { data: profileData, isLoading } = useQuery<UsersProfileResponse>({
+  const queryClient = useQueryClient();
+
+  const { data: profileData, isPending } = useQuery<UsersProfileResponse>({
     queryKey: ['userProfile'],
     queryFn: getUsersProfile,
+  });
+
+  const { mutate: updateProfile, isPending: isUpdating } = useMutation({
+    mutationFn: putUsersProfile,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
+    },
   });
 
   useEffect(() => {
@@ -57,20 +67,11 @@ export default function AccountInfo() {
     if (fileInputRef.current) fileInputRef.current.click();
   };
 
-  const handleSaveImage = () => {
-    if (image) {
-      // 이미지를 업로드 API
-      console.log('이미지 저장:', image.name);
-
-      alert('프로필 이미지가 변경되었습니다!');
-    } else {
-      alert('먼저 이미지를 선택해주세요!');
-    }
-  };
-
-  const handleSaveNickname = () => {
-    console.log('닉네임 저장:', nickname);
-    // 닉네임 저장 API
+  const handleUpdateProfile = () => {
+    updateProfile({
+      nickname,
+      profileImageUrl: 'https://i.ibb.co/FbypYjgM/pokemon.png',
+    });
   };
 
   return (
@@ -104,33 +105,27 @@ export default function AccountInfo() {
             onChange={handleFileChange}
           />
         </div>
-
-        <button
-          onClick={handleSaveImage}
-          className="body3 w-full text-gray-500 cursor-pointer hover:text-black transition-colors"
-        >
-          프로필 이미지 변경
-        </button>
       </div>
       <div className="flex flex-col gap-2">
         <Label>닉네임</Label>
         <Input
-          placeholder={isLoading ? 'Loading...' : '닉네임을 입력해주세요'}
+          placeholder={isPending ? 'Loading...' : '닉네임을 입력해주세요'}
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
-          disabled={isLoading}
+          disabled={isPending}
         />
       </div>
       <div className="flex flex-col gap-2">
         <Label>카카오 계정</Label>
         <Input
           disabled
-          className={isLoading ? 'text-gray-500' : ''}
-          value={isLoading ? 'Loading...' : email}
+          className={isPending ? 'text-gray-500' : ''}
+          value={isPending ? 'Loading...' : email}
         />
       </div>
-      <Button variant="primary" onClick={handleSaveNickname}>
+      <Button variant="primary" onClick={handleUpdateProfile}>
         저장하기
+        {isUpdating && <Loader className="animate-spin ml-2" size={20} />}
       </Button>
     </div>
   );

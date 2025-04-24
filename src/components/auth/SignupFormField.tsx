@@ -1,6 +1,6 @@
 'use client';
 
-import { postAuthSignUp } from '@/api/auth';
+import { postAuthSignUp } from '@/api/authApi';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
