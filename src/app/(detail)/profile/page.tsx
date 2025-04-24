@@ -1,6 +1,5 @@
 'use client';
 
-import { logoutApi } from '@/api/auth';
 import AccountInfo from '@/components/profile/AccountInfo';
 import AccountSettings from '@/components/profile/AccountSettings';
 import AchievementsCard from '@/components/profile/AchievementsCard';
@@ -12,6 +11,7 @@ import MOCK_ACHIEVEMENTS from '@/mock/achievementsData';
 import { MOCK_CHALLENGES } from '@/mock/challengeStatisticsData';
 import MOCK_WARNING_CARDS from '@/mock/warningCardsData';
 import { useState } from 'react';
+import { getAuthLogout } from '../../../api/auth';
 
 const PROFILE_TABS = [
   {
@@ -69,9 +69,9 @@ export default function Profile() {
     'main' | 'categories' | 'account-connect'
   >('main');
 
-  const onClickLogout = async () => {
+  const HandleLogout = async () => {
     try {
-      await logoutApi();
+      await getAuthLogout();
       window.location.href = '/login';
     } catch (error) {
       console.error('로그아웃 처리 중 오류가 발생했습니다.', error);
@@ -136,7 +136,7 @@ export default function Profile() {
           {tab.value === 'account' && (
             <section className="rounded-lg shadow-sm bg-white py-6 px-3 flex flex-col gap-6 mt-3">
               <h1 className="title1">계정 관리</h1>
-              <Button onClick={onClickLogout}>로그아웃</Button>
+              <Button onClick={HandleLogout}>로그아웃</Button>
               <Button variant="warning">탈퇴하기</Button>
             </section>
           )}
