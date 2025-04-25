@@ -1,47 +1,35 @@
-import { Challenge } from '@/types/challenge';
-import { useState } from 'react';
-import { useChallengeStore } from '../../store/challengeStore';
+import { useChallengeFormStore } from '@/store/ChallengeFormState';
+import { useCreateChallenge } from '@/hooks/useChallenges';
+import { CreateChallengeParams } from '@/types/challenge';
 
 interface AddChallengeModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const AddChallengeModal = ({
-  isOpen,
-  onClose,
-}: AddChallengeModalProps) => {
-  const addChallenge = useChallengeStore((state) => state.addChallenge);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [targetAmount, setTargetAmount] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [isPublic, setIsPublic] = useState(true);
+export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) => {
+  const { title, description, targetAmount, startDate, endDate, isPublic, setTitle, setDescription, setTargetAmount, setStartDate, setEndDate, setIsPublic, resetForm } = useChallengeFormStore();
+  const { mutate: createChallenge } = useCreateChallenge();
 
   if (!isOpen) return null;
 
   const handleSubmit = () => {
-    const newChallenge: Challenge = {
-      id: Date.now().toString(),
+    const newChallenge: CreateChallengeParams = {
       title,
       description,
+      targetAmount: parseInt(targetAmount) || 0,
       startDate,
       endDate,
-      targetAmount: parseInt(targetAmount) || 0,
-      currentAmount: 0,
-      participants: [{ id: '1', name: '나', color: '#4f46e5' }],
-      isPublic,
+      text: description,     // 예시로 설명을 텍스트로 설정
+      release: startDate,     // 예시로 시작일을 release로 설정
+      amount: parseInt(targetAmount) || 0,  // 목표 금액을 amount로 설정
+      capacity: 100,          // 예시로 임의의 값 설정
+      category: 'general',    
     };
 
-    addChallenge(newChallenge);
+    createChallenge(newChallenge);
+    resetForm();
     onClose();
-    setTitle('');
-    setDescription('');
-    setTargetAmount('');
-    setStartDate('');
-    setEndDate('');
-    setIsPublic(true);
   };
 
   return (
@@ -50,10 +38,7 @@ export const AddChallengeModal = ({
         <h2 className="text-xl font-bold mb-4">새 챌린지 추가하기</h2>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            제목
-          </label>
-
+          <label className="block text-sm font-medium text-gray-700 mb-1">제목</label>
           <input
             type="text"
             className="w-full border border-gray-300 rounded-md px-3 py-2"
@@ -64,10 +49,7 @@ export const AddChallengeModal = ({
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            설명
-          </label>
-
+          <label className="block text-sm font-medium text-gray-700 mb-1">설명</label>
           <textarea
             className="w-full border border-gray-300 rounded-md px-3 py-2"
             value={description}
@@ -78,9 +60,7 @@ export const AddChallengeModal = ({
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            목표 금액
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">목표 금액</label>
           <input
             type="number"
             className="w-full border border-gray-300 rounded-md px-3 py-2"
@@ -92,9 +72,7 @@ export const AddChallengeModal = ({
 
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              시작일
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">시작일</label>
             <input
               type="date"
               className="w-full border border-gray-300 rounded-md px-3 py-2"
@@ -103,10 +81,7 @@ export const AddChallengeModal = ({
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              종료일
-            </label>
-
+            <label className="block text-sm font-medium text-gray-700 mb-1">종료일</label>
             <input
               type="date"
               className="w-full border border-gray-300 rounded-md px-3 py-2"
@@ -124,23 +99,15 @@ export const AddChallengeModal = ({
               checked={isPublic}
               onChange={(e) => setIsPublic(e.target.checked)}
             />
-            <span className="ml-2 text-sm text-gray-700">
-              공개 챌린지로 설정
-            </span>
+            <span className="ml-2 text-sm text-gray-700">공개 챌린지로 설정</span>
           </label>
         </div>
 
         <div className="flex justify-end space-x-2">
-          <button
-            className="px-4 py-2 border border-gray-300 rounded-md text-gray-700"
-            onClick={onClose}
-          >
+          <button className="px-4 py-2 border border-gray-300 rounded-md text-gray-700" onClick={onClose}>
             취소
           </button>
-          <button
-            className="px-4 py-2 bg-green-500 text-white rounded-md"
-            onClick={handleSubmit}
-          >
+          <button className="px-4 py-2 bg-green-500 text-white rounded-md" onClick={handleSubmit}>
             추가하기
           </button>
         </div>

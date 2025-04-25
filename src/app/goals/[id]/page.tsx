@@ -1,6 +1,6 @@
 'use client';
-import { useEffect } from 'react';
-import { useChallengeStore } from '../../../store/challengeStore';
+
+import { useParams } from 'next/navigation';
 import { ChallengeDetailHeader } from '../../../components/goals/ChallengeDetailHeader';
 import { ChallengeProgress } from '../../../components/goals/ChallengeProgress';
 import { ParticipantList } from '../../../components/goals/ParticipantList';
@@ -8,38 +8,24 @@ import { PublicToggle } from '../../../components/goals/PublicToggle';
 import { ActionButtons } from '../../../components/goals/ActionButtons';
 import { PaymentSection } from '../../../components/goals/PaymentSection';
 import BottomNavigation from '../../../components/main/BottomNavigation';
-
-// interface PageProps {
-//   params: { id: string };
-// }
+import { useDetailChallenge } from '@/hooks/useChallenges';
 
 export default function ChallengeDetail() {
-  //const { id } = params;
-  const id = '1';
-  const selectedChallenge = useChallengeStore(
-    (state) => state.selectedChallenge
-  );
-  const selectChallenge = useChallengeStore((state) => state.selectChallenge);
-  const payments = useChallengeStore((state) => state.payments);
+  const params = useParams();
+  const id = Number(params?.id);
 
-  useEffect(() => {
-    selectChallenge(id);
-  }, [id, selectChallenge]);
-
-  if (!selectedChallenge) return <div>Loading…</div>;
+  const { data: challenge, isLoading } = useDetailChallenge(id);
+  if (isLoading || !challenge) return <div>Loading…</div>;
 
   return (
     <div className="pb-16 max-w-md mx-auto">
       <ChallengeDetailHeader title="챌린지 상세" />
       <div className="p-4">
-        <ChallengeProgress challenge={selectedChallenge} />
-        <ParticipantList participants={selectedChallenge.participants} />
-        <PublicToggle
-          challengeId={selectedChallenge.id}
-          isPublic={selectedChallenge.isPublic}
-        />
+        <ChallengeProgress challenge={challenge} />
+        <ParticipantList capacity={challenge.capacity} />
+        <PublicToggle challengeId={String(challenge.id)} isPublic={challenge.release === 'PUBLIC'} />
         <ActionButtons />
-        <PaymentSection totalSavings={27000} payments={payments} />
+        <PaymentSection totalSavings={27000} payments={[]} />
       </div>
       <BottomNavigation activeTab="goals" />
     </div>

@@ -32,7 +32,7 @@ export default function FriendsContainer() {
   return (
     <div className="max-w-md mx-auto">
       <Suspense fallback={<div>로딩 중...</div>}>
-        <FriendManagement />
+        <FriendManagement/>
       </Suspense>
       <BottomNavigation activeTab="friends" />
     </div>

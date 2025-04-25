@@ -1,15 +1,18 @@
-import { Participant } from './Participant';
-
 export interface Challenge {
   id: string;
   title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  targetAmount: number;
-  currentAmount: number;
-  participants: Participant[];
-  isPublic: boolean;
+  description?: string;
+  currentParticipants?: number;
+  maxParticipants?: number;
+  daysLeft?: number;
+  isInvited?: boolean;
+  invitedBy?: string;
+  progress?: number;
+  goal?: number;
+  isCompleted?: boolean;
+  isFailed?: boolean;
+  status?: 'active' | 'completed' | 'failed';
+  isNew?: boolean;
 }
 
 export interface Sort {
@@ -94,6 +97,7 @@ export interface GetChallengeParams {
   text?: string;
   page: number;
   size: number;
+  tab?: number;
 }
 
 export interface CreateChallengeParams {
@@ -101,10 +105,12 @@ export interface CreateChallengeParams {
   text: string;
   release: string;
   amount: number;
+  targetAmount: number;
   capacity: number;
   category: string;
   startDate: string;
   endDate: string;
+  description: string;
 }
 
 export interface InvitationParams {
