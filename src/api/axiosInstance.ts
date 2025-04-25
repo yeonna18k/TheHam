@@ -1,4 +1,3 @@
-// api/axiosInstance.ts
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
 interface CustomInternalAxiosRequestConfig extends InternalAxiosRequestConfig {
@@ -6,7 +5,7 @@ interface CustomInternalAxiosRequestConfig extends InternalAxiosRequestConfig {
 }
 
 const axiosInstance = axios.create({
-  baseURL: 'http://43.202.207.48:8080',
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
   timeout: 10000,
   headers: {
@@ -27,7 +26,7 @@ axiosInstance.interceptors.request.use(
           `/api/v1/auth/reissue`,
           {},
           {
-            baseURL: 'http://43.202.207.48:8080',
+            baseURL: process.env.NEXT_PUBLIC_API_URL,
             withCredentials: true,
           }
         );
@@ -39,7 +38,7 @@ axiosInstance.interceptors.request.use(
           await axios.post(
             `/api/v1/auth/logout`,
             {},
-            { baseURL: 'http://43.202.207.48:8080', withCredentials: true }
+            { baseURL: process.env.NEXT_PUBLIC_API_URL, withCredentials: true }
           );
         } catch (logoutError) {
           console.error('Logout failed:', logoutError);

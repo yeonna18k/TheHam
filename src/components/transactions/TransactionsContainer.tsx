@@ -1,21 +1,16 @@
-"use client";
+'use client';
 
-import { addDays, format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { useState } from "react";
-import { DateRange } from "react-day-picker";
-import { Button } from "../ui/button";
-import { Calendar } from "../ui/calendar";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { Switch } from "../ui/switch";
-import ExpenditureCategoriesList from "./ExpenditureCategoriesList";
-
-const INCOME_CATEGORIES = [
-  { id: 1, name: "급여" },
-  { id: 2, name: "이자" },
-  { id: 3, name: "기타" },
-];
+import { CATEGORIES } from '@/constants/categories';
+import { addDays, format } from 'date-fns';
+import { CalendarIcon } from 'lucide-react';
+import { useState } from 'react';
+import { DateRange } from 'react-day-picker';
+import { Button } from '../ui/button';
+import { Calendar } from '../ui/calendar';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { Switch } from '../ui/switch';
+import ExpenditureCategoriesList from './ExpenditureCategoriesList';
 
 export default function TransactionsContainer({ page }: { page: string }) {
   const [openCalendar, setOpenCalendar] = useState(false);
@@ -38,13 +33,13 @@ export default function TransactionsContainer({ page }: { page: string }) {
         ₩ {Number(9000).toLocaleString()}
       </div>
       <Label>카테고리 선택</Label>
-      {page === "expenditure" ? (
+      {page === 'expenditure' ? (
         <ExpenditureCategoriesList />
       ) : (
         <div className="grid grid-cols-3 gap-2">
-          {INCOME_CATEGORIES.map((category) => (
+          {CATEGORIES.slice(17, 20).map((category) => (
             <Button variant="icon" key={category.id}>
-              {category.name}
+              {category.korean}
             </Button>
           ))}
         </div>
@@ -60,7 +55,7 @@ export default function TransactionsContainer({ page }: { page: string }) {
           className="justify-start pl-3 focus:bg-transparent"
         >
           <CalendarIcon className="text-gray-500" />
-          {date && format(date, "yyyy. MM. dd")}
+          {date && format(date, 'yyyy. MM. dd')}
         </Button>
         {openCalendar && (
           <Calendar
@@ -98,11 +93,11 @@ export default function TransactionsContainer({ page }: { page: string }) {
               {fixedDate?.from ? (
                 fixedDate.to ? (
                   <>
-                    {format(fixedDate.from, "yyyy. MM. dd")} -{" "}
-                    {format(fixedDate.to, "yyyy. MM. dd")}
+                    {format(fixedDate.from, 'yyyy. MM. dd')} -{' '}
+                    {format(fixedDate.to, 'yyyy. MM. dd')}
                   </>
                 ) : (
-                  format(fixedDate.from, "yyyy. MM. dd")
+                  format(fixedDate.from, 'yyyy. MM. dd')
                 )
               ) : (
                 <span>기간을 설정해주세요</span>
