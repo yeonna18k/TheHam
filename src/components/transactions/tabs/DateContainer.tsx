@@ -3,10 +3,20 @@
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import { CATEGORIES } from '@/constants/categories';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { useState } from 'react';
+import TransactionsLogCard from './TransactionsLogCard';
 
 export default function DateContainer() {
   const [openCalendar, setOpenCalendar] = useState(false);
@@ -54,6 +64,21 @@ export default function DateContainer() {
         />
         <Label>수입</Label>
       </div>
+      <Select>
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="계좌를 선택해주세요" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            {CATEGORIES.map((category) => (
+              <SelectItem key={category.id} value={category.english}>
+                {category.korean}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+      <TransactionsLogCard />
     </div>
   );
 }
