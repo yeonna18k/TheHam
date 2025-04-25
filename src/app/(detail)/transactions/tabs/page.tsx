@@ -1,3 +1,6 @@
+import BudgetContainer from '@/components/transactions/tabs/BudgetContainer';
+import CalendarContainer from '@/components/transactions/tabs/CalendarContainer';
+import DateContainer from '@/components/transactions/tabs/DateContainer';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const TRANSACTIONS_TABS = [
@@ -17,7 +20,11 @@ export default function Register() {
         ))}
       </TabsList>
       {TRANSACTIONS_TABS.map((tab) => (
-        <TabsContent key={tab.value} value={tab.value}></TabsContent>
+        <TabsContent key={tab.value} value={tab.value}>
+          {tab.value === 'date' && <DateContainer />}
+          {tab.value === 'calendar' && <CalendarContainer />}
+          {tab.value === 'budget' && <BudgetContainer />}
+        </TabsContent>
       ))}
     </Tabs>
   );
