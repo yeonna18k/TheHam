@@ -11,7 +11,7 @@ const TRANSACTIONS_TABS = [
 
 export default function Register() {
   return (
-    <Tabs defaultValue="date" className="w-full">
+    <Tabs defaultValue="date" className="w-full gap-6">
       <TabsList className="w-fit ">
         {TRANSACTIONS_TABS.map((tab) => (
           <TabsTrigger key={tab.value} value={tab.value}>
