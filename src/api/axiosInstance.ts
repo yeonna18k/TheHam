@@ -14,7 +14,7 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-  (response) => response,
+  (config) => config,
   async (error: AxiosError) => {
     const initialRequest = error.config as CustomInternalAxiosRequestConfig;
 
