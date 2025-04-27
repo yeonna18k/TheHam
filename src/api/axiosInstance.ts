@@ -23,7 +23,7 @@ axiosInstance.interceptors.request.use(
 
       try {
         await axios.post(
-          `/api/v1/auth/reissue`,
+          `auth/reissue`,
           {},
           {
             baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -36,7 +36,7 @@ axiosInstance.interceptors.request.use(
 
         try {
           await axios.post(
-            `/api/v1/auth/logout`,
+            `auth/logout`,
             {},
             { baseURL: process.env.NEXT_PUBLIC_API_URL, withCredentials: true }
           );

@@ -56,13 +56,13 @@ const FriendManagement: React.FC = () => {
 
   const addFriendToChallenge = (friendId: string) => {
     console.log(`Adding friend ${friendId} to challenge`);
-    alert(`친구가 챌린지에 추가되었습니다.`);
+    // alert(`친구가 챌린지에 추가되었습니다.`);
   };
 
   const sendKakaoInvite = async () => {
     try {
       if (!window.Kakao) {
-        alert('카카오톡 SDK가 로드되지 않았습니다.');
+        // alert('카카오톡 SDK가 로드되지 않았습니다.');
         return;
       }
 
@@ -78,7 +78,7 @@ const FriendManagement: React.FC = () => {
       });
     } catch (error) {
       console.error('Failed to send Kakao invite:', error);
-      alert('카카오톡 초대장 전송에 실패했습니다.');
+      // alert('카카오톡 초대장 전송에 실패했습니다.');
     }
   };
 

@@ -18,5 +18,6 @@ export const baseFetch = async <T>(
     ...options,
   });
 
-  return res.data;
+  if (Object.hasOwn(res, 'data')) return res.data;
+  else return res as T;
 };
