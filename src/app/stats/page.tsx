@@ -10,7 +10,6 @@ import BottomNavigation from '@/components/main/BottomNavigation';
 import {
   useGetFrequency,
   useGetFrequencyCategory,
-  useGetConsumeCategory,
 } from '@/hooks/useStatics';
 import { CATEGORY_MAP } from '@/constants/categories';
 
@@ -18,11 +17,6 @@ const periodMap: Record<string, string> = {
   일간: 'daily',
   주간: 'weekly',
   월간: 'monthly',
-};
-
-type RawCategory = {
-  category: string;
-  totalAmount: number;
 };
 
 export default function Statistics() {
