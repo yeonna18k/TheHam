@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import BottomNavigation from '@/components/main/BottomNavigation';
 import BudgetSummary from '@/components/main/BudgetSummary';
@@ -12,23 +12,7 @@ import { getToken } from 'firebase/messaging';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 
-const SpendingCalendar = dynamic(
-  () => import('@/components/main/SpendingCalendar'),
-  {
-    ssr: false,
-  }
-);
-
-const vapidKey =
-  'BEp5OHU0tBKWYoWoNmoxLPYUFdukvdzdjWEc6-fxTRNkK7JJOs0XcUF1_xgtcNqxLynSm45l53_zuuKBmd7bRrg';
-
-export default function Home() {
-  const budgetData = {
-    title: '이번 달 예산',
-    percentage: 62,
-    currentAmount: 620000,
-    totalAmount: 1000000,
-  };
+const vapidKey = 'BEp5OHU0tBKWYoWoNmoxLPYUFdukvdzdjWEc6-fxTRNkK7JJOs0XcUF1_xgtcNqxLynSm45l53_zuuKBmd7bRrg'; // 🔥 꼭 실제 키로 바꿔야 함
 
   const tipMessage = '가끔은 대중교통도 좋아요~';
 
@@ -67,11 +51,11 @@ export default function Home() {
   async function handleAllowNotification() {
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
-      console.log('알림 권한이 허용되었습니다.');
+      console.log('알림 권한 허용됨');
       registerServiceWorker();
       await getDeviceToken();
     } else {
-      console.log('알림 권한이 허용되지 않음:', permission);
+      console.log('알림 권한 거부:', permission);
     }
   }
 
@@ -90,7 +74,9 @@ export default function Home() {
         }
       } else {
         console.error('Messaging 객체가 null입니다.');
+        return;
       }
+      const currentToken = await getToken(messaging, { vapidKey });
       if (currentToken) {
         console.log('FCM 토큰:', currentToken);
         // alert('FCM 토큰: ' + currentToken);
@@ -105,7 +91,7 @@ export default function Home() {
 
   function registerServiceWorker() {
     navigator.serviceWorker
-      .register('firebase-messaging-sw.js')
+      .register('/firebase-messaging-sw.js')
       .then((registration) => {
         console.log('Service Worker 등록 성공:', registration);
       })
@@ -113,7 +99,6 @@ export default function Home() {
         console.error('Service Worker 등록 실패:', error);
       });
   }
-
   function generateCalendarData() {
     const today = currentDate.getDate();
 
@@ -171,38 +156,10 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-100 pb-20 max-w-md mx-auto">
-      <div className="bg-green-500 p-5 text-white">
-        <h1 className="font-medium text-lg">안녕하세요, 지영님!</h1>
-        <p>오늘도 알찬 소비를 함께 해보아요!</p>
-      </div>
-
-      <div className="p-4">
-        <BudgetSummary {...budgetData} />
-
-        <TipBox message={tipMessage} />
-
-        <div className="mt-6">
-          <h2 className="text-lg font-medium mb-3">오늘 거래 내역</h2>
-          {transactions.map((transaction) => (
-            <TransactionItem key={transaction.id} {...transaction} />
-          ))}
-        </div>
-
-        <div className="mt-6">
-          <h2 className="text-lg font-medium mb-2">캘린더</h2>
-          <SpendingCalendar
-            month={currentMonth}
-            year={currentYear}
-            dailyBudget={dailyBudget}
-            days={calendarData}
-            onDayClick={handleDayClick}
-          />
-        </div>
-      </div>
-
-      <FloatingActionButton onClick={handleAddTransaction} />
-      <BottomNavigation activeTab="home" />
+    <main>
+      <BudgetDashboard />
     </main>
   );
-}
+};
+
+export default Home;

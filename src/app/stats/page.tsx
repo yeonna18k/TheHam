@@ -1,6 +1,5 @@
-'use client';
-
-import { SetStateAction, useState } from 'react';
+"use client"
+import { SetStateAction, useState, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { PeriodTabs } from '@/components/statistics/PeriodTabs';
@@ -29,18 +28,43 @@ type RawCategory = {
 export default function Statistics() {
   const [period, setPeriod] = useState('일간');
   const [selectedCategory, setSelectedCategory] = useState('식비');
+  const [consumeDelta, setConsumeDelta] = useState<any>(null);
+  const [categoryDetail, setCategoryDetail] = useState<any>({ items: [] });
+  const [error, setError] = useState<string | null>(null);
 
   const frequency = periodMap[period];
 
   const { data: rawData = [] } = useGetFrequency(frequency);
-  const { data: categoryDetail = { items: [] } } = useGetFrequencyCategory(frequency, selectedCategory);
-  const { data: consumeDelta } = useGetConsumeCategory(frequency, selectedCategory);
 
-  const categoryData = (rawData as RawCategory[]).map((item) => ({
-    name: item.category,
-    value: item.totalAmount,
-    color: CATEGORY_MAP[item.category]?.color || '#d1d5db',
-  }));
+  // 카테고리별 데이터 요청 시 URL 인코딩 처리
+  const categoryEncoded = encodeURIComponent(selectedCategory);
+  const { data: categoryDetailResponse } = useGetFrequencyCategory(frequency, selectedCategory);
+  
+  useEffect(() => {
+    // 소비 증감량 데이터 요청 시 404 오류 처리
+    async function fetchConsumeDelta() {
+      try {
+        const response = await fetch(`/stat/consume/${frequency}/${categoryEncoded}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setConsumeDelta(data);
+      } catch (error: any) {
+        setError('소비 증감 데이터를 불러오는 데 실패했습니다.');
+      }
+    }
+    fetchConsumeDelta();
+  }, [frequency, selectedCategory]);
+
+  // rawData가 배열인지 확인하고, 그 후 map 사용
+  const categoryData = Array.isArray(rawData)
+    ? rawData.map((item) => ({
+        name: item.category,
+        value: item.totalAmount,
+        color: CATEGORY_MAP[item.category]?.color || '#d1d5db',
+      }))
+    : []; // rawData가 배열이 아니면 빈 배열을 반환
 
   const topCategories = [...categoryData]
     .sort((a, b) => b.value - a.value)
@@ -75,6 +99,8 @@ export default function Statistics() {
               </b>{' '}
               했어요.
             </span>
+          ) : error ? (
+            <span>{error}</span>
           ) : (
             <span>소비 증감 데이터를 불러오는 중...</span>
           )}
@@ -94,12 +120,14 @@ export default function Statistics() {
           <div className="mt-6">
             <h2 className="font-semibold text-lg mb-2">{selectedCategory} 상세</h2>
             <ul className="space-y-1 text-sm text-gray-700">
-              {categoryDetail.items.map((item: { description: string; amount: number }, idx: number) => (
-                <li key={idx} className="flex justify-between">
-                  <span>{item.description}</span>
-                  <span>{item.amount.toLocaleString()}원</span>
-                </li>
-              ))}
+              {categoryDetailResponse?.items?.map(
+                (item: { description: string; amount: number }, idx: number) => (
+                  <li key={idx} className="flex justify-between">
+                    <span>{item.description}</span>
+                    <span>{item.amount.toLocaleString()}원</span>
+                  </li>
+                )
+              )}
             </ul>
           </div>
         )}
