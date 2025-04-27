@@ -38,13 +38,25 @@ export const getCategoryByEnglish = (english: string) => {
   return CATEGORIES.find((category) => category.english === english);
 };
 
-export const CATEGORY_MAP: Record<string, { name: string; color: string }> = {
-  식비: { name: '식비', color: '#4ade80' },
-  카페: { name: '카페', color: '#60a5fa' },
-  쇼핑: { name: '쇼핑', color: '#f472b6' },
-  여가: { name: '여가', color: '#a78bfa' },
-  건강: { name: '건강', color: '#fb923c' },
-  주거: { name: '주거', color: '#94a3b8' },
-  교통: { name: '교통', color: '#fbbf24' },
-  기타: { name: '기타', color: '#cbd5e1' },
+export const CATEGORY_MAP: Record<string, { name: string; color: string; english: string }> = {
+  식비: { name: '식비', color: '#4ade80', english: 'food' },
+  카페: { name: '카페', color: '#60a5fa', english: 'cafe_snack' },
+  편의점: { name: '편의점', color: '#fbbf24', english: 'convenience_store' },
+  술_여가: { name: '술/여가', color: '#a78bfa', english: 'alcohol_entertainment' },
+  쇼핑: { name: '쇼핑', color: '#f472b6', english: 'shopping' },
+  취미: { name: '취미', color: '#fb923c', english: 'hobby' },
+  건강: { name: '건강', color: '#94a3b8', english: 'health' },
+  주거_통신: { name: '주거/통신', color: '#fbbf24', english: 'housing_communication' },
+  금융: { name: '금융', color: '#f472b6', english: 'finance' },
+  뷰티: { name: '뷰티', color: '#60a5fa', english: 'beauty' },
+  교통: { name: '교통', color: '#a78bfa', english: 'transportation' },
+  여행: { name: '여행', color: '#4ade80', english: 'travel' },
+  교육: { name: '교육', color: '#fb923c', english: 'education' },
+  생활: { name: '생활', color: '#94a3b8', english: 'living' },
+  기부: { name: '기부', color: '#cbd5e1', english: 'donation' },
+  카드_결제: { name: '카드 결제', color: '#d1d5db', english: 'card_payment' },
+  후불_결제: { name: '후불 결제', color: '#d1d5db', english: 'deferred_payment' },
+  기타: { name: '기타', color: '#cbd5e1', english: 'none' },
 };
+
+
