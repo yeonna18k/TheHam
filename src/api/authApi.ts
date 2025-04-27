@@ -10,15 +10,11 @@ export const postAuthSignUp = async (
   requestData: SignUpRequest
 ) => {
   try {
-    const accessToken = localStorage.getItem('accessToken');
     return await baseFetch<EmptyResponse>(`/auth/signup?email=${email}`, {
       method: 'POST',
       data: {
         nickname: requestData.nickname,
         categories: requestData.categories,
-      },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
       },
     });
   } catch (error) {
@@ -29,12 +25,8 @@ export const postAuthSignUp = async (
 
 export const getAuthLogout = async () => {
   try {
-    const accessToken = localStorage.getItem('accessToken');
     return await baseFetch<EmptyResponse>(`/auth/logout`, {
       method: 'GET',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
     });
   } catch (error) {
     console.error('로그아웃 에러:', error);
