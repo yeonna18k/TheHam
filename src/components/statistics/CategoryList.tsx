@@ -10,9 +10,9 @@ type CategoryListProps = {
 };
 
 export function CategoryList({ categories, onSelect }: CategoryListProps) {
-  
+
   if (!categories || categories.length === 0) {
-    return <div>카테고리가 없습니다.</div>; // 카테고리가 없을 때 표시
+    return <div></div>; // 카테고리가 없을 때 표시
   }
 
   return (
