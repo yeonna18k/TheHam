@@ -7,7 +7,7 @@ interface DonutChartData {
 
 export function DonutChart({ data }: { data: DonutChartData[] }) {
   if (!data || data.length === 0) {
-    return <div>데이터가 없습니다.</div>; // 데이터가 없을 때 표시
+    return <div></div>; // 데이터가 없을 때 표시
   }
   return (
     <div className="w-full aspect-square max-w-xs mx-auto mb-8">
