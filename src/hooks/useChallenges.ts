@@ -10,9 +10,11 @@ import {
   InvitingChallenge,
   AcceptChallenge,
   RejectChallenge, 
-  getInvitations
+  getInvitations,
+  NewChallenges,
+  PopularChallenges,
 } from '@/api/ChallengeAPI';
-import { GetChallengeParams, CreateChallengeParams } from '@/types/challenge';
+import { GetChallengeParams, CreateChallengeParams, PopularChallenge } from '@/types/challenge';
 
 // 챌린지 목록 조회
 export const useGetChallenge = (params: GetChallengeParams) =>
@@ -62,6 +64,22 @@ export const useDeleteChallenge = () => {
     },
   });
 };
+
+// 신규 챌린지 조회
+export const useNewChallenges = () =>
+  useQuery<PopularChallenge[]>({
+    queryKey: ['newChallenges'],
+    queryFn: NewChallenges,
+  });
+
+
+// 인기 챌린지 조회
+export function usePopularChallenges() {
+  return useQuery<PopularChallenge[]>({
+    queryKey: ["popularChallenges"],
+    queryFn: PopularChallenges,
+  });
+}
 
 // 챌린지 퇴장
 export const useExitChallenge = () =>

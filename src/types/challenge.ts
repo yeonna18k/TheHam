@@ -30,11 +30,37 @@ export interface Pageable {
   pageSize: number;
 }
 
+export interface PopularChallenge {
+  id: number;
+  title: string;
+  capacity: number;
+  participants: number;
+  status: 'RECRUITING' | 'ONGOING' | 'ENDED';
+}
+
+export interface InviteList {
+  id: 0,
+  requestUsername: string,
+  challengeName: string,
+  isAccept: true,
+  requestAt: string,
+  updateAt: string
+}
+
+export interface NewChallenges {
+  id: number;
+  title: string;
+  capacity: number;
+  participants: number;
+  status: 'RECRUITING' | 'ONGOING' | 'ENDED';
+}
+
+
 export interface Content {
   id: number;
   title: string;
   capacity: number;
-  status: string; // e.g., "RECRUITING"
+  status: string;
 }
 
 export interface GetChallenge {
