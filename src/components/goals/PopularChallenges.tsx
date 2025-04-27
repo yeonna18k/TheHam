@@ -3,6 +3,7 @@ import { useChallengeStore } from '@/store/challengeStore';
 import ChallengeJoinButton from './JoinButton';
 import { usePopularChallenges } from '@/hooks/useChallenges';
 import { PopularChallenge } from '@/types/challenge';
+import { Trophy, Star } from 'lucide-react';
 
 export default function PopularChallenges() {
   const router = useRouter();
@@ -16,6 +17,30 @@ export default function PopularChallenges() {
 
   if (isLoading) {
     return <div className="p-4 text-center">로딩 중...</div>;
+  }
+
+  if (challenges.length === 0) {
+    return (
+      <div className="p-8 text-center bg-gradient-to-b from-gray-50 to-white rounded-xl shadow-sm border border-gray-100">
+        <div className="flex justify-center mb-4">
+          <div className="relative">
+            <Trophy className="w-16 h-16 text-gray-300" />
+            <Star className="w-6 h-6 text-amber-400 absolute -right-2 -top-1" />
+          </div>
+        </div>
+        
+        <h3 className="text-lg font-medium text-gray-800 mb-2">
+          아직 인기 챌린지가 없어요!
+        </h3>
+        
+        <p className="text-gray-500">
+          가장 먼저 챌린지를 등록하고
+        </p>
+        <p className="text-gray-500">
+          참여를 유도해보세요.
+        </p>
+      </div>
+    );
   }
 
   return (
