@@ -12,7 +12,7 @@ interface JwtPayload {
 
 export const BudgetStatus: React.FC = () => {
   const [userId, setUserId] = useState<number | null>(null);
-  const currentMonth = new Date().toLocaleString('default', { month: 'long' }); // 현재 월 (예: 'April', '5월')
+  const currentMonth = new Date().toLocaleString('default', { month: 'long' }); 
 
   useEffect(() => {
 
@@ -35,11 +35,6 @@ export const BudgetStatus: React.FC = () => {
     }
   }, []);
 
-  // userId가 없다면 로딩 중이거나 로그인 상태가 아니라는 메시지를 표시
-  if (!userId) {
-    return <p>로그인 정보를 확인할 수 없습니다. 로그인해주세요.</p>;
-  }
-
   const { data, isLoading, isError } = useGetBudget(userId);  // 예산 API 호출
   const [totalBudget, setTotalBudget] = useState<number>(0);
   const [usedBudget, setUsedBudget] = useState<number>(0);
@@ -50,6 +45,11 @@ export const BudgetStatus: React.FC = () => {
       setUsedBudget(data.total);
     }
   }, [data]);
+
+  // userId가 없다면 로딩 중이거나 로그인 상태가 아니라는 메시지를 표시
+  if (!userId) {
+    return <p>로그인 정보를 확인할 수 없습니다. 로그인해주세요.</p>;
+  }
 
   const percentage = Math.round((usedBudget / totalBudget) * 100);
 
