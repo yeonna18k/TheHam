@@ -1,4 +1,5 @@
-import { EmptyResponse, SignUpRequest } from '@/types/auth';
+import { SignUpRequest } from '@/types/auth';
+import { EmptyResponse } from '@/types/common';
 import { baseFetch } from './BaseAPI';
 
 export const startKakaoLogin = () => {

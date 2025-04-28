@@ -40,3 +40,21 @@ export const postAccountBookMonth = async (requestMonth: string) => {
     throw error;
   }
 };
+
+export const getAccountBookSpend = async ({
+  startDate,
+  endDate,
+}: AccountBookRequest) => {
+  try {
+    const response = await baseFetch<AccountBookResponse[]>(
+      `/account-book/spend?startDate=${startDate}&endDate=${endDate}`,
+      {
+        method: 'GET',
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error('지정 기간 소비 조회 에러: ', error);
+    throw error;
+  }
+};
