@@ -7,6 +7,8 @@ interface ChallengeFormState {
   startDate: string;
   endDate: string;
   isPublic: boolean;
+  capacity: string;
+  setCapacity: (capacity: string) => void;
   setTitle: (title: string) => void;
   setDescription: (description: string) => void;
   setTargetAmount: (amount: string) => void;
@@ -23,6 +25,8 @@ export const useChallengeFormStore = create<ChallengeFormState>((set) => ({
   startDate: '',
   endDate: '',
   isPublic: true,
+  capacity: '',
+  setCapacity: (capacity) => set({ capacity }),
   setTitle: (title) => set({ title }),
   setDescription: (description) => set({ description }),
   setTargetAmount: (amount) => set({ targetAmount: amount }),
