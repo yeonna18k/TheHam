@@ -14,12 +14,15 @@ export async function GetChallenge(params: GetChallengeParams) {
 
 // 챌린지 생성 API
 export async function CreateChallenge(params: CreateChallengeParams) {
-    const response = await baseFetch<CreateChallenge>("/challenges", {
-      method: "POST",
-      body: JSON.stringify(params),
-    });
-    return response;
-  }
+  const response = await baseFetch<CreateChallenge>("/challenges", {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',  // 반드시 JSON 형식으로 전송해야 함
+    },
+    data: params,
+  });
+  return response;
+}
 
 // 챌린지 상세 조회 API
 export async function DetailChallenge(id: number) {
