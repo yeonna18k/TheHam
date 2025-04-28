@@ -39,12 +39,12 @@ function EmptyConsumptionState() {
         </p>
         
         {/* 버튼 영역 */}
-        <Link href="/consumption/create">
-          <button className="flex items-center space-x-2 px-5 py-2.5 bg-gradient-to-r bg-green-500 text-white rounded-full shadow-md hover:shadow-lg transition-all duration-200">
+          <button className="flex items-center space-x-2 px-5 py-2.5 bg-gradient-to-r bg-green-500 text-white rounded-full shadow-md hover:shadow-lg transition-all duration-200"
+            onClick={() => window.location.href = "/transactions/detail"}
+          >
             <span>기록 시작하기</span>
             <ArrowRight className="w-4 h-4 ml-2" />
           </button>
-        </Link>
       </div>
     </div>
   );

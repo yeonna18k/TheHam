@@ -34,7 +34,10 @@ export const TransactionList: React.FC<TransactionListProps> = ({ transactions }
                 <h3 className="text-lg font-medium text-gray-800 mb-2">오늘 소비/지출 내역이 없어요!</h3>
                 <p className="text-gray-500 text-center text-sm mb-4">지출을 기록하면 소비 패턴을 분석하는 데 도움이 됩니다.</p>
                 
-                <button className="flex items-center px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors duration-200 font-medium">
+                <button
+                  onClick={() => window.location.href = '/transactions/detail'}
+                  className="flex items-center px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors duration-200 font-medium"
+                >
                   지출 추가하기
                   <ArrowRight className="ml-1" size={16} />
                 </button>

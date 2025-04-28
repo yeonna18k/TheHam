@@ -5,7 +5,7 @@ interface AddChallengeButtonProps {
 export const AddChallengeButton = ({ onClick }: AddChallengeButtonProps) => {
   return (
     <button
-      className="fixed bottom-30 right-60 bg-green-500 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg"
+      className="fixed bottom-30 right-170 bg-green-500 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg"
       onClick={onClick}
     >
       <svg

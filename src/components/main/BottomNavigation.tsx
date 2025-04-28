@@ -28,7 +28,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ activeTab }) => {
       active: activeTab === 'stats',
     },
     {
-      name: '목표치',
+      name: '챌린지',
       icon: 'goals',
       path: '/goals',
       active: activeTab === 'goals',
