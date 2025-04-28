@@ -13,14 +13,6 @@ const vapidKey = env.VAPIDKEY; // 🔥 꼭 실제 키로 바꿔야 함
 const Home: NextPage = () => {
   const { mutate: createFcmToken } = useFcmToken();
 
-  // useEffect(() => {
-  //   const result = getAccountBookSpend({
-  //     startDate: '2025-04-01',
-  //     endDate: '2025-04-30',
-  //   });
-  //   console.log(result);
-  // }, []);
-
   useEffect(() => {
     handleAllowNotification();
   }, []);

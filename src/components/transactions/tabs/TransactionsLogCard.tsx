@@ -1,11 +1,11 @@
 import { cn } from '@/lib/utils';
-import { AccountBookResponse } from '@/types/transactions';
+import { AccountBookItem, Transaction } from '@/types/transactions';
 import { Minus, Plus } from 'lucide-react';
 
 export default function TransactionsLogCard({
   data,
 }: {
-  data: AccountBookResponse;
+  data: AccountBookItem | Transaction;
 }) {
   const { type, title, occurredAt, memo, amount } = data;
   return (

@@ -1,5 +1,5 @@
 import { postAccountBookMonth } from '@/api/transactionsApi';
-import { AccountBookMonthResponse } from '@/types/transactions';
+import { PostAccountBookMonthResponse } from '@/types/transactions';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import Lottie from 'react-lottie-player';
@@ -14,7 +14,7 @@ export default function CalendarLogCardsWrapper({
   requestMonth,
 }: CalendarLogProps) {
   const [transactionsMonthData, setTransactionsMonthData] = useState<
-    AccountBookMonthResponse[]
+    PostAccountBookMonthResponse[]
   >([]);
 
   const { mutate: accountBookMonth, isPending: isPendingMonth } = useMutation({
