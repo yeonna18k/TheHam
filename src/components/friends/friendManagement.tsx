@@ -15,6 +15,7 @@ import {
   useFriendsRequestList 
 } from '@/hooks/useFriends';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import { env } from 'process';
 
 interface Friend {
   id: string;
@@ -49,45 +50,41 @@ const FriendManagement: React.FC = () => {
 
   // 카카오로 친구 초대하는 함수
   // 친구 초대 토큰 발급 함수 수정
-  const sendKakaoInvite = async () => {
-    try {
-      // 쿠키에서 액세스 토큰을 읽어오기
-      const getAccessTokenFromCookie = (): string | null => {
-        const match = document.cookie.match(new RegExp('(^| )access_token=([^;]+)'));
-        return match ? match[2] : null;
-      };
-  
-      // 액세스 토큰 가져오기
-      const accessToken = getAccessTokenFromCookie();
-      if (!accessToken) {
-        throw new Error("Access token not found in cookies");
-      }
-  
-      // 초대 토큰 생성
-      const { token } = await getInviteToken({
-        headers: { Authorization: `Bearer ${accessToken}` }
-      }) as { token: string };
-  
-      const inviteUrl = `${window.location.origin}/invite?token=${token}`;
-  
-      // 카카오 공유하기
-      await shareKakao(JSON.stringify({
-        title: '함께 챌린지에 참여해보세요!',
-        description: '함께 목표를 달성하고 습관을 만들어요',
-        imageUrl: `${window.location.origin}/images/app-logo.png`,
-        link: inviteUrl
-      }));
-  
-      console.log("Kakao invite sent successfully!");
-  
-    } catch (error) {
-      console.error('Failed to send Kakao invite:', error);
-      if (error.response) {
-        console.error('Response error:', error.response);
-      }
+  // 카카오 SDK 초기화 및 공유 함수
+// FriendManagement.tsx (클라이언트)
+const sendKakaoInvite = async () => {
+  try {
+    // 1) 쿠키 포함해서 토큰 받아오기
+    const { token } = await getInviteToken();  
+    if (!token) throw new Error('토큰 없음');
+    console.log('Invite Token:', token);
+
+    const inviteUrl = `${window.location.origin}/invite?token=${token}`;
+    console.log('Invite URL:', inviteUrl);
+
+    // 2) Kakao SDK 초기화 & 공유
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
     }
-  };
-  
+    window.Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: '함께 챌린지에 참여해보세요!',
+        description: '함께 목표를 달성하고 습관을 만들어요.',
+        imageUrl: `${window.location.origin}/images/app-logo.png`,
+        link: { mobileWebUrl: inviteUrl, webUrl: inviteUrl },
+      },
+      buttons: [{
+        title: '참여하기',
+        link: { mobileWebUrl: inviteUrl, webUrl: inviteUrl },
+      }],
+    });
+
+  } catch (err) {
+    console.error('Failed to send Kakao invite:', err);
+  }
+};
+
   // 친구를 챌린지에 추가하는 함수
   const addFriendToChallenge = (friendId: string) => {
     console.log(`Adding friend ${friendId} to challenge`);
