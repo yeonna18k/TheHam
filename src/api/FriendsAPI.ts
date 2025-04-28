@@ -2,6 +2,11 @@
 
 import { baseFetch } from './BaseAPI';
 
+const getAccessTokenFromCookie = (): string | null => {
+  const match = document.cookie.match(new RegExp('(^| )access_token=([^;]+)'));
+  return match ? match[2] : null;
+};
+
 // 카카오톡 공유하기 링크
 export async function SharedKakao(token: string) {
   return baseFetch('/friends/invite', {
@@ -14,8 +19,16 @@ export async function SharedKakao(token: string) {
 
 // 친구 초대 토큰 발급
 export async function FriendsGetToken() {
+  const token = getAccessTokenFromCookie();
+  if (!token) {
+    throw new Error('No access token found in cookies.');
+  }
+
   return baseFetch('/friends/invite/token', {
     method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`, // 쿠키에서 토큰 가져와서 헤더에 추가
+    },
   });
 }
 

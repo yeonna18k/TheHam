@@ -2,7 +2,7 @@ import axiosInstance from './axiosInstance';
 
 // 쿠키에서 액세스 토큰 가져오기
 const getAccessTokenFromCookie = (): string | null => {
-  const match = document.cookie.match(new RegExp('(^| )accessToken=([^;]+)'));
+  const match = document.cookie.match(new RegExp('(^| )access_token=([^;]+)'));
   return match ? match[2] : null;
 };
 

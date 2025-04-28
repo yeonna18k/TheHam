@@ -1,7 +1,7 @@
 "use Client" 
 
 import { baseFetch } from "./BaseAPI"
-import type { CreateChallenge, GetChallenge, detailChallenge, Invitation, GetChallengeParams, CreateChallengeParams, InvitationParams, PopularChallenge } from "@/types/challenge";
+import type { CreateChallenge, GetChallenge, detailChallenge, Invitation, GetChallengeParams, CreateChallengeParams, InvitationParams, PopularChallenge, InvitationResponse } from "@/types/challenge";
 
 //챌린지 조회 API
 export async function GetChallenge(params: GetChallengeParams) {
@@ -107,6 +107,14 @@ export async function getInvitations(params: InvitationParams) {
     const response = await baseFetch<Invitation>("/challenges/invites/me", {
       method: "GET",
       params, // InvitationParams 타입을 그대로 전달
+    });
+    return response;
+  }
+
+// 내가 참여중인 챌린지 보기
+export async function getMyChallenges() {
+    const response = await baseFetch<InvitationResponse>("/challenges/me", {
+      method: "GET",
     });
     return response;
   }
