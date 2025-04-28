@@ -13,15 +13,15 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { CATEGORIES } from '@/constants/categories';
-import { addDays, format } from 'date-fns';
+import { format, subMonths } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { DateRange } from 'react-day-picker';
 import TransactionsLogCardsWrapper from './TransactionsLogCardsWrapper';
 
 const DEFAULT_DATE_RANGE = {
-  from: new Date(),
-  to: addDays(new Date(), 1),
+  from: subMonths(new Date(), 1),
+  to: new Date(),
 };
 
 export default function DateContainer() {
@@ -31,7 +31,9 @@ export default function DateContainer() {
   );
   const [showExpenditure, setShowExpenditure] = useState(true);
   const [showIncome, setShowIncome] = useState(true);
-  const [selectedDate, setSelectedDate] = useState<DateRange | undefined>();
+  const [selectedDate, setSelectedDate] = useState<DateRange | undefined>(
+    DEFAULT_DATE_RANGE
+  );
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
 
   const calendarRef = useRef<HTMLDivElement>(null);

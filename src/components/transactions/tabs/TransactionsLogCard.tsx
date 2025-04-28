@@ -7,7 +7,7 @@ export default function TransactionsLogCard({
 }: {
   data: AccountBookResponse;
 }) {
-  const { type, category, occurredAt, memo, amount } = data;
+  const { type, title, category, occurredAt, memo, amount } = data;
   return (
     <div className="border w-full border-gray-300 rounded-md p-4 flex items-center justify-between gap-6">
       <div className="flex gap-2 items-center flex-1 overflow-hidden">
@@ -27,7 +27,7 @@ export default function TransactionsLogCard({
           )}
         </div>
         <div className="flex flex-col gap-1 overflow-hidden">
-          <span className="title4">{category}</span>
+          <span className="title4">{title}</span>
           <span className="body3 text-gray-500 truncate">
             {`${occurredAt} | ${memo && memo}`}
           </span>
