@@ -15,6 +15,11 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => config,
+  (error) => Promise.reject(error)
+);
+
+axiosInstance.interceptors.response.use(
+  (response) => response.data,
   async (error: AxiosError) => {
     const initialRequest = error.config as CustomInternalAxiosRequestConfig;
 
@@ -23,10 +28,9 @@ axiosInstance.interceptors.request.use(
 
       try {
         await axios.post(
-          `auth/reissue`,
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/reissue`,
           {},
           {
-            baseURL: process.env.NEXT_PUBLIC_API_URL,
             withCredentials: true,
           }
         );
@@ -36,9 +40,9 @@ axiosInstance.interceptors.request.use(
 
         try {
           await axios.post(
-            `auth/logout`,
+            `${process.env.NEXT_PUBLIC_API_URL}/auth/logout`,
             {},
-            { baseURL: process.env.NEXT_PUBLIC_API_URL, withCredentials: true }
+            { withCredentials: true }
           );
         } catch (logoutError) {
           console.error('Logout failed:', logoutError);
@@ -50,12 +54,6 @@ axiosInstance.interceptors.request.use(
     }
     return Promise.reject(error);
   }
-);
-
-// 응답 인터셉터 추가 (선택 사항)
-axiosInstance.interceptors.response.use(
-  (response) => response.data, // 응답 데이터 반환
-  (error) => Promise.reject(error) // 에러 발생 시 처리
 );
 
 export default axiosInstance;
