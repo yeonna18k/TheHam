@@ -28,7 +28,7 @@ export const ChallengeList: React.FC<ChallengeListProps> = ({ challenges }) => {
         </div>
         
         {(displayChallenges ?? []).length === 0 ? (
-          <div>참여 중인 챌린지가 없습니다.</div>
+          <div>아직 참여중인 챌린지가 없어요! 챌린지에 참여해보세요!</div>
         ) : (
           (displayChallenges ?? []).map((challenge: InvitationResponse) => (
             <ChallengeItem 
