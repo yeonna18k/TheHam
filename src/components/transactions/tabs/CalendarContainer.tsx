@@ -8,7 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { useEffect, useState } from 'react';
-import TransactionsLogCardsWrapper from './TransactionsLogCardsWrapper';
+import CalendarLogCardsWrapper from './CalendarLogCardsWrapper';
 
 export default function CalendarContainer() {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
@@ -105,7 +105,7 @@ export default function CalendarContainer() {
         onMonthChange={handleMonthChange}
         showOutsideDays={false}
       />
-      <TransactionsLogCardsWrapper
+      <CalendarLogCardsWrapper
         requestMonth={format(selectedMonth, 'yyyy-MM-01')}
       />
     </div>

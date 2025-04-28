@@ -7,7 +7,7 @@ export default function TransactionsLogCard({
 }: {
   data: AccountBookResponse;
 }) {
-  const { type, title, category, occurredAt, memo, amount } = data;
+  const { type, title, occurredAt, memo, amount } = data;
   return (
     <div className="border w-full border-gray-300 rounded-md p-4 flex items-center justify-between gap-6">
       <div className="flex gap-2 items-center flex-1 overflow-hidden">

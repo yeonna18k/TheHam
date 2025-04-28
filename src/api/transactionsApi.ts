@@ -5,19 +5,15 @@ import {
 } from '@/types/transactions';
 import { baseFetch } from './BaseAPI';
 
-export const postAccountBook = async ({
+export const getAccountBook = async ({
   startDate,
   endDate,
 }: AccountBookRequest) => {
   try {
     const response = await baseFetch<AccountBookResponse[]>(
-      `/account-book/all`,
+      `/account-book/all?startDate=${startDate}&endDate=${endDate}`,
       {
-        method: 'POST',
-        data: {
-          startDate,
-          endDate,
-        },
+        method: 'GET',
       }
     );
     return response;
