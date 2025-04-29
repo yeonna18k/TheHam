@@ -1,19 +1,19 @@
 import TransactionsContainer from '@/components/transactions/TransactionsContainer';
 import { TransactionType } from '@/types/transactions';
 
-export default async function page({
+export default async function Page({
   searchParams,
 }: {
-  searchParams: {
-    type: TransactionType;
-    id: string;
-  };
+  searchParams?: { [key: string]: string };
 }) {
-  const type = searchParams.type;
-  const id = searchParams.id;
+  const type = searchParams?.type as TransactionType;
+  const id = searchParams?.id;
+
+  if (!type || !id) {
+    throw new Error('쿼리 파라미터 누락');
+  }
 
   let data;
-  let posts;
 
   if (type === 'SPEND') {
     // data = await getAccountBookSpendDetail({ id });
