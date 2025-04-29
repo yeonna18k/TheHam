@@ -13,6 +13,7 @@ import {
   getInvitations,
   NewChallenges,
   PopularChallenges,
+  getMyChallenges,
 } from '@/api/ChallengeAPI';
 import { GetChallengeParams, CreateChallengeParams, PopularChallenge } from '@/types/challenge';
 
@@ -116,4 +117,11 @@ export const useInviteList = () =>
   useQuery({
     queryKey: ['challengeInvites'],
     queryFn: () => getInvitations,
+  });
+
+// 내가 참여중인 챌린지 보기 
+export const useMyChallenge = () =>
+  useQuery({
+    queryKey: ['myChallenges'],
+    queryFn: () => getMyChallenges,
   });
