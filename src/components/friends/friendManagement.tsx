@@ -47,19 +47,16 @@ const FriendManagement: React.FC = () => {
   const { mutateAsync: rejectFriend } = useFriendsReject();
   const { mutateAsync: getInviteToken } = useFriendsInviteToken();
   const { mutateAsync: shareKakao } = useSharedKakao();
-
-  // 카카오로 친구 초대하는 함수
-  // 친구 초대 토큰 발급 함수 수정
-  // 카카오 SDK 초기화 및 공유 함수
+  
 // FriendManagement.tsx (클라이언트)
 const sendKakaoInvite = async () => {
   try {
     // 1) 쿠키 포함해서 토큰 받아오기
-    const { token } = await getInviteToken();  
-    if (!token) throw new Error('토큰 없음');
-    console.log('Invite Token:', token);
+    const { invitingUserToken } = await getInviteToken();  
+    if (!invitingUserToken) throw new Error('토큰 없음');
+    console.log('Invite Token:', invitingUserToken);
 
-    const inviteUrl = `${window.location.origin}/invite?token=${token}`;
+    const inviteUrl = `${window.location.origin}/invite?token=${invitingUserToken}`;
     console.log('Invite URL:', inviteUrl);
 
     // 2) Kakao SDK 초기화 & 공유

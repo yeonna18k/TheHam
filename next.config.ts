@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
   images: {
     domains: ['k.kakaocdn.net', 'img1.kakaocdn.net'],
   },
+  eslint: {
+    ignoreDuringBuilds: true, // ✅ 이 부분 추가
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,

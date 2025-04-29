@@ -23,9 +23,6 @@ export default async function page({
     throw new Error('지원하지 않는 거래 타입입니다.');
   }
 
-  console.log(data);
-  console.log(posts);
-
   return (
     <>
       {data && (
