@@ -19,3 +19,23 @@ export const postUsersValidateNickname = async ({
     throw error;
   }
 };
+
+export interface GetUsersAchievementResponse {
+  title: string;
+  content: string;
+  createdAt: string;
+}
+
+export const getUsersAchievement = async () => {
+  try {
+    return await baseFetch<GetUsersAchievementResponse[]>(
+      `/users/achievement`,
+      {
+        method: 'GET',
+      }
+    );
+  } catch (error) {
+    console.error('유저 업적 반환 에러 :', error);
+    throw error;
+  }
+};

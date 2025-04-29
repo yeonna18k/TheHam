@@ -3,11 +3,10 @@
 import { getAuthLogout } from '@/api/authApi';
 import AccountInfo from '@/components/profile/AccountInfo';
 import AccountSettings from '@/components/profile/AccountSettings';
-import AchievementsCard from '@/components/profile/AchievementsCard';
+import AchievementsWrapper from '@/components/profile/AchievementsWrapper';
 import StatisticsCard from '@/components/profile/StatisticsCard';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import MOCK_ACHIEVEMENTS from '@/mock/achievementsData';
 import { MOCK_CHALLENGES } from '@/mock/challengeStatisticsData';
 import { useState } from 'react';
 
@@ -143,13 +142,7 @@ function TabContent({ tabValue }: { tabValue: string }) {
     case 'account':
       return <AccountInfo />;
     case 'achievements':
-      return (
-        <div className="flex flex-col gap-4">
-          {MOCK_ACHIEVEMENTS.map((achievement) => (
-            <AchievementsCard key={achievement.id} {...achievement} />
-          ))}
-        </div>
-      );
+      return <AchievementsWrapper />;
     case 'statistics':
       return (
         <div className="flex flex-col gap-4">
