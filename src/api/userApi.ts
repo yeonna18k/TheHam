@@ -39,3 +39,21 @@ export const getUsersAchievement = async () => {
     throw error;
   }
 };
+
+export interface GetUsersChallengeResponse {
+  savings: number;
+  completedChallenges: number;
+  participatingChallenges: number;
+  finishedChallenge: number;
+}
+
+export const getUsersChallenge = async () => {
+  try {
+    return await baseFetch<GetUsersChallengeResponse>(`/users/challenge`, {
+      method: 'GET',
+    });
+  } catch (error) {
+    console.error('유저 챌린지 반환 에러: ', error);
+    throw error;
+  }
+};

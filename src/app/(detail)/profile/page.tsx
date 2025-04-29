@@ -4,10 +4,9 @@ import { getAuthLogout } from '@/api/authApi';
 import AccountInfo from '@/components/profile/AccountInfo';
 import AccountSettings from '@/components/profile/AccountSettings';
 import AchievementsWrapper from '@/components/profile/AchievementsWrapper';
-import StatisticsCard from '@/components/profile/StatisticsCard';
+import StatisticsWrapper from '@/components/profile/StatisticsWrapper';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { MOCK_CHALLENGES } from '@/mock/challengeStatisticsData';
 import { useState } from 'react';
 
 const PROFILE_TABS = [
@@ -144,14 +143,7 @@ function TabContent({ tabValue }: { tabValue: string }) {
     case 'achievements':
       return <AchievementsWrapper />;
     case 'statistics':
-      return (
-        <div className="flex flex-col gap-4">
-          {MOCK_CHALLENGES.map((stat) => (
-            <StatisticsCard key={stat.id} {...stat} />
-          ))}
-          ;
-        </div>
-      );
+      return <StatisticsWrapper />;
     default:
       return null;
   }
