@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect } from 'react';
-import type { NextPage } from 'next';
 import { BudgetDashboard } from '@/components/main/BudgetDashboard';
 import { useFcmToken } from '@/hooks/useFcmController';
 import { messaging } from '@/lib/firebase/settingFCM'; // ✅ firebase 설정에서 import
 import { getToken } from 'firebase/messaging'; // ✅ firebase-messaging에서 import
+import type { NextPage } from 'next';
 import { env } from 'process';
+import { useEffect } from 'react';
 
 const vapidKey = env.VAPIDKEY; // 🔥 꼭 실제 키로 바꿔야 함
 

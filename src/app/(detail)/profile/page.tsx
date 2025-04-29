@@ -5,12 +5,10 @@ import AccountInfo from '@/components/profile/AccountInfo';
 import AccountSettings from '@/components/profile/AccountSettings';
 import AchievementsCard from '@/components/profile/AchievementsCard';
 import StatisticsCard from '@/components/profile/StatisticsCard';
-import WarningsCard from '@/components/profile/WarningCard';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import MOCK_ACHIEVEMENTS from '@/mock/achievementsData';
 import { MOCK_CHALLENGES } from '@/mock/challengeStatisticsData';
-import MOCK_WARNING_CARDS from '@/mock/warningCardsData';
 import { useState } from 'react';
 
 const PROFILE_TABS = [
@@ -31,12 +29,6 @@ const PROFILE_TABS = [
     label: '통계',
     title: '챌린지 통계',
     description: '지금까지 참여한 챌린지 통계예요',
-  },
-  {
-    value: 'warnings',
-    label: '경고',
-    title: '과소비 경고',
-    description: '예산 한도가 얼마나 남았는지 알려드려요',
   },
   {
     value: 'settings',
@@ -165,14 +157,6 @@ function TabContent({ tabValue }: { tabValue: string }) {
             <StatisticsCard key={stat.id} {...stat} />
           ))}
           ;
-        </div>
-      );
-    case 'warnings':
-      return (
-        <div className="flex flex-col gap-4">
-          {MOCK_WARNING_CARDS.map((warning) => (
-            <WarningsCard key={warning.id} {...warning} />
-          ))}
         </div>
       );
     default:

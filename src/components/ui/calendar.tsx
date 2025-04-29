@@ -8,24 +8,12 @@ import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { ko } from 'react-day-picker/locale';
 
-type CalendarProps = React.ComponentProps<typeof DayPicker> & {
-  transactions?: {
-    [date: string]: {
-      income: number;
-      expense: number;
-    };
-  };
-  formatCurrency?: (amount: number) => string;
-};
-
 function Calendar({
   className,
   classNames,
   showOutsideDays = true,
-  transactions,
-  formatCurrency = (amount) => `${amount.toLocaleString()}`,
   ...props
-}: CalendarProps) {
+}: React.ComponentProps<typeof DayPicker>) {
   return (
     <DayPicker
       locale={ko}
@@ -85,32 +73,6 @@ function Calendar({
             );
           }
         },
-        // Day: ({ day, modifiers, ...props }) => {
-        //   const dateKey = day.date.toISOString().split('T')[0];
-        //   const dayTransactions = transactions?.[dateKey];
-
-        //   return (
-        //     <div {...props}>
-        //       <div className="flex flex-col items-center w-full h-full">
-        //         <span className="text-sm">{day.date.getDate()}</span>
-        //         {dayTransactions && (
-        //           <div className="flex flex-col text-xs gap-px">
-        //             {dayTransactions.income > 0 && (
-        //               <span className="text-green-500">
-        //                 +{formatCurrency(dayTransactions.income)}
-        //               </span>
-        //             )}
-        //             {dayTransactions.expense > 0 && (
-        //               <span className="text-red-500">
-        //                 -{formatCurrency(dayTransactions.expense)}
-        //               </span>
-        //             )}
-        //           </div>
-        //         )}
-        //       </div>
-        //     </div>
-        //   );
-        // },
       }}
       {...props}
     />

@@ -17,7 +17,7 @@ import { format, subMonths } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { DateRange } from 'react-day-picker';
-import TransactionsLogCardsWrapper from './TransactionsLogCardsWrapper';
+import DateLogCardsWrapper from './DateLogCardsWrapper';
 
 const DEFAULT_DATE_RANGE = {
   from: subMonths(new Date(), 1),
@@ -54,7 +54,7 @@ export default function DateContainer() {
     if (dateRange) {
       setErrorMessage(null);
     } else {
-      setErrorMessage('기간을 설정은 필수입니다!');
+      setErrorMessage('기간 설정은 필수입니다!');
     }
     setTempDate(dateRange);
   };
@@ -158,7 +158,7 @@ export default function DateContainer() {
         </div>
       </div>
       {startDate && endDate && (
-        <TransactionsLogCardsWrapper startDate={startDate} endDate={endDate} />
+        <DateLogCardsWrapper startDate={startDate} endDate={endDate} />
       )}
     </div>
   );
