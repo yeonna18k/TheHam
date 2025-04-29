@@ -117,6 +117,16 @@ export interface Invitation {
   updateAt: string; 
 }
 
+export interface InvitationResponse {
+  id: number;
+  name: string;
+  totalSpend: number;
+  amount: number;
+  endDay: number;
+  isSuccess: boolean;
+  isWriteTip: boolean;
+}
+
 // 요청 파라미터를 위한 타입
 export interface GetChallengeParams {
   title?: string;

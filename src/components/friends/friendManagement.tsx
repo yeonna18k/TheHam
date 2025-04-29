@@ -15,6 +15,7 @@ import {
   useFriendsRequestList 
 } from '@/hooks/useFriends';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import { env } from 'process';
 
 interface Friend {
   id: string;
@@ -48,23 +49,41 @@ const FriendManagement: React.FC = () => {
   const { mutateAsync: shareKakao } = useSharedKakao();
 
   // 카카오로 친구 초대하는 함수
-  const sendKakaoInvite = async () => {
-    try {
-      // 초대 토큰 생성 - mutateAsync 사용
-      const { token } = await getInviteToken();
-      const inviteUrl = `${window.location.origin}/invite?token=${token}`;
-      
-      // 카카오 공유하기 - mutateAsync 사용
-      await shareKakao(JSON.stringify({
-              title: '함께 챌린지에 참여해보세요!',
-              description: '함께 목표를 달성하고 습관을 만들어요',
-              imageUrl: `${window.location.origin}/images/app-logo.png`,
-              link: inviteUrl
-            }));
-    } catch (error) {
-      console.error('Failed to send Kakao invite:', error);
+  // 친구 초대 토큰 발급 함수 수정
+  // 카카오 SDK 초기화 및 공유 함수
+// FriendManagement.tsx (클라이언트)
+const sendKakaoInvite = async () => {
+  try {
+    // 1) 쿠키 포함해서 토큰 받아오기
+    const { token } = await getInviteToken();  
+    if (!token) throw new Error('토큰 없음');
+    console.log('Invite Token:', token);
+
+    const inviteUrl = `${window.location.origin}/invite?token=${token}`;
+    console.log('Invite URL:', inviteUrl);
+
+    // 2) Kakao SDK 초기화 & 공유
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
     }
-  };
+    window.Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: '함께 챌린지에 참여해보세요!',
+        description: '함께 목표를 달성하고 습관을 만들어요.',
+        imageUrl: `${window.location.origin}/images/app-logo.png`,
+        link: { mobileWebUrl: inviteUrl, webUrl: inviteUrl },
+      },
+      buttons: [{
+        title: '참여하기',
+        link: { mobileWebUrl: inviteUrl, webUrl: inviteUrl },
+      }],
+    });
+
+  } catch (err) {
+    console.error('Failed to send Kakao invite:', err);
+  }
+};
 
   // 친구를 챌린지에 추가하는 함수
   const addFriendToChallenge = (friendId: string) => {
@@ -73,7 +92,7 @@ const FriendManagement: React.FC = () => {
   };
 
   // 친구 요청 수락 함수
-  const handleAcceptRequest = async (requestId: string) => {
+  const handleAcceptRequest = async (requestId: number) => {
     try {
       await acceptFriend(requestId);
       await refetchRequests();
@@ -84,7 +103,7 @@ const FriendManagement: React.FC = () => {
   };
 
   // 친구 요청 거절 함수
-  const handleRejectRequest = async (requestId: string) => {
+  const handleRejectRequest = async (requestId: number) => {
     try {
       await rejectFriend(requestId);
       await refetchRequests();
@@ -94,7 +113,7 @@ const FriendManagement: React.FC = () => {
   };
 
   // 친구 삭제 함수
-  const handleDeleteFriend = async (friendId: string) => {
+  const handleDeleteFriend = async (friendId: number) => {
     try {
       await deleteFriend(friendId);
       await refetchFriends();

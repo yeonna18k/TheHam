@@ -1,6 +1,7 @@
 import { useChallengeFormStore } from '@/store/ChallengeFormState';
 import { useCreateChallenge } from '@/hooks/useChallenges';
 import { CreateChallengeParams } from '@/types/challenge';
+import React from 'react';
 
 interface AddChallengeModalProps {
   isOpen: boolean;
@@ -8,28 +9,37 @@ interface AddChallengeModalProps {
 }
 
 export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) => {
-  const { title, description, targetAmount, startDate, endDate, isPublic, setTitle, setDescription, setTargetAmount, setStartDate, setEndDate, setIsPublic, resetForm } = useChallengeFormStore();
+  const { title, description, targetAmount, startDate, endDate, isPublic, capacity, setTitle, setDescription, setTargetAmount, setStartDate, setEndDate, setIsPublic, setCapacity, resetForm } = useChallengeFormStore();
+  const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
   const { mutate: createChallenge } = useCreateChallenge();
 
   if (!isOpen) return null;
 
   const handleSubmit = () => {
-    const newChallenge: CreateChallengeParams = {
+    const payload: CreateChallengeParams = {
       title,
-      description,
-      targetAmount: parseInt(targetAmount) || 0,
+      text: description,              // 반드시 text 로
+      release: isPublic ? 'PUBLIC' : 'PRIVATE',
+      amount: Number(targetAmount) || 0,
+      capacity: Number(capacity) || 1, // capacity 필드도 폼에 추가하세요
+      categoryList: selectedCategories, 
       startDate,
       endDate,
-      text: description,     // 예시로 설명을 텍스트로 설정
-      release: startDate,     // 예시로 시작일을 release로 설정
-      amount: parseInt(targetAmount) || 0,  // 목표 금액을 amount로 설정
-      capacity: 100,          // 예시로 임의의 값 설정
-      category: 'general',    
     };
 
-    createChallenge(newChallenge);
-    resetForm();
-    onClose();
+    console.log('▶️ payload', payload); 
+
+    createChallenge(payload, {
+      onSuccess: () => {
+        resetForm();
+        onClose();
+      },
+      onError: (error) => {
+        const err = error as { response?: { data?: string } };
+        console.error('📌 400 에러 응답', err.response?.data);
+        alert('입력값을 다시 확인해주세요.');
+      },
+    });
   };
 
   return (
@@ -56,6 +66,17 @@ export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) =
             onChange={(e) => setDescription(e.target.value)}
             placeholder="챌린지 설명"
             rows={3}
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">참여 인원 수</label>
+          <input
+            type="number"
+            className="w-full border border-gray-300 rounded-md px-3 py-2"
+            value={capacity}
+            onChange={(e) => setCapacity(e.target.value)} // capacity 값을 state로 관리
+            placeholder="참여 인원 수"
           />
         </div>
 
@@ -89,6 +110,23 @@ export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) =
               onChange={(e) => setEndDate(e.target.value)}
             />
           </div>
+        </div>
+
+        {/* 카테고리 선택 */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">카테고리</label>
+          <select
+            className="w-full border border-gray-300 rounded-md px-3 py-2"
+            value={selectedCategories}
+            onChange={(e) => setSelectedCategories(Array.from(e.target.selectedOptions, option => option.value))}
+            multiple
+          >
+            <option value="FOOD">음식</option>
+            <option value="HEALTH">건강</option>
+            <option value="SPORT">운동</option>
+            <option value="EDUCATION">교육</option>
+            <option value="GENERAL">일반</option>
+          </select>
         </div>
 
         <div className="mb-6">

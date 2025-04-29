@@ -1,7 +1,7 @@
 "use Client" 
 
 import { baseFetch } from "./BaseAPI"
-import type { CreateChallenge, GetChallenge, detailChallenge, Invitation, GetChallengeParams, CreateChallengeParams, InvitationParams, PopularChallenge } from "@/types/challenge";
+import type { CreateChallenge, GetChallenge, detailChallenge, Invitation, GetChallengeParams, CreateChallengeParams, InvitationParams, PopularChallenge, InvitationResponse } from "@/types/challenge";
 
 //챌린지 조회 API
 export async function GetChallenge(params: GetChallengeParams) {
@@ -14,12 +14,15 @@ export async function GetChallenge(params: GetChallengeParams) {
 
 // 챌린지 생성 API
 export async function CreateChallenge(params: CreateChallengeParams) {
-    const response = await baseFetch<CreateChallenge>("/challenges", {
-      method: "POST",
-      body: JSON.stringify(params),
-    });
-    return response;
-  }
+  const response = await baseFetch<CreateChallenge>("/challenges", {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',  // 반드시 JSON 형식으로 전송해야 함
+    },
+    data: params,
+  });
+  return response;
+}
 
 // 챌린지 상세 조회 API
 export async function DetailChallenge(id: number) {
@@ -107,6 +110,14 @@ export async function getInvitations(params: InvitationParams) {
     const response = await baseFetch<Invitation>("/challenges/invites/me", {
       method: "GET",
       params, // InvitationParams 타입을 그대로 전달
+    });
+    return response;
+  }
+
+// 내가 참여중인 챌린지 보기
+export async function getMyChallenges() {
+    const response = await baseFetch<InvitationResponse>("/challenges/me", {
+      method: "GET",
     });
     return response;
   }

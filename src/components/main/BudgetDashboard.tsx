@@ -9,11 +9,7 @@ export const BudgetDashboard: React.FC = () => {
   return (
     <div className="max-w-md mx-auto bg-gray-50 min-h-screen pb-16">
       <Header />
-      <BudgetStatus 
-        totalBudget={1000000}
-        usedBudget={700000}
-        month="4월"
-      />
+      <BudgetStatus />
       <TransactionList />
       <ChallengeList />
       <BottomNavigation activeTab={'home'} />
