@@ -7,9 +7,9 @@ export interface AccountBookRequest {
 export type TransactionType = 'SPEND' | 'INCOME';
 
 export interface RepeatInfo {
-  frequency: string | null;
-  month: number | null;
-  day: number | null;
+  frequency?: string | null;
+  month?: number | null;
+  day?: number | null;
 }
 
 export interface AccountBookItem {
@@ -18,10 +18,10 @@ export interface AccountBookItem {
   type: TransactionType;
   category: string;
   amount: number;
-  memo: string;
-  endDate: string | null;
+  memo?: string;
+  endDate?: string | null;
   occurredAt: string;
-  repeat: RepeatInfo;
+  repeat?: RepeatInfo;
 }
 
 export interface GetAccountBookAllResponse {
@@ -37,15 +37,12 @@ export interface GetAccountBookSpendResponse {
   number: number;
 }
 
-export interface Transaction {
-  id: number;
-  title: string;
+export type Transaction = Pick<
+  AccountBookItem,
+  'id' | 'title' | 'category' | 'amount' | 'memo' | 'occurredAt'
+> & {
   type: 'SPEND' | 'INCOME';
-  category: string;
-  amount: number;
-  memo: string;
-  occurredAt: string;
-}
+};
 
 export interface PostAccountBookMonthResponse {
   day: number;
@@ -54,58 +51,56 @@ export interface PostAccountBookMonthResponse {
   dayList: Transaction[];
 }
 
-export interface PostAccountBookSpendRequest {
-  title: string;
-  amount: number;
-  memo: string;
-  endDate?: string;
-  occurredAt: string;
-  repeat?: {
-    frequency?: string;
-    month?: number;
-    day?: number;
-  };
-  category: string;
+// 지출
+
+export type PostAccountBookSpendRequest = Omit<AccountBookItem, 'id' | 'type'>;
+
+export type PostAccountBookSpendResponse = Omit<AccountBookItem, 'type'> & {
+  updatedAt: string;
+};
+
+export interface GetAccountBookSpendDetailRequest {
+  id: string;
 }
 
-export interface PostAccountBookSpendResponse {
-  title: string;
-  amount: number;
-  memo: string;
-  endDate?: string;
-  occurredAt: string;
-  repeat?: {
-    frequency?: string;
-    month?: number;
-    day?: number;
-  };
-  category: string;
+export type GetAccountBookSpendDetailResponse = Omit<
+  AccountBookItem,
+  'type'
+> & { updatedAt: string };
+
+export type PutAccountBookSpendRequest = Omit<AccountBookItem, 'type'>;
+
+export type PutAccountBookSpendResponse = Omit<AccountBookItem, 'type'> & {
+  updatedAt: string;
+};
+
+export interface DeleteAccountBookSpendRequest {
+  id: string;
 }
 
-export interface PostAccountBookIncomeRequest {
-  title: string;
-  amount: number;
-  memo: string;
-  endDate?: string;
-  occurredAt: string;
-  repeat?: {
-    frequency?: string;
-    month?: number;
-    day?: number;
-  };
-  category: string;
+// 수입
+
+export type PostAccountBookIncomeRequest = Omit<AccountBookItem, 'id' | 'type'>;
+
+export type PostAccountBookIncomeResponse = Omit<AccountBookItem, 'type'> & {
+  updatedAt: string;
+};
+
+export interface GetAccountBookIncomeDetailRequest {
+  id: string;
 }
 
-export interface PostAccountBookIncomeResponse {
-  title: string;
-  amount: number;
-  memo: string;
-  endDate?: string;
-  occurredAt: string;
-  repeat?: {
-    frequency?: string;
-    month?: number;
-    day?: number;
-  };
-  category: string;
+export type GetAccountBookIncomeDetailResponse = Omit<
+  AccountBookItem,
+  'type'
+> & {
+  updatedAt: string;
+};
+
+export type PutAccountBookIncomeRequest = Omit<AccountBookItem, 'type'>;
+
+export type PutAccountBookIncomeResponse = Omit<AccountBookItem, 'id' | 'type'>;
+
+export interface DeleteAccountBookIncomeRequest {
+  id: string;
 }

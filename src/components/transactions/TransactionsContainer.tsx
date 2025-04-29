@@ -1,11 +1,17 @@
 'use client';
 
-import { postAccountBookSpend } from '@/api/transactionsApi';
+import {
+  postAccountBookIncome,
+  postAccountBookSpend,
+} from '@/api/transactionsApi';
 import { CATEGORIES } from '@/constants/categories';
 import { PERIOD_TYPES } from '@/constants/period';
+import { TransactionType } from '@/types/transactions';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addDays, format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { DateRange } from 'react-day-picker';
 import { useForm } from 'react-hook-form';
@@ -50,9 +56,29 @@ const expenseFormSchema = z.object({
     .nullable(),
 });
 
+// TODO
+const defaultFormValue = {
+  amount: 0,
+  category: 'none',
+  title: '',
+  memo: '',
+  occurredAt: format(new Date(), 'yyyy-MM-dd'),
+  repeat: {
+    enabled: false,
+    frequency: 'daily',
+    day: 1,
+  },
+};
+
 type ExpenseFormValues = z.infer<typeof expenseFormSchema>;
 
-export default function TransactionsContainer({ page }: { page: string }) {
+export default function TransactionsContainer({
+  transaction,
+  defaultValue = defaultFormValue,
+}: {
+  transaction: TransactionType;
+  defaultValue?: ExpenseFormValues;
+}) {
   const [showAll, setShowAll] = useState(false);
   const [openCalendar, setOpenCalendar] = useState(false);
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -62,6 +88,10 @@ export default function TransactionsContainer({ page }: { page: string }) {
   });
   const [fixedExpenditure, setFixedExpenditure] = useState(false);
   const [openFixedDateCalendar, setOpenFixedDateCalendar] = useState(false);
+  // const isEdit = defaultValue ? false : true
+
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { register, setValue, watch, handleSubmit } =
     useForm<ExpenseFormValues>({
@@ -78,6 +108,8 @@ export default function TransactionsContainer({ page }: { page: string }) {
           day: 1,
         },
       },
+      // FIXME
+      // defaultValues: defaultValue
     });
 
   const focusedCategory = watch('category');
@@ -90,43 +122,61 @@ export default function TransactionsContainer({ page }: { page: string }) {
     setOpenCalendar(false);
   };
 
+  const spendMutation = useMutation({
+    mutationFn: postAccountBookSpend,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['accountBook'] });
+      router.push('/transactions/tabs');
+    },
+    onError: (error) => {
+      console.error('지출 등록 실패:', error);
+    },
+  });
+
+  const incomeMutation = useMutation({
+    mutationFn: postAccountBookIncome,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['accountBook'] });
+      router.push('/transactions/tabs');
+    },
+    onError: (error) => {
+      console.error('수입 등록 실패:', error);
+    },
+  });
+
   const onSubmit = (data: ExpenseFormValues) => {
     console.log(data);
-    if (page === 'expenditure') {
-      postAccountBookSpend({
-        title: data.title,
-        amount: data.amount,
-        memo: data.memo || '',
-        occurredAt: data.occurredAt,
-        category: data.category,
-        // repeat이 있고 enabled가 true일 때만 repeat 데이터 전달
-        ...(data.repeat && data.repeat.enabled
-          ? {
-              // endDate 설정 (고정 지출인 경우 fixedDate.to 사용)
-              endDate: fixedDate?.to
-                ? format(fixedDate.to, 'yyyy-MM-dd')
-                : undefined,
-              // repeat 객체 설정
-              repeat: {
-                frequency: data.repeat.frequency,
-                month: 0, // API 요구사항에 맞게 설정
-                day: data.repeat.day || 1,
-              },
-            }
-          : {}),
-      });
+
+    const transactionData = {
+      title: data.title,
+      amount: data.amount,
+      memo: data.memo || '',
+      occurredAt: data.occurredAt,
+      category: data.category,
+      // repeat이 있고 enabled가 true일 때만 repeat 데이터 전달
+      ...(data.repeat && data.repeat.enabled
+        ? {
+            // endDate 설정 (고정 지출인 경우 fixedDate.to 사용)
+            endDate: fixedDate?.to
+              ? format(fixedDate.to, 'yyyy-MM-dd')
+              : undefined,
+            // repeat 객체 설정
+            repeat: {
+              frequency: data.repeat.frequency,
+              month: 0, // API 요구사항에 맞게 설정
+              day: data.repeat.day || 1,
+            },
+          }
+        : {}),
+    };
+    if (transaction === 'SPEND') {
+      spendMutation.mutate(transactionData);
     }
 
-    if (page === 'income') {
+    if (transaction === 'INCOME') {
+      incomeMutation.mutate(transactionData);
     }
   };
-
-  if (page === 'expenditure') {
-    // postAccountBookSpend()
-  }
-
-  if (page === 'income') {
-  }
 
   return (
     <form
@@ -143,7 +193,7 @@ export default function TransactionsContainer({ page }: { page: string }) {
       </div>
       <div className="flex flex-col gap-3">
         <Label>카테고리 선택</Label>
-        {page === 'expenditure' ? (
+        {transaction === 'SPEND' ? (
           <div className="grid grid-cols-2 w-full gap-2">
             {(showAll ? CATEGORIES.slice(0, 20) : CATEGORIES.slice(0, 7)).map(
               (category) => (

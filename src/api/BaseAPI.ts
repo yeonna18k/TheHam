@@ -2,8 +2,11 @@ import axiosInstance from './axiosInstance';
 
 // 쿠키에서 액세스 토큰 가져오기
 const getAccessTokenFromCookie = (): string | null => {
-  const match = document.cookie.match(new RegExp('(^| )accessToken=([^;]+)'));
-  return match ? match[2] : null;
+  if (typeof window !== 'undefined') {
+    const match = document.cookie.match(new RegExp('(^| )accessToken=([^;]+)'));
+    return match ? match[2] : null;
+  }
+  return null;
 };
 
 // baseFetch 함수
@@ -15,7 +18,7 @@ export const baseFetch = async <T>(
   }
 ): Promise<T> => {
   const token = getAccessTokenFromCookie();
-  
+
   // Authorization 헤더를 URL 인코딩으로 처리
   const headers = {
     ...options?.headers, // 기존 헤더 병합

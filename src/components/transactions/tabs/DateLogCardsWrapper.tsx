@@ -11,7 +11,6 @@ import TransactionsLogCard from './TransactionsLogCard';
 interface DateProps {
   startDate: string;
   endDate: string;
-  page: number;
 }
 
 export default function DateLogCardsWrapper({ startDate, endDate }: DateProps) {
@@ -68,7 +67,6 @@ export default function DateLogCardsWrapper({ startDate, endDate }: DateProps) {
     };
   }, [handleObserver]);
 
-  console.log(data);
   const allTransactions =
     data?.pages.flatMap((page) => page.accountBookPeriodResponse) || [];
 
