@@ -1,9 +1,10 @@
-import { useRouter } from 'next/router';
+"use client"
+import { useSearchParams } from 'next/navigation';
 import ChallengeForm from '@/components/ChallengeForm/ChallengeForm';
 
 export default function EditChallengePage() {
-  const router = useRouter();
-  const { id } = router.query;
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
 
   if (!id) {
     return <div className="p-4 text-center">잘못된 접근입니다.</div>;
