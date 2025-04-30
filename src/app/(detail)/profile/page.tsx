@@ -62,7 +62,7 @@ export default function Profile() {
   const HandleLogout = async () => {
     try {
       await getAuthLogout();
-      window.location.href = '/login';
+      window.location.href = '/auth/signin';
     } catch (error) {
       console.error('로그아웃 처리 중 오류가 발생했습니다.', error);
     }

@@ -11,7 +11,7 @@ export default function TransactionsLogCard({
   const { id, type, title, occurredAt, memo, amount } = data;
   return (
     <Link
-      href={`/transactions/update?id=${id}&type=${type}`}
+      href={`/transactions/update/${type.toLocaleLowerCase()}?id=${id}`}
       className="border w-full border-gray-300 rounded-md p-4 flex items-center justify-between gap-6"
     >
       <div className="flex gap-2 items-center flex-1 overflow-hidden">
