@@ -63,6 +63,7 @@ export default function Statistics() {
     queryKey: ['stat', frequency, selectedCategory],
     queryFn: () => getConsumeFrequency(frequency),
   });
+  console.log('categoryDetailResponse', categoryDetailResponse);
 
   const categoryData = Array.isArray(rawData)
     ? rawData.map((item) => ({
@@ -76,6 +77,8 @@ export default function Statistics() {
     .slice()
     .sort((a, b) => b.value - a.value)
     .slice(0, 3);
+
+  console.log(topCategories);
 
   const allCategories = categoryData
     .slice()
@@ -154,7 +157,12 @@ export default function Statistics() {
             </div>
 
             {/* <ul className="space-y-1 text-sm text-gray-700">
+            {/* <ul className="space-y-1 text-sm text-gray-700">
               {categoryDetailResponse.items?.map(
+                (
+                  item: { description: string; amount: number },
+                  idx: number
+                ) => (
                 (
                   item: { description: string; amount: number },
                   idx: number
