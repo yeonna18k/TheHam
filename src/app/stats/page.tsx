@@ -63,7 +63,6 @@ export default function Statistics() {
     queryKey: ['stat', frequency, selectedCategory],
     queryFn: () => getConsumeFrequency(frequency),
   });
-  console.log('categoryDetailResponse', categoryDetailResponse);
 
   const categoryData = Array.isArray(rawData)
     ? rawData.map((item) => ({
@@ -77,8 +76,6 @@ export default function Statistics() {
     .slice()
     .sort((a, b) => b.value - a.value)
     .slice(0, 3);
-
-  console.log(topCategories);
 
   const allCategories = categoryData
     .slice()
