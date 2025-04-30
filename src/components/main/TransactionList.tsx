@@ -20,7 +20,7 @@ export const TransactionList = () => {
   });
 
   return (
-    <div className="p-4 border-b">
+    <div>
       <Link
         href="/transactions/tabs"
         className="flex justify-between items-center mb-4"

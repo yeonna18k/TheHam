@@ -1,27 +1,29 @@
 'use client';
 
-import { getBudget } from '@/api/budgetApi';
-import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import BudgetEditor from './BudgetEditor';
 
 const CURRENT_MONTH = new Date().getMonth() + 1;
 
-export default function BudgetContainer() {
+export default function BudgetContainer({
+  page,
+}: {
+  page?: 'MAIN' | 'TRANSACTIONS';
+}) {
   const budgetRequestDate = format(new Date(), 'yyyy-MM-01');
 
-  const {
-    data: budgetData,
-    isPending,
-    isError,
-  } = useQuery({
-    queryKey: ['budget'],
-    queryFn: () => getBudget({ date: budgetRequestDate }),
-  });
+  // const {
+  //   data: budgetData,
+  //   isPending,
+  //   isError,
+  // } = useQuery({
+  //   queryKey: ['budget'],
+  //   queryFn: () => getBudget({ date: budgetRequestDate }),
+  // });
 
-  const hasBudget = budgetData && budgetData.budget > 0;
-  if (isError) {
-  }
+  // const hasBudget = budgetData && budgetData.budget > 0;
+  // if (isError) {
+  // }
 
   const BudgetSkeleton = () => (
     <div className="animate-pulse">
@@ -37,7 +39,7 @@ export default function BudgetContainer() {
     <div className="flex flex-col gap-6">
       <div className="bg-white rounded-md shadow-sm px-3 py-6 flex flex-col gap-3">
         <span className="title1">{CURRENT_MONTH}월 소비 현황</span>
-        {isPending ? (
+        {/* {isPending ? (
           <BudgetSkeleton />
         ) : budgetData ? (
           <div>
@@ -50,16 +52,22 @@ export default function BudgetContainer() {
               </span>
             </div>
           </div>
-        ) : (
-          <span className="title3 text-primary">
-            예산을 등록하면 소비 현황을 알려드려요
-          </span>
-        )}
+        ) : ( */}
+        <span className="title3 text-primary">
+          예산을 등록하면 소비 현황을 알려드려요
+        </span>
+        {/* )} */}
       </div>
-      <BudgetEditor
-        mode={hasBudget ? 'edit' : 'create'}
-        initialBudget={hasBudget ? budgetData.budget : 0}
-      />
+      {page === 'MAIN' ? (
+        <></>
+      ) : (
+        <BudgetEditor
+          // mode={hasBudget ? 'edit' : 'create'}
+          // initialBudget={hasBudget ? budgetData : {}}
+          mode="create"
+          initialBudget={{}}
+        />
+      )}
     </div>
   );
 }

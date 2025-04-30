@@ -101,11 +101,11 @@ export default function TransactionsContainer({
       defaultValues: defaultValue,
     });
 
-  const amountValue = watch('amount');
   const focusedCategory = watch('category');
-  const formattedAmount = amountValue
-    ? amountValue.toLocaleString('ko-KR')
-    : '';
+  // const amountValue = watch('amount');
+  // const formattedAmount = amountValue
+  //   ? amountValue.toLocaleString('ko-KR')
+  //   : '';
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     setDate(selectedDate);
@@ -166,15 +166,15 @@ export default function TransactionsContainer({
       memo: data.memo || '',
       occurredAt: data.occurredAt,
       category: data.category,
-      ...(data.repeat
+      ...(fixedExpenditure
         ? {
             endDate: fixedDate?.to
               ? format(fixedDate.to, 'yyyy-MM-dd')
               : undefined,
             repeat: {
-              frequency: data.repeat.frequency || null,
-              month: data.repeat.month || null,
-              day: data.repeat.day || null,
+              frequency: data.repeat?.frequency,
+              month: data.repeat?.month,
+              day: data.repeat?.day,
             },
           }
         : {}),
@@ -219,11 +219,6 @@ export default function TransactionsContainer({
         <Input
           {...register('amount', { valueAsNumber: true })}
           maxLength={20}
-          value={formattedAmount}
-          onChange={(e) => {
-            const numericValue = e.target.value.replace(/[^\d]/g, '');
-            setValue('amount', numericValue ? Number(numericValue) : 0);
-          }}
         />
       </div>
       <div className="flex flex-col gap-3">

@@ -1,3 +1,4 @@
+import { postBudget, putBudget } from '@/api/budgetApi';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,13 +11,16 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { PERIOD_TYPES } from '@/constants/period';
+import { GetBudgetResponse } from '@/types/budgetTypes';
+import { EmptyResponse } from '@/types/common';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { getDaysInMonth, getWeeksInMonth } from 'date-fns';
-import { X } from 'lucide-react';
+import { Loader, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 interface BudgetEditorProps {
   mode: 'edit' | 'create';
-  initialBudget: number;
+  initialBudget: GetBudgetResponse | EmptyResponse;
 }
 
 export default function BudgetEditor({
@@ -27,11 +31,36 @@ export default function BudgetEditor({
   const [repeatInput, setRepeatInput] = useState('');
   const [calculateValue, setCalculateValue] = useState<number>(0);
   const [selectedPeriod, setSelectedPeriod] = useState('DAILY');
-  const [budget, setBudget] = useState(initialBudget.toString());
+  const [budget, setBudget] = useState(initialBudget.budget);
 
   const currentDate = new Date();
   const daysInCurrentMonth = getDaysInMonth(currentDate);
   const weeksInCurrentMonth = getWeeksInMonth(currentDate);
+
+  const queryClient = useQueryClient();
+
+  const { mutate: postNewBudget, isPending: isPosting } = useMutation({
+    mutationFn: postBudget,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['budget'] });
+    },
+  });
+
+  const { mutate: putCurrentBudget, isPending: isPutting } = useMutation({
+    mutationFn: putBudget,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['budget'] });
+    },
+  });
+
+  const handleSubmitBudget = () => {
+    const newBudget = Number(budget);
+    if (mode === 'create') {
+      postNewBudget({ budget: newBudget });
+    } else {
+      putCurrentBudget({ id: initialBudget.id, budget: newBudget });
+    }
+  };
 
   useEffect(() => {
     if (selectedPeriod === 'DAILY') {
@@ -112,8 +141,12 @@ export default function BudgetEditor({
         />
         <span className="absolute text-gray-500 right-2 bottom-3">원</span>
       </div>
-      <Button variant="primary">
-        {mode === 'create' ? '등록' : '수정'}하기
+      <Button variant="primary" onClick={handleSubmitBudget}>
+        {isPosting || isPutting ? (
+          <Loader className="animate-spin ml-2" size={20} />
+        ) : (
+          <>{mode === 'create' ? '등록하기' : '수정하기'}</>
+        )}
       </Button>
     </div>
   );

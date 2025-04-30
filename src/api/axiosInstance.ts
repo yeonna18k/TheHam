@@ -47,7 +47,7 @@ axiosInstance.interceptors.response.use(
         } catch (logoutError) {
           console.error('Logout failed:', logoutError);
         } finally {
-          window.location.href = '/auth/signin';
+          // window.location.href = '/auth/signin';
         }
         return Promise.reject(refreshError);
       }
