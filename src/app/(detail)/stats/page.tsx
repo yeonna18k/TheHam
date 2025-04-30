@@ -77,8 +77,6 @@ export default function Statistics() {
     .sort((a, b) => b.value - a.value)
     .slice(0, 3);
 
-  console.log(topCategories);
-
   const allCategories = categoryData
     .slice()
     .sort((a, b) => a.name.localeCompare(b.name));
