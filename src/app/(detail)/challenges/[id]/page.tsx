@@ -25,20 +25,18 @@ export default function ChallengeDetail() {
   return (
     <div className="pb-16 max-w-md mx-auto">
       <ChallengeDetailHeader title="챌린지 상세" />
-      <div className="p-4">
-        {challenge && (
-          <>
-            <ChallengeProgress challenge={challenge} />
-            <ParticipantList capacity={challenge.capacity} />
-            <PublicToggle
-              challengeId={String(challenge.id)}
-              isPublic={challenge.release === 'PUBLIC'}
-            />
-          </>
-        )}
-        <ActionButtons />
-        <PaymentSection totalSavings={27000} payments={[]} />
-      </div>
+      {challenge && (
+        <div className="p-4">
+          <ChallengeProgress challenge={challenge} />
+          <ParticipantList capacity={challenge.capacity} />
+          <PublicToggle
+            challengeId={String(challenge.id)}
+            isPublic={challenge.release === 'PUBLIC'}
+          />
+          <ActionButtons />
+          <PaymentSection totalSavings={27000} payments={[]} />
+        </div>
+      )}
     </div>
   );
 }
