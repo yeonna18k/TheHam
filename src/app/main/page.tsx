@@ -23,6 +23,7 @@ const Home: NextPage = () => {
       registerServiceWorker();
       await getDeviceToken();
     } else {
+      console.error('알림 권한 거부:', permission);
     }
   }
 
@@ -36,6 +37,7 @@ const Home: NextPage = () => {
       if (currentToken) {
         createFcmToken(currentToken); // 서버에 FCM 토큰 전송
       } else {
+        console.error('토큰을 가져오지 못했습니다.');
       }
     } catch (err) {
       console.error('토큰 요청 오류:', err);
