@@ -1,6 +1,6 @@
 interface Category {
   name: string;
-  color: string;
+  color?: string;
   value: number;
 }
 
@@ -10,7 +10,6 @@ interface TopCategoriesProps {
 }
 
 export function TopCategories({ categories }: TopCategoriesProps) {
-
   if (!categories || categories.length === 0) {
     return <div></div>; // 카테고리가 없을 때 표시
   }
@@ -34,7 +33,8 @@ export function TopCategories({ categories }: TopCategoriesProps) {
               <span className="ml-4">{category.name}</span>
             </div>
             <span className="font-semibold">
-              {category.value.toLocaleString()}원
+              {/* {category.value.toLocaleString()}원 */}
+              {category.value}원
             </span>
           </div>
         ))}
