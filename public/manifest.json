@@ -1,6 +1,6 @@
 {
-  "name": "My PWA App",
-  "short_name": "PWAApp",
+  "name": "The Ham",
+  "short_name": "THApp",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
