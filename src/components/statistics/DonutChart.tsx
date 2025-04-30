@@ -1,11 +1,13 @@
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
 
 interface DonutChartData {
+  name: string;
   value: number;
-  color: string;
+  color?: string;
 }
 
 export function DonutChart({ data }: { data: DonutChartData[] }) {
+  console.log(data);
   if (!data || data.length === 0) {
     return <div></div>; // 데이터가 없을 때 표시
   }
