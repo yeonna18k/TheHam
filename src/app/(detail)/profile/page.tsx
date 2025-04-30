@@ -3,12 +3,10 @@
 import { getAuthLogout } from '@/api/authApi';
 import AccountInfo from '@/components/profile/AccountInfo';
 import AccountSettings from '@/components/profile/AccountSettings';
-import AchievementsCard from '@/components/profile/AchievementsCard';
-import StatisticsCard from '@/components/profile/StatisticsCard';
+import AchievementsWrapper from '@/components/profile/AchievementsWrapper';
+import StatisticsWrapper from '@/components/profile/StatisticsWrapper';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import MOCK_ACHIEVEMENTS from '@/mock/achievementsData';
-import { MOCK_CHALLENGES } from '@/mock/challengeStatisticsData';
 import { useState } from 'react';
 
 const PROFILE_TABS = [
@@ -64,7 +62,7 @@ export default function Profile() {
   const HandleLogout = async () => {
     try {
       await getAuthLogout();
-      window.location.href = '/login';
+      window.location.href = '/auth/signin';
     } catch (error) {
       console.error('로그아웃 처리 중 오류가 발생했습니다.', error);
     }
@@ -143,22 +141,9 @@ function TabContent({ tabValue }: { tabValue: string }) {
     case 'account':
       return <AccountInfo />;
     case 'achievements':
-      return (
-        <div className="flex flex-col gap-4">
-          {MOCK_ACHIEVEMENTS.map((achievement) => (
-            <AchievementsCard key={achievement.id} {...achievement} />
-          ))}
-        </div>
-      );
+      return <AchievementsWrapper />;
     case 'statistics':
-      return (
-        <div className="flex flex-col gap-4">
-          {MOCK_CHALLENGES.map((stat) => (
-            <StatisticsCard key={stat.id} {...stat} />
-          ))}
-          ;
-        </div>
-      );
+      return <StatisticsWrapper />;
     default:
       return null;
   }

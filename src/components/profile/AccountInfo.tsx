@@ -1,6 +1,7 @@
 'use client';
 
 import { getUsersProfile, putUsersProfile } from '@/api/profileApi';
+import { postUsersValidateNickname } from '@/api/userApi';
 import { UsersProfileResponse } from '@/types/profile';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Loader, PiggyBank, Upload } from 'lucide-react';
@@ -29,6 +30,13 @@ export default function AccountInfo() {
     mutationFn: putUsersProfile,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userProfile'] });
+    },
+  });
+
+  const { mutate: validateNickname, isError } = useMutation({
+    mutationFn: postUsersValidateNickname,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userNickname'] });
     },
   });
 
@@ -65,6 +73,10 @@ export default function AccountInfo() {
 
   const handleUploadClick = () => {
     if (fileInputRef.current) fileInputRef.current.click();
+  };
+
+  const handleValidateNickname = () => {
+    validateNickname({ nickname });
   };
 
   const handleUpdateProfile = () => {
@@ -108,12 +120,22 @@ export default function AccountInfo() {
       </div>
       <div className="flex flex-col gap-2">
         <Label>닉네임</Label>
-        <Input
-          placeholder={isPending ? 'Loading...' : '닉네임을 입력해주세요'}
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-          disabled={isPending}
-        />
+        <div className="flex gap-2 relative">
+          <Input
+            placeholder={isPending ? 'Loading...' : '닉네임을 입력해주세요'}
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+            disabled={isPending}
+          />
+          <Button variant="fit" size="fitSm" onClick={handleValidateNickname}>
+            중복 확인
+          </Button>
+          {isError && (
+            <span className="text-warning body3 absolute -bottom-4">
+              중복된 닉네임입니다
+            </span>
+          )}
+        </div>
       </div>
       <div className="flex flex-col gap-2">
         <Label>카카오 계정</Label>

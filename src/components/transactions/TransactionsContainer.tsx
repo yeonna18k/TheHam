@@ -3,8 +3,9 @@
 import {
   postAccountBookIncome,
   postAccountBookSpend,
+  putAccountBookSpend,
 } from '@/api/transactionsApi';
-import { CATEGORIES } from '@/constants/categories';
+import { CATEGORIES, getCategoryByKorean } from '@/constants/categories';
 import { PERIOD_TYPES } from '@/constants/period';
 import { TransactionType } from '@/types/transactions';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,7 +13,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addDays, format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DateRange } from 'react-day-picker';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -30,6 +31,7 @@ const categoryEnum = z.enum(
 );
 
 const expenseFormSchema = z.object({
+  id: z.number().optional(),
   amount: z
     .number({
       required_error: '금액을 입력해주세요',
@@ -48,15 +50,14 @@ const expenseFormSchema = z.object({
   occurredAt: z.string().min(1, '날짜를 선택해주세요'),
   repeat: z
     .object({
-      enabled: z.boolean().default(false).optional(),
-      frequency: frequencyEnum.optional(),
-      day: z.number().min(1).max(31).optional(),
+      frequency: frequencyEnum.optional().nullable(),
+      month: z.number().min(1).max(12).optional().nullable(),
+      day: z.number().min(1).max(31).optional().nullable(),
     })
     .optional()
     .nullable(),
 });
 
-// TODO
 const defaultFormValue = {
   amount: 0,
   category: 'none',
@@ -64,20 +65,22 @@ const defaultFormValue = {
   memo: '',
   occurredAt: format(new Date(), 'yyyy-MM-dd'),
   repeat: {
-    enabled: false,
-    frequency: 'daily',
-    day: 1,
+    frequency: null,
+    month: null,
+    day: null,
   },
 };
 
-type ExpenseFormValues = z.infer<typeof expenseFormSchema>;
+export type ExpenseFormValues = z.infer<typeof expenseFormSchema>;
 
 export default function TransactionsContainer({
   transaction,
   defaultValue = defaultFormValue,
+  isEdit,
 }: {
   transaction: TransactionType;
   defaultValue?: ExpenseFormValues;
+  isEdit?: boolean;
 }) {
   const [showAll, setShowAll] = useState(false);
   const [openCalendar, setOpenCalendar] = useState(false);
@@ -88,7 +91,6 @@ export default function TransactionsContainer({
   });
   const [fixedExpenditure, setFixedExpenditure] = useState(false);
   const [openFixedDateCalendar, setOpenFixedDateCalendar] = useState(false);
-  // const isEdit = defaultValue ? false : true
 
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -96,23 +98,14 @@ export default function TransactionsContainer({
   const { register, setValue, watch, handleSubmit } =
     useForm<ExpenseFormValues>({
       resolver: zodResolver(expenseFormSchema),
-      defaultValues: {
-        amount: 0,
-        category: 'none',
-        title: '',
-        memo: '',
-        occurredAt: format(new Date(), 'yyyy-MM-dd'),
-        repeat: {
-          enabled: fixedExpenditure,
-          frequency: 'daily',
-          day: 1,
-        },
-      },
-      // FIXME
-      // defaultValues: defaultValue
+      defaultValues: defaultValue,
     });
 
+  const amountValue = watch('amount');
   const focusedCategory = watch('category');
+  const formattedAmount = amountValue
+    ? amountValue.toLocaleString('ko-KR')
+    : '';
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     setDate(selectedDate);
@@ -133,6 +126,17 @@ export default function TransactionsContainer({
     },
   });
 
+  const spendEditMutation = useMutation({
+    mutationFn: putAccountBookSpend,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['accountBook'] });
+      router.push('/transactions/tabs');
+    },
+    onError: (error) => {
+      console.error('지출 수정 실패:', error);
+    },
+  });
+
   const incomeMutation = useMutation({
     mutationFn: postAccountBookIncome,
     onSuccess: () => {
@@ -144,51 +148,82 @@ export default function TransactionsContainer({
     },
   });
 
-  const onSubmit = (data: ExpenseFormValues) => {
-    console.log(data);
+  const incomeEditMutation = useMutation({
+    mutationFn: putAccountBookSpend,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['accountBook'] });
+      router.push('/transactions/tabs');
+    },
+    onError: (error) => {
+      console.error('수입 수정 실패:', error);
+    },
+  });
 
+  const onSubmit = (data: ExpenseFormValues) => {
     const transactionData = {
       title: data.title,
       amount: data.amount,
       memo: data.memo || '',
       occurredAt: data.occurredAt,
       category: data.category,
-      // repeat이 있고 enabled가 true일 때만 repeat 데이터 전달
-      ...(data.repeat && data.repeat.enabled
+      ...(data.repeat
         ? {
-            // endDate 설정 (고정 지출인 경우 fixedDate.to 사용)
             endDate: fixedDate?.to
               ? format(fixedDate.to, 'yyyy-MM-dd')
               : undefined,
-            // repeat 객체 설정
             repeat: {
-              frequency: data.repeat.frequency,
-              month: 0, // API 요구사항에 맞게 설정
-              day: data.repeat.day || 1,
+              frequency: data.repeat.frequency || null,
+              month: data.repeat.month || null,
+              day: data.repeat.day || null,
             },
           }
         : {}),
     };
+
     if (transaction === 'SPEND') {
-      spendMutation.mutate(transactionData);
+      if (isEdit && data.id) {
+        spendEditMutation.mutate({ id: data.id, ...transactionData });
+      } else spendMutation.mutate(transactionData);
     }
 
     if (transaction === 'INCOME') {
-      incomeMutation.mutate(transactionData);
+      if (isEdit && data.id) {
+        incomeEditMutation.mutate({
+          id: data.id,
+          ...transactionData,
+        });
+      } else {
+        incomeMutation.mutate(transactionData);
+      }
     }
   };
+
+  useEffect(() => {
+    if (defaultValue) {
+      setValue(
+        'category',
+        getCategoryByKorean(defaultValue.category)?.english as string
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultValue]);
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="px-3 py-6 flex flex-col gap-6 bg-white rounded-lg shadow-sm"
     >
-      <div className="relative">
-        <span className="h1 absolute right-20 top-4">원</span>
+      <div className="relative flex gap-3">
+        <Label className="shrink-0">금액</Label>
+        <span className="absolute right-3 top-3 body2 text-gray-500">원</span>
         <Input
           {...register('amount', { valueAsNumber: true })}
-          maxLength={9}
-          className="focus-visible:ring-0 text-2xl font-black rounded-none border-t-0 border-r-0 border-l-0 border-b-2 border-primary text-center py-4 w-[230px] mx-auto mb-4"
+          maxLength={20}
+          value={formattedAmount}
+          onChange={(e) => {
+            const numericValue = e.target.value.replace(/[^\d]/g, '');
+            setValue('amount', numericValue ? Number(numericValue) : 0);
+          }}
         />
       </div>
       <div className="flex flex-col gap-3">
@@ -331,7 +366,7 @@ export default function TransactionsContainer({
         </div>
       )}
       <Button variant="primary" type="submit">
-        등록하기
+        {isEdit ? '수정하기' : '등록하기'}
       </Button>
     </form>
   );

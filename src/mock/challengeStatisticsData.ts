@@ -1,34 +1,32 @@
 export interface ChallengeStatistics {
-  id: number;
   type: 'amount' | 'count';
   description: string;
-  amount?: number;
-  count?: number;
+  value: number;
+  order: number;
 }
 
-export const MOCK_CHALLENGES: ChallengeStatistics[] = [
-  {
-    id: 1,
+export const CHALLENGES_STATICS: Record<
+  string,
+  Omit<ChallengeStatistics, 'value'>
+> = {
+  completedChallenges: {
     type: 'amount',
     description: '챌린지 성공 누적 금액',
-    amount: 300000,
+    order: 0,
   },
-  {
-    id: 2,
+  finishedChallenge: {
     type: 'count',
     description: '성공한 챌린지',
-    count: 5,
+    order: 1,
   },
-  {
-    id: 3,
+  participatingChallenges: {
     type: 'count',
     description: '참여중인 챌린지',
-    count: 2,
+    order: 2,
   },
-  {
-    id: 4,
+  savings: {
     type: 'count',
     description: '종료된 챌린지',
-    count: 7,
+    order: 3,
   },
-];
+};
