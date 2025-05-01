@@ -19,45 +19,45 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ activeTab }) => {
       name: '홈',
       icon: 'home',
       path: '/main',
-      active: activeTab === 'home'
+      active: activeTab === 'home',
     },
     {
       name: '통계',
       icon: 'stats',
       path: '/stats',
-      active: activeTab === 'stats'
+      active: activeTab === 'stats',
     },
     {
-      name: '목표치',
+      name: '챌린지',
       icon: 'goals',
       path: '/goals',
-      active: activeTab === 'goals'
+      active: activeTab === 'goals',
     },
     {
       name: '친구',
       icon: 'friends',
       path: '/friends',
-      active: activeTab === 'friends'
+      active: activeTab === 'friends',
     },
     {
       name: '마이',
       icon: 'profile',
       path: '/profile',
-      active: activeTab === 'profile'
-    }
+      active: activeTab === 'profile',
+    },
   ];
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-3 max-w-md mx-auto">
       {navItems.map((item) => (
-        <Link 
-          key={item.name} 
+        <Link
+          key={item.name}
           href={item.path}
           className={`flex flex-col items-center ${item.active ? 'text-green-500' : 'text-gray-400'}`}
         >
-          <Icon 
-            name={item.icon} 
-            className={item.active ? 'text-green-500' : 'text-gray-400'} 
+          <Icon
+            name={item.icon}
+            className={item.active ? 'text-green-500' : 'text-gray-400'}
             size={20}
           />
           <span className="text-xs mt-1">{item.name}</span>

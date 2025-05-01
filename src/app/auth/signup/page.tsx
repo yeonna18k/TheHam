@@ -1,5 +1,5 @@
-import { Info } from "lucide-react";
-import SignupFormField from "./SignupFormField";
+import SignupFormField from '@/components/auth/SignupFormField';
+import { Info } from 'lucide-react';
 
 export default function SignUp() {
   return (

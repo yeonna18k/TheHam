@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { Challenge } from '../../types/challenge';
-import { useChallengeStore } from '../../store/challengeStore';
+import { useChallengeFormStore } from '@/store/ChallengeFormState';
+import { useCreateChallenge } from '@/hooks/useChallenges';
+import { CreateChallengeParams } from '@/types/challenge';
+import React from 'react';
 
 interface AddChallengeModalProps {
   isOpen: boolean;
@@ -8,44 +9,44 @@ interface AddChallengeModalProps {
 }
 
 export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) => {
-  const addChallenge = useChallengeStore(state => state.addChallenge);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [targetAmount, setTargetAmount] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [isPublic, setIsPublic] = useState(true);
+  const { title, description, targetAmount, startDate, endDate, isPublic, capacity, setTitle, setDescription, setTargetAmount, setStartDate, setEndDate, setIsPublic, setCapacity, resetForm } = useChallengeFormStore();
+  const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
+  const { mutate: createChallenge } = useCreateChallenge();
 
   if (!isOpen) return null;
 
   const handleSubmit = () => {
-    const newChallenge: Challenge = {
-      id: Date.now().toString(),
+    const payload: CreateChallengeParams = {
       title,
-      description,
+      text: description,              // 반드시 text 로
+      release: isPublic ? 'PUBLIC' : 'PRIVATE',
+      amount: Number(targetAmount) || 0,
+      capacity: Number(capacity) || 1, // capacity 필드도 폼에 추가하세요
+      categoryList: selectedCategories, 
       startDate,
       endDate,
-      targetAmount: parseInt(targetAmount) || 0,
-      currentAmount: 0,
-      participants: [{ id: '1', name: '나', color: '#4f46e5' }],
-      isPublic
     };
 
-    addChallenge(newChallenge);
-    onClose();
-    setTitle('');
-    setDescription('');
-    setTargetAmount('');
-    setStartDate('');
-    setEndDate('');
-    setIsPublic(true);
+    console.log('▶️ payload', payload); 
+
+    createChallenge(payload, {
+      onSuccess: () => {
+        resetForm();
+        onClose();
+      },
+      onError: (error) => {
+        const err = error as { response?: { data?: string } };
+        console.error('📌 400 에러 응답', err.response?.data);
+        alert('입력값을 다시 확인해주세요.');
+      },
+    });
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 max-w-md mx-auto">
       <div className="bg-white p-6 rounded-lg w-full max-w-md mx-4">
         <h2 className="text-xl font-bold mb-4">새 챌린지 추가하기</h2>
-        
+
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">제목</label>
           <input
@@ -56,7 +57,7 @@ export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) =
             placeholder="챌린지 제목"
           />
         </div>
-        
+
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">설명</label>
           <textarea
@@ -67,7 +68,18 @@ export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) =
             rows={3}
           />
         </div>
-        
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">참여 인원 수</label>
+          <input
+            type="number"
+            className="w-full border border-gray-300 rounded-md px-3 py-2"
+            value={capacity}
+            onChange={(e) => setCapacity(e.target.value)} // capacity 값을 state로 관리
+            placeholder="참여 인원 수"
+          />
+        </div>
+
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">목표 금액</label>
           <input
@@ -78,7 +90,7 @@ export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) =
             placeholder="목표 금액 (원)"
           />
         </div>
-        
+
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">시작일</label>
@@ -99,7 +111,24 @@ export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) =
             />
           </div>
         </div>
-        
+
+        {/* 카테고리 선택 */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">카테고리</label>
+          <select
+            className="w-full border border-gray-300 rounded-md px-3 py-2"
+            value={selectedCategories}
+            onChange={(e) => setSelectedCategories(Array.from(e.target.selectedOptions, option => option.value))}
+            multiple
+          >
+            <option value="FOOD">음식</option>
+            <option value="HEALTH">건강</option>
+            <option value="SPORT">운동</option>
+            <option value="EDUCATION">교육</option>
+            <option value="GENERAL">일반</option>
+          </select>
+        </div>
+
         <div className="mb-6">
           <label className="flex items-center">
             <input
@@ -111,18 +140,12 @@ export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) =
             <span className="ml-2 text-sm text-gray-700">공개 챌린지로 설정</span>
           </label>
         </div>
-        
+
         <div className="flex justify-end space-x-2">
-          <button
-            className="px-4 py-2 border border-gray-300 rounded-md text-gray-700"
-            onClick={onClose}
-          >
+          <button className="px-4 py-2 border border-gray-300 rounded-md text-gray-700" onClick={onClose}>
             취소
           </button>
-          <button
-            className="px-4 py-2 bg-green-500 text-white rounded-md"
-            onClick={handleSubmit}
-          >
+          <button className="px-4 py-2 bg-green-500 text-white rounded-md" onClick={handleSubmit}>
             추가하기
           </button>
         </div>

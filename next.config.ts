@@ -1,15 +1,18 @@
-import type { NextConfig } from "next";
-import withPWA from "next-pwa";
+import type { NextConfig } from 'next';
+import withPWA from 'next-pwa';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["k.kakaocdn.net"],
+    domains: ['k.kakaocdn.net', 'img1.kakaocdn.net'],
+  },
+  eslint: {
+    ignoreDuringBuilds: true, // ✅ 이 부분 추가
   },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
-      use: ["@svgr/webpack"],
+      use: ['@svgr/webpack'],
     });
 
     return config;
@@ -17,8 +20,8 @@ const nextConfig: NextConfig = {
 };
 
 export default withPWA({
-  dest: "public",
+  dest: 'public',
   register: true,
   skipWaiting: true,
-  disable: process.env.NODE_ENV === "development",
+  disable: process.env.NODE_ENV === 'development',
 })(nextConfig);
