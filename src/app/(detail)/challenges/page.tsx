@@ -7,40 +7,16 @@ import MyChallenges from '@/components/goals/MyChallenges';
 import NewChallenges from '@/components/goals/NewChallenges';
 import PopularChallenges from '@/components/goals/PopularChallenges';
 import { Button } from '@/components/ui/button';
-import { useGetChallenge } from '@/hooks/useChallenges';
-import { useChallengeStore } from '@/store/challengeStore';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 type Tab = '인기 챌린지' | '신규 챌린지' | '초대 챌린지' | '내 챌린지';
 
-export default function Challenges() {
-  const router = useRouter();
-  const selectChallenge = useChallengeStore((state) => state.selectChallenge);
+export default function ChallengeList() {
   const [activeTab, setActiveTab] = useState<Tab>('인기 챌린지');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const tabMapping = {
-    '인기 챌린지': 0,
-    '신규 챌린지': 1,
-    '초대 챌린지': 2,
-    '내 챌린지': 3,
-  };
-
-  // 챌린지 목록 가져오기
-  const { data: challenges = [] } = useGetChallenge({
-    tab: tabMapping[activeTab],
-    page: 1,
-    size: 10,
-  });
-
-  const handleChallengeClick = (challengeId: string) => {
-    selectChallenge(challengeId);
-    router.push(`/goals/${challengeId}`);
-  };
-
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col">
       <nav className="flex">
         {(
           ['인기 챌린지', '신규 챌린지', '초대 챌린지', '내 챌린지'] as Tab[]
@@ -60,24 +36,9 @@ export default function Challenges() {
 
       <div className="flex-1 overflow-auto">
         {activeTab === '인기 챌린지' && <PopularChallenges />}
-        {activeTab === '신규 챌린지' && (
-          <NewChallenges
-            challenges={challenges}
-            onChallengeClick={handleChallengeClick}
-          />
-        )}
-        {activeTab === '초대 챌린지' && (
-          <InvitedChallenges
-            challenges={challenges}
-            onChallengeClick={handleChallengeClick}
-          />
-        )}
-        {activeTab === '내 챌린지' && (
-          <MyChallenges
-            challenges={challenges}
-            onChallengeClick={handleChallengeClick}
-          />
-        )}
+        {activeTab === '신규 챌린지' && <NewChallenges />}
+        {activeTab === '초대 챌린지' && <InvitedChallenges />}
+        {activeTab === '내 챌린지' && <MyChallenges />}
       </div>
 
       <AddChallengeButton onClick={() => setIsModalOpen(true)} />
