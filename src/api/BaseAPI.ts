@@ -10,7 +10,7 @@ export const baseFetch = async <T>(
   const res = await axiosInstance({
     url: path,
     method: (options?.method as 'GET' | 'POST' | 'PUT' | 'DELETE') || 'GET',
-    withCredentials: true, // ✅ 추가: 쿠키 자동 전송
+    withCredentials: true,
     ...options,
   });
 
