@@ -40,7 +40,7 @@ export default function ChallengeList() {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-3">
       <nav className="flex">
         {(
           ['인기 챌린지', '신규 챌린지', '초대 챌린지', '내 챌린지'] as Tab[]
