@@ -50,23 +50,6 @@ export const TransactionList = () => {
               <ChevronsRight />
             </Link>
           </div>
-          <div className="rounded-md p-4 flex border items-center gap-2">
-            <div className="rounded-full bg-primary/20 h-9 w-9 items-center flex justify-center">
-              <BadgeInfo size={24} className="text-primary" />
-            </div>
-            <div className="flex flex-col gap-0.5">
-              <span className="text-gray-500 body3">
-                아직 거래내역이 없어요!
-              </span>
-              <Link
-                href="/transactions/create"
-                className="flex title3 text-primary"
-              >
-                거래내역 등록하기
-                <ChevronsRight />
-              </Link>
-            </div>
-          </div>
         </div>
       )}
     </Link>
