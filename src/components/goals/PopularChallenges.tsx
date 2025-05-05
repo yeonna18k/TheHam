@@ -1,5 +1,4 @@
-import { usePopularChallenges } from '@/hooks/useChallenges';
-import { PopularChallenge } from '@/types/challenge';
+import { useGetChallengesTop } from '@/hooks/useChallenges';
 import { Star, Trophy } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Lottie from 'react-lottie-player';
@@ -9,7 +8,7 @@ import ChallengeJoinButton from './JoinButton';
 
 export default function PopularChallenges() {
   const router = useRouter();
-  const { data: challenges, isPending } = usePopularChallenges();
+  const { data: challenges, isPending } = useGetChallengesTop();
 
   const handleChallengeClick = (challengeId: string) => {
     router.push(`/challenges/${challengeId}`);
@@ -33,7 +32,7 @@ export default function PopularChallenges() {
           </div>
         </div>
 
-        <h3 className="text-lg font-medium text-gray-800 mb-2">
+        <h3 className="title4 text-gray-800 mb-2">
           아직 인기 챌린지가 없어요!
         </h3>
 
@@ -44,32 +43,24 @@ export default function PopularChallenges() {
   }
 
   return (
-    <>
-      {challenges?.map((challenge: PopularChallenge) => (
+    <div className="flex flex-col gap-3">
+      {challenges?.map((challenge) => (
         <div
           key={challenge.id}
-          className="bg-white p-4 mb-4 rounded-lg shadow-sm cursor-pointer"
+          className="bg-white px-3 py-6 rounded-lg shadow-sm cursor-pointer flex flex-col gap-3"
           onClick={() => handleChallengeClick(challenge.id.toString())}
         >
-          <h3 className="text-lg font-bold">{challenge.title}</h3>
+          <h3 className="title1">{challenge.title}</h3>
 
-          <div className="mt-2">
-            <div className="flex justify-between text-sm text-gray-500 mb-4">
-              <span className="text-green-500">
-                현재까지 {challenge.participants}명 참여
-              </span>
-              <span>모집 정원 {challenge.capacity}명</span>
-            </div>
-
-            <div className="text-sm text-gray-400">
-              상태:{' '}
-              {challenge.status === 'RECRUITING' ? '모집중' : challenge.status}
-            </div>
-
-            <ChallengeJoinButton challengeId={challenge.id.toString()} />
+          <div className="flex justify-between text-sm text-gray-500">
+            <span className="text-primary title5">
+              현재까지 {challenge.participants}명 참여
+            </span>
+            <span className="body3">모집 정원 {challenge.capacity}명</span>
           </div>
+          <ChallengeJoinButton challengeId={challenge.id.toString()} />
         </div>
       ))}
-    </>
+    </div>
   );
 }

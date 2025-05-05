@@ -30,7 +30,7 @@ export interface Pageable {
   pageSize: number;
 }
 
-export interface PopularChallenge {
+export interface ChallengesTopResponse {
   id: number;
   title: string;
   capacity: number;
@@ -39,12 +39,12 @@ export interface PopularChallenge {
 }
 
 export interface InviteList {
-  id: 0,
-  requestUsername: string,
-  challengeName: string,
-  isAccept: true,
-  requestAt: string,
-  updateAt: string
+  id: 0;
+  requestUsername: string;
+  challengeName: string;
+  isAccept: true;
+  requestAt: string;
+  updateAt: string;
 }
 
 export interface NewChallenges {
@@ -54,7 +54,6 @@ export interface NewChallenges {
   participants: number;
   status: 'RECRUITING' | 'ONGOING' | 'ENDED';
 }
-
 
 export interface Content {
   id: number;
@@ -77,7 +76,6 @@ export interface GetChallenge {
   empty: boolean;
 }
 
-
 export interface CreateChallenge {
   id: number;
   title: string;
@@ -85,12 +83,12 @@ export interface CreateChallenge {
   release: string;
   amount: number;
   capacity: number;
-  category: string; 
-  status: string; 
-  startDate: string; 
-  endDate: string; 
-  createDate: string; 
-  modifyDate: string; 
+  category: string;
+  status: string;
+  startDate: string;
+  endDate: string;
+  createDate: string;
+  modifyDate: string;
 }
 
 export interface detailChallenge {
@@ -102,10 +100,10 @@ export interface detailChallenge {
   capacity: number;
   category: string;
   status: string;
-  startDate: string; 
-  endDate: string; 
-  createDate: string; 
-  modifyDate: string; 
+  startDate: string;
+  endDate: string;
+  createDate: string;
+  modifyDate: string;
 }
 
 export interface Invitation {
@@ -113,8 +111,8 @@ export interface Invitation {
   requestUsername: string;
   challengeName: string;
   isAccept: boolean;
-  requestAt: string; 
-  updateAt: string; 
+  requestAt: string;
+  updateAt: string;
 }
 
 export interface InvitationResponse {
@@ -152,4 +150,3 @@ export interface CreateChallengeParams {
 export interface InvitationParams {
   id: number;
 }
-

@@ -10,11 +10,12 @@ import {
   NewChallenges,
   ParticipantChallenge,
   RejectChallenge,
+  getChallengesTop,
   getInvitations,
   getMyChallenges,
-  getPopularChallenges,
 } from '@/api/ChallengeAPI';
 import {
+  ChallengesTopResponse,
   CreateChallengeParams,
   GetChallengeParams,
   PopularChallenge,
@@ -83,10 +84,10 @@ export const useNewChallenges = () =>
   });
 
 // 인기 챌린지 조회 쿼리
-export function usePopularChallenges() {
-  return useQuery<PopularChallenge[]>({
-    queryKey: ['popularChallenges'],
-    queryFn: getPopularChallenges,
+export function useGetChallengesTop() {
+  return useQuery<ChallengesTopResponse[]>({
+    queryKey: ['challengesTop'],
+    queryFn: getChallengesTop,
   });
 }
 

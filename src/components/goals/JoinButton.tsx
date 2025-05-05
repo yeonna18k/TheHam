@@ -1,19 +1,24 @@
-import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
-export default function ChallengeJoinButton({ challengeId }: { challengeId: string }) {
-  const router = useRouter()
+export default function ChallengeJoinButton({
+  challengeId,
+}: {
+  challengeId: string;
+}) {
+  const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/challenge/${challengeId}`)
-  }
+    router.push(`/challenge/${challengeId}`);
+  };
 
   return (
     <Button
       onClick={handleClick}
-      className="w-full h-12 rounded-full bg-white border border-gray-300 text-black text-sm"
+      variant="outline"
+      className="w-full bg-white border-gray-300 text-black title5"
     >
       참여하기
     </Button>
-  )
+  );
 }
