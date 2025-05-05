@@ -20,11 +20,9 @@ const Home: NextPage = () => {
   async function handleAllowNotification() {
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
-      console.log('알림 권한 허용됨');
       registerServiceWorker();
       await getDeviceToken();
     } else {
-      console.log('알림 권한 거부:', permission);
     }
   }
 
@@ -36,10 +34,8 @@ const Home: NextPage = () => {
       }
       const currentToken = await getToken(messaging, { vapidKey });
       if (currentToken) {
-        console.log('FCM 토큰:', currentToken);
         createFcmToken(currentToken); // 서버에 FCM 토큰 전송
       } else {
-        console.log('토큰을 가져오지 못했습니다.');
       }
     } catch (err) {
       console.error('토큰 요청 오류:', err);
@@ -49,19 +45,13 @@ const Home: NextPage = () => {
   function registerServiceWorker() {
     navigator.serviceWorker
       .register('/firebase-messaging-sw.js')
-      .then((registration) => {
-        console.log('Service Worker 등록 성공:', registration);
-      })
+      .then(() => {})
       .catch((error) => {
         console.error('Service Worker 등록 실패:', error);
       });
   }
 
-  return (
-    <main>
-      <BudgetDashboard />
-    </main>
-  );
+  return <BudgetDashboard />;
 };
 
 export default Home;
