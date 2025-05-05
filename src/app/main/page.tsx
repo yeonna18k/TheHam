@@ -47,17 +47,13 @@ const Home: NextPage = () => {
   function registerServiceWorker() {
     navigator.serviceWorker
       .register('/firebase-messaging-sw.js')
-      .then((registration) => {})
+      .then(() => {})
       .catch((error) => {
         console.error('Service Worker 등록 실패:', error);
       });
   }
 
-  return (
-    <main>
-      <BudgetDashboard />
-    </main>
-  );
+  return <BudgetDashboard />;
 };
 
 export default Home;
