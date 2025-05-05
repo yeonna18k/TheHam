@@ -11,7 +11,9 @@ import { useState } from 'react';
 
 type Tab = '인기 챌린지' | '신규 챌린지' | '초대 챌린지' | '내 챌린지';
 
-export default function ChallengeList() {
+export default function Challenges() {
+  const router = useRouter();
+  const selectChallenge = useChallengeStore((state) => state.selectChallenge);
   const [activeTab, setActiveTab] = useState<Tab>('인기 챌린지');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
