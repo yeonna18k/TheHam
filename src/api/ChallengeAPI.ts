@@ -1,6 +1,7 @@
 'use Client';
 
 import type {
+  ChallengesTopResponse,
   CreateChallenge,
   CreateChallengeParams,
   detailChallenge,
@@ -87,7 +88,7 @@ export const NewChallenges = async (): Promise<PopularChallenge[]> => {
 };
 
 // 인기 챌린지 조회 API
-export const getPopularChallenges = async (): Promise<PopularChallenge[]> => {
+export const getChallengesTop = async (): Promise<ChallengesTopResponse[]> => {
   return baseFetch(`/challenges/top`, {
     method: 'GET',
   });

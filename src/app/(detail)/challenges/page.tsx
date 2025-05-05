@@ -59,12 +59,7 @@ export default function Challenges() {
       </nav>
 
       <div className="flex-1 overflow-auto">
-        {activeTab === '인기 챌린지' && (
-          <PopularChallenges
-            challenges={challenges}
-            onChallengeClick={handleChallengeClick}
-          />
-        )}
+        {activeTab === '인기 챌린지' && <PopularChallenges />}
         {activeTab === '신규 챌린지' && (
           <NewChallenges
             challenges={challenges}
