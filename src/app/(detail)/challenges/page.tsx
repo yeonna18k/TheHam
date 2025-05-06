@@ -1,11 +1,11 @@
 'use client';
 
-import { AddChallengeButton } from '@/components/goals/AddChallengeButton';
-import { AddChallengeModal } from '@/components/goals/AddChallengeModal';
-import InvitedChallenges from '@/components/goals/InvitedChallenges';
-import MyChallenges from '@/components/goals/MyChallenges';
-import NewChallenges from '@/components/goals/NewChallenges';
-import PopularChallenges from '@/components/goals/PopularChallenges';
+import { AddChallengeButton } from '@/components/challenges/AddChallengeButton';
+import { AddChallengeModal } from '@/components/challenges/AddChallengeModal';
+import InvitedChallenges from '@/components/challenges/InvitedChallenges';
+import MyChallenges from '@/components/challenges/MyChallenges';
+import NewChallenges from '@/components/challenges/NewChallenges';
+import PopularChallenges from '@/components/challenges/PopularChallenges';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 
