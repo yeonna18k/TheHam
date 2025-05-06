@@ -1,21 +1,26 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-  GetChallenge,
-  CreateChallenge,
-  DetailChallenge,
-  ChangeChallenge,
-  DeleteChallenge,
-  ExitChallenge,
-  ParticipantChallenge,
-  InvitingChallenge,
   AcceptChallenge,
-  RejectChallenge, 
-  getInvitations,
+  ChangeChallenge,
+  CreateChallenge,
+  DeleteChallenge,
+  DetailChallenge,
+  ExitChallenge,
+  GetChallenge,
+  InvitingChallenge,
   NewChallenges,
-  PopularChallenges,
+  ParticipantChallenge,
+  RejectChallenge,
+  getChallengesTop,
+  getInvitations,
   getMyChallenges,
 } from '@/api/ChallengeAPI';
-import { GetChallengeParams, CreateChallengeParams, PopularChallenge } from '@/types/challenge';
+import {
+  ChallengesTopResponse,
+  CreateChallengeParams,
+  GetChallengeParams,
+  PopularChallenge,
+} from '@/types/challenge';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // 챌린지 목록 조회
 export const useGetChallenge = (params: GetChallengeParams) =>
@@ -47,8 +52,13 @@ export const useCreateChallenge = () => {
 export const useChangeChallenge = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, params }: { id: number; params: CreateChallengeParams }) =>
-      ChangeChallenge(id, params),
+    mutationFn: ({
+      id,
+      params,
+    }: {
+      id: number;
+      params: CreateChallengeParams;
+    }) => ChangeChallenge(id, params),
     onSuccess: (_data, { id }) => {
       queryClient.invalidateQueries({ queryKey: ['challengeDetail', id] });
     },
@@ -73,12 +83,11 @@ export const useNewChallenges = () =>
     queryFn: NewChallenges,
   });
 
-
-// 인기 챌린지 조회
-export function usePopularChallenges() {
-  return useQuery<PopularChallenge[]>({
-    queryKey: ["popularChallenges"],
-    queryFn: PopularChallenges,
+// 인기 챌린지 조회 쿼리
+export function useGetChallengesTop() {
+  return useQuery<ChallengesTopResponse[]>({
+    queryKey: ['challengesTop'],
+    queryFn: getChallengesTop,
   });
 }
 
@@ -119,7 +128,7 @@ export const useInviteList = () =>
     queryFn: () => getInvitations,
   });
 
-// 내가 참여중인 챌린지 보기 
+// 내가 참여중인 챌린지 보기
 export const useMyChallenge = () =>
   useQuery({
     queryKey: ['myChallenges'],

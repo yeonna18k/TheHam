@@ -1,6 +1,7 @@
 import { useMyChallenge } from '@/hooks/useChallenges';
 import { InvitationResponse } from '@/types/challenge';
-import { ArrowRight, PiggyBank } from 'lucide-react';
+import { ChevronsRight, Trophy } from 'lucide-react';
+import Link from 'next/link';
 import React from 'react';
 import { ChallengeItem } from './ChallengeItem';
 
@@ -25,32 +26,28 @@ export const ChallengeList: React.FC<ChallengeListProps> = ({ challenges }) => {
   }
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-bold">참여중인 챌린지</h2>
-        <span className="text-gray-400">≫</span>
+    <Link
+      href="/challenges"
+      className="px-3 py-6 flex flex-col gap-3 rounded-lg bg-white shadow-sm"
+    >
+      <div className="flex justify-between items-center">
+        <h1 className="title1">참여중인 챌린지</h1>
+        <ChevronsRight size={24} />
       </div>
-
       {(displayChallenges ?? []).length === 0 ? (
-        <div className="flex flex-col items-center justify-center p-6 my-4 bg-gradient-to-r from-green-50 to-green-50 rounded-lg border border-green-100 shadow-sm">
-          <div className="flex justify-center items-center bg-green-100 p-3 rounded-full mb-4">
-            <PiggyBank className="text-green-500" size={32} />
+        <div className="rounded-md p-4 flex border items-center gap-2">
+          <div className="rounded-full bg-primary/20 h-9 w-9 items-center flex justify-center">
+            <Trophy size={24} className="text-primary" />
           </div>
-
-          <h3 className="text-lg font-medium text-gray-800 mb-2">
-            참여중인 챌린지 내역이 없어요!
-          </h3>
-          <p className="text-gray-500 text-center text-sm mb-4">
-            챌린지에 참여하고 저축왕이 되어보세요.
-          </p>
-
-          <button
-            className="flex items-center px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors duration-200 font-medium"
-            onClick={() => (window.location.href = '/goals')} // 모달 열기
-          >
-            챌린지 참여하기
-            <ArrowRight className="ml-1" size={16} />
-          </button>
+          <div className="flex flex-col gap-0.5">
+            <span className="text-gray-500 body3">
+              참여중인 챌린지가 없어요!
+            </span>
+            <Link href="/challenges" className="flex title3 text-primary">
+              챌린지 참여하기
+              <ChevronsRight />
+            </Link>
+          </div>
         </div>
       ) : (
         (displayChallenges ?? []).map((challenge: InvitationResponse) => (
@@ -64,6 +61,6 @@ export const ChallengeList: React.FC<ChallengeListProps> = ({ challenges }) => {
           />
         ))
       )}
-    </div>
+    </Link>
   );
 };

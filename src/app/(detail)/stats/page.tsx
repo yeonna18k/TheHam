@@ -154,7 +154,12 @@ export default function Statistics() {
             </div>
 
             {/* <ul className="space-y-1 text-sm text-gray-700">
+            {/* <ul className="space-y-1 text-sm text-gray-700">
               {categoryDetailResponse.items?.map(
+                (
+                  item: { description: string; amount: number },
+                  idx: number
+                ) => (
                 (
                   item: { description: string; amount: number },
                   idx: number

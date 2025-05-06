@@ -19,6 +19,7 @@ const buttonVariants = cva(
         outline:
           'border-gray-300 hover:bg-primary/20 hover:border-primary focus:border-ring focus:ring-ring/50 focus:ring-[3px]',
         ghost: 'border-none hover:bg-primary/20',
+        tab: 'rounded-none border-t-0 border-r-0 border-l-0 border-b-2 hover:bg-primary/20',
       },
       size: {
         default: 'w-full py-3',
