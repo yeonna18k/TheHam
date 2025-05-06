@@ -7,18 +7,16 @@ import {
   ExitChallenge,
   GetChallenge,
   InvitingChallenge,
-  NewChallenges,
   ParticipantChallenge,
   RejectChallenge,
   getChallengesTop,
   getInvitations,
   getMyChallenges,
-} from '@/api/ChallengeAPI';
+} from '@/api/challengeApi';
 import {
   ChallengesTopResponse,
   CreateChallengeParams,
   GetChallengeParams,
-  PopularChallenge,
 } from '@/types/challenge';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -75,13 +73,6 @@ export const useDeleteChallenge = () => {
     },
   });
 };
-
-// 신규 챌린지 조회
-export const useNewChallenges = () =>
-  useQuery<PopularChallenge[]>({
-    queryKey: ['newChallenges'],
-    queryFn: NewChallenges,
-  });
 
 // 인기 챌린지 조회 쿼리
 export function useGetChallengesTop() {

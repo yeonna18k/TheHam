@@ -6,7 +6,7 @@ import {
   PostBudgetResponse,
   PutBudgetRequest,
   PutBudgetResponse,
-} from '@/types/budgetTypes';
+} from '@/types/budget';
 import { EmptyResponse } from '@/types/common';
 import { baseFetch } from './BaseAPI';
 

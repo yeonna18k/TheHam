@@ -1,6 +1,6 @@
-"use client"
+'use client';
+import ChallengeForm from '@/components/challengeForm/ChallengeForm';
 import { useSearchParams } from 'next/navigation';
-import ChallengeForm from '@/components/ChallengeForm/ChallengeForm';
 
 export default function EditChallengePage() {
   const searchParams = useSearchParams();

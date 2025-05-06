@@ -1,98 +1,87 @@
 'use Client';
 
 import type {
-  ChallengesTopResponse,
-  CreateChallenge,
-  CreateChallengeParams,
-  detailChallenge,
-  GetChallenge,
-  GetChallengeParams,
+  GetChallengesMeRequest,
+  GetChallengesMeResponse,
+  GetChallengesNewRequest,
+  GetChallengesNewResponse,
+  GetChallengesRequest,
+  GetChallengesResponse,
+  GetChallengesTopResponse,
+  GetDetailChallengesResponse,
   Invitation,
   InvitationParams,
-  InvitationResponse,
-  PopularChallenge,
+  PostChallengesRequest,
+  PostChallengesResponse,
+  PutChallengesRequest,
+  PutChallengesResponse,
 } from '@/types/challenge';
-import { baseFetch } from './BaseAPI';
+import { EmptyResponse } from '@/types/common';
+import { baseFetch } from './baseApi';
 
-//챌린지 조회 API
-export async function GetChallenge(params: GetChallengeParams) {
-  const response = await baseFetch<GetChallenge>('/challenges', {
+// 챌린지 조회 API
+export async function getChallenges(
+  params: GetChallengesRequest
+): Promise<GetChallengesResponse> {
+  return await baseFetch('/challenges', {
     method: 'GET',
-    params, // GetChallengeParams 타입을 그대로 전달
+    params,
   });
-  return response;
 }
 
 // 챌린지 생성 API
-export async function CreateChallenge(params: CreateChallengeParams) {
-  const response = await baseFetch<CreateChallenge>('/challenges', {
+export async function postChallenges(
+  params: PostChallengesRequest
+): Promise<PostChallengesResponse> {
+  return await baseFetch('/challenges', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json', // 반드시 JSON 형식으로 전송해야 함
     },
     data: params,
   });
-  return response;
 }
 
 // 챌린지 상세 조회 API
-export async function DetailChallenge(id: number) {
-  const response = await baseFetch<detailChallenge>(`/challenges/${id}`, {
-    method: 'GET',
-  });
-  return response;
+export async function getDetailChallenges(
+  id: number
+): Promise<GetDetailChallengesResponse> {
+  return await baseFetch(`/challenges/${id}`);
 }
 
 // 챌린지 수정 API
-export async function ChangeChallenge(
+export async function putChallenges(
   id: number,
-  params: CreateChallengeParams
-) {
-  const response = await baseFetch<detailChallenge>(`/challenges/${id}`, {
+  params: PutChallengesRequest
+): Promise<PutChallengesResponse> {
+  return await baseFetch(`/challenges/${id}`, {
     method: 'PUT',
     body: JSON.stringify(params),
   });
-  return response;
 }
 
 // 챌린지 삭제 API
-export async function DeleteChallenge(id: number) {
-  const response = await baseFetch(`/challenges/${id}`, {
+export async function deleteChallenges(id: number): Promise<EmptyResponse> {
+  return await baseFetch(`/challenges/${id}`, {
     method: 'DELETE',
   });
-  return response;
 }
 
 // 챌린지 퇴장 API
-export async function ExitChallenge(id: number) {
-  const response = await baseFetch(`/challenges/${id}/exit`, {
+export async function deleteChallengesExit(id: number) {
+  return await baseFetch(`/challenges/${id}/exit`, {
     method: 'DELETE',
   });
-  return response;
 }
 
 // 챌린지 참여 API
-export async function ParticipantChallenge(id: number) {
-  const response = await baseFetch(`/challenges/${id}/participation`, {
+export async function postChallengesParticipation(id: number) {
+  return await baseFetch(`/challenges/${id}/participation`, {
     method: 'POST',
   });
-  return response;
 }
 
-// 신규 챌린지 조회 API
-export const NewChallenges = async (): Promise<PopularChallenge[]> => {
-  const response = await baseFetch(`/challenges/new`, {
-    method: 'GET',
-  });
-  return response as PopularChallenge[];
-};
-
-// 인기 챌린지 조회 API
-export const getChallengesTop = async (): Promise<ChallengesTopResponse[]> => {
-  return baseFetch(`/challenges/top`, {
-    method: 'GET',
-  });
-};
+// TODO: 아래 api는 invitesApi로 분리
 
 // 챌린지 초대 관련 API
 export async function InvitingChallenge(id: number) {
@@ -128,9 +117,22 @@ export async function getInvitations(params: InvitationParams) {
 }
 
 // 내가 참여중인 챌린지 보기
-export async function getMyChallenges() {
-  const response = await baseFetch<InvitationResponse>('/challenges/me', {
-    method: 'GET',
-  });
-  return response;
+export async function getChallengesMe({
+  page,
+  size,
+}: GetChallengesMeRequest): Promise<GetChallengesMeResponse[]> {
+  return await baseFetch(`/challenges/me?page=${page}&size=${size}`);
+}
+
+// 신규 챌린지 조회 API
+export async function NewChallenges({
+  page,
+  size,
+}: GetChallengesNewRequest): Promise<GetChallengesNewResponse[]> {
+  return await baseFetch(`/challenges/new?page=${page}&size=${size}`);
+}
+
+// 인기 챌린지 조회 API
+export async function getChallengesTop(): Promise<GetChallengesTopResponse[]> {
+  return await baseFetch(`/challenges/top`);
 }

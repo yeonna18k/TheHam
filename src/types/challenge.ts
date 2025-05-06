@@ -30,14 +30,6 @@ export interface Pageable {
   pageSize: number;
 }
 
-export interface ChallengesTopResponse {
-  id: number;
-  title: string;
-  capacity: number;
-  participants: number;
-  status: 'RECRUITING' | 'ONGOING' | 'ENDED';
-}
-
 export interface InviteList {
   id: 0;
   requestUsername: string;
@@ -47,22 +39,21 @@ export interface InviteList {
   updateAt: string;
 }
 
-export interface NewChallenges {
-  id: number;
-  title: string;
-  capacity: number;
-  participants: number;
-  status: 'RECRUITING' | 'ONGOING' | 'ENDED';
-}
-
 export interface Content {
   id: number;
   title: string;
   capacity: number;
   status: string;
 }
+// 챌린지 조회
+export interface GetChallengesRequest {
+  title?: string;
+  text?: string;
+  page: number;
+  size: number;
+}
 
-export interface GetChallenge {
+export interface GetChallengesResponse {
   totalElements: number;
   totalPages: number;
   size: number;
@@ -76,14 +67,46 @@ export interface GetChallenge {
   empty: boolean;
 }
 
-export interface CreateChallenge {
+// 챌린지 생성
+export interface PostChallengesRequest {
+  title: string;
+  text: string;
+  release: string;
+  amount: number;
+  targetAmount: number;
+  capacity: number;
+  category: string[];
+  startDate: string;
+  endDate: string;
+  description: string;
+}
+
+interface CategoryName {
+  name: string;
+}
+export interface PostChallengesResponse {
   id: number;
   title: string;
   text: string;
   release: string;
   amount: number;
   capacity: number;
-  category: string;
+  challengeCategory: CategoryName[];
+  status: string;
+  startDate: string;
+  endDate: string;
+  createDate: string;
+  modifyDate: string;
+}
+// 챌린지 상세 조회
+export interface GetDetailChallengesResponse {
+  id: number;
+  creator: string;
+  title: string;
+  release: string;
+  amount: number;
+  capacity: number;
+  challengeCategory: CategoryName[];
   status: string;
   startDate: string;
   endDate: string;
@@ -91,14 +114,25 @@ export interface CreateChallenge {
   modifyDate: string;
 }
 
-export interface detailChallenge {
-  id: number;
-  creator: string;
+// 챌린지 수정
+export interface PutChallengesRequest {
   title: string;
+  text: string;
   release: string;
   amount: number;
   capacity: number;
-  category: string;
+  categoryList: string[];
+  startDate: string;
+  endDate: string;
+}
+export interface PutChallengesResponse {
+  id: number;
+  title: string;
+  text: string;
+  release: string;
+  amount: number;
+  capacity: number;
+  categories: CategoryName[];
   status: string;
   startDate: string;
   endDate: string;
@@ -115,7 +149,18 @@ export interface Invitation {
   updateAt: string;
 }
 
-export interface InvitationResponse {
+// 요청 파라미터를 위한 타입
+
+export interface InvitationParams {
+  id: number;
+}
+
+// 내 참여 챌린지 타입
+export interface GetChallengesMeRequest {
+  page: number;
+  size: number;
+}
+export interface GetChallengesMeResponse {
   id: number;
   name: string;
   totalSpend: number;
@@ -125,28 +170,25 @@ export interface InvitationResponse {
   isWriteTip: boolean;
 }
 
-// 요청 파라미터를 위한 타입
-export interface GetChallengeParams {
-  title?: string;
-  text?: string;
+// 신규 챌린지 타입
+export interface GetChallengesNewRequest {
   page: number;
   size: number;
-  tab?: number;
 }
 
-export interface CreateChallengeParams {
-  title: string;
-  text: string;
-  release: string;
-  amount: number;
-  targetAmount: number;
-  capacity: number;
-  category: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-}
-
-export interface InvitationParams {
+export interface GetChallengesNewResponse {
   id: number;
+  title: string;
+  capacity: number;
+  participants: number;
+  status: 'RECRUITING' | 'ONGOING' | 'ENDED';
+}
+
+// 인기 챌린지 타입
+export interface GetChallengesTopResponse {
+  id: number;
+  title: string;
+  capacity: number;
+  participants: number;
+  status: 'RECRUITING' | 'ONGOING' | 'ENDED';
 }
