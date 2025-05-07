@@ -18,7 +18,7 @@ import {
   PutAccountBookSpendRequest,
   PutAccountBookSpendResponse,
 } from '@/types/transactions';
-import { baseFetch } from './BaseAPI';
+import { baseFetch } from './fetchUtils';
 
 export const getAccountBookAll = async ({
   startDate,

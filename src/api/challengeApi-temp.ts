@@ -9,15 +9,13 @@ import type {
   GetChallengesResponse,
   GetChallengesTopResponse,
   GetDetailChallengesResponse,
-  Invitation,
-  InvitationParams,
   PostChallengesRequest,
   PostChallengesResponse,
   PutChallengesRequest,
   PutChallengesResponse,
-} from '@/types/challenge';
+} from '@/types/challenges';
 import { EmptyResponse } from '@/types/common';
-import { baseFetch } from './baseApi';
+import { baseFetch } from './fetchUtils';
 
 // 챌린지 조회 API
 export async function getChallenges(
@@ -79,41 +77,6 @@ export async function postChallengesParticipation(id: number) {
   return await baseFetch(`/challenges/${id}/participation`, {
     method: 'POST',
   });
-}
-
-// TODO: 아래 api는 invitesApi로 분리
-
-// 챌린지 초대 관련 API
-export async function InvitingChallenge(id: number) {
-  const response = await baseFetch(`/challenges/${id}/invites`, {
-    method: 'POST',
-  });
-  return response;
-}
-
-// 챌린지 초대 수락 API
-export async function AcceptChallenge(id: number) {
-  const response = await baseFetch(`/challenges/invites/${id}/accept`, {
-    method: 'PATCH',
-  });
-  return response;
-}
-
-// 챌린지 초대 거절 API
-export async function RejectChallenge(id: number) {
-  const response = await baseFetch(`/challenges/invites/${id}/reject`, {
-    method: 'PATCH',
-  });
-  return response;
-}
-
-// 챌린지 초대 목록 API
-export async function getInvitations(params: InvitationParams) {
-  const response = await baseFetch<Invitation>('/challenges/invites/me', {
-    method: 'GET',
-    params, // InvitationParams 타입을 그대로 전달
-  });
-  return response;
 }
 
 // 내가 참여중인 챌린지 보기

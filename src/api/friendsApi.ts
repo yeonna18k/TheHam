@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { baseFetch } from './BaseAPI';
+import { baseFetch } from './fetchUtils';
 
 // 카카오톡 공유하기 링크 – 이제 토큰 헤더 불필요
 export async function SharedKakao() {

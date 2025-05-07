@@ -30,15 +30,6 @@ export interface Pageable {
   pageSize: number;
 }
 
-export interface InviteList {
-  id: 0;
-  requestUsername: string;
-  challengeName: string;
-  isAccept: true;
-  requestAt: string;
-  updateAt: string;
-}
-
 export interface Content {
   id: number;
   title: string;
@@ -138,21 +129,6 @@ export interface PutChallengesResponse {
   endDate: string;
   createDate: string;
   modifyDate: string;
-}
-
-export interface Invitation {
-  id: number;
-  requestUsername: string;
-  challengeName: string;
-  isAccept: boolean;
-  requestAt: string;
-  updateAt: string;
-}
-
-// 요청 파라미터를 위한 타입
-
-export interface InvitationParams {
-  id: number;
 }
 
 // 내 참여 챌린지 타입

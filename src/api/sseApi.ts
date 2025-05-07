@@ -1,20 +1,12 @@
-"use client"
-
-import { baseFetch } from './BaseAPI';
-import type { SSEResponse } from '@/types/SSE';
+import { SseSendResponse, SseSubscribeResponse } from '@/types/sse';
+import { baseFetch } from './fetchUtils';
 
 // SSE 테스트 경로
-export async function getSSE() {
-  const response = await baseFetch<SSEResponse>('/sse/send', {
-    method: 'GET',
-  });
-  return response;
+export async function getSse(): Promise<SseSendResponse> {
+  return await baseFetch('/sse/send');
 }
 
-// SSE 구독 경로    
-export async function subscribeSSE() {
-  const response = await baseFetch<SSEResponse>('/sse/subscribe', {
-    method: 'GET',
-  });
-  return response;
+// SSE 구독 경로
+export async function subscribeSSE(): Promise<SseSubscribeResponse> {
+  return await baseFetch('/sse/subscribe');
 }

@@ -8,7 +8,7 @@ import {
   PutBudgetResponse,
 } from '@/types/budget';
 import { EmptyResponse } from '@/types/common';
-import { baseFetch } from './BaseAPI';
+import { baseFetch } from './fetchUtils';
 
 export const postBudget = async ({ budget }: PostBudgetRequest) => {
   try {

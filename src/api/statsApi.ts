@@ -3,7 +3,7 @@ import {
   GetStatConsumeResponse,
   GetStatResponse,
 } from '@/types/statistics';
-import { baseFetch } from './BaseAPI';
+import { baseFetch } from './fetchUtils';
 
 // 지출 통계 조회
 export async function getStatFrequency(

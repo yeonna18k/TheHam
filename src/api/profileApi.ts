@@ -1,5 +1,5 @@
 import { UsersProfileRequest, UsersProfileResponse } from '@/types/profile';
-import { baseFetch } from './BaseAPI';
+import { baseFetch } from './fetchUtils';
 
 export const getUsersProfile = async (): Promise<UsersProfileResponse> => {
   try {

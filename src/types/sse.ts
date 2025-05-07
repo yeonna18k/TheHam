@@ -1,6 +1,13 @@
-export interface SSEResponse {
-    lastEventId: string;
-    title: string,
-    content: string,
-    name: string
+export interface SseSendResponse {
+  lastEventId: string;
+  title: string;
+  content: string;
+  name: string;
+}
+
+export interface SseSubscribeResponse {
+  lastEventId: string;
+  title: string;
+  content: string;
+  name: string;
 }
