@@ -1,6 +1,6 @@
 import { SignUpRequest } from '@/types/auth';
 import { EmptyResponse } from '@/types/common';
-import { baseFetch } from './BaseAPI';
+import { baseFetch } from './fetchUtils';
 
 export const startKakaoLogin = () => {
   window.location.href = process.env.NEXT_PUBLIC_KAKAO_AUTH_URL!;

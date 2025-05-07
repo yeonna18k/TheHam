@@ -1,34 +1,42 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-  GetChallenge,
-  CreateChallenge,
-  DetailChallenge,
-  ChangeChallenge,
-  DeleteChallenge,
-  ExitChallenge,
-  ParticipantChallenge,
-  InvitingChallenge,
-  AcceptChallenge,
-  RejectChallenge, 
-  getInvitations,
-  NewChallenges,
-  PopularChallenges,
-  getMyChallenges,
-} from '@/api/ChallengeAPI';
-import { GetChallengeParams, CreateChallengeParams, PopularChallenge } from '@/types/challenge';
+  deleteChallenges,
+  deleteChallengesExit,
+  getChallenges,
+  getChallengesMe,
+  getChallengesNew,
+  getChallengesTop,
+  getDetailChallenges,
+  postChallenges,
+  postChallengesParticipation,
+  putChallenges,
+} from '@/api/challengesApi';
+import {
+  getInvitesMe,
+  patchInvitesAccept,
+  patchInvitesReject,
+  postInvites,
+} from '@/api/invitesApi';
+import {
+  GetChallengesMeRequest,
+  GetChallengesNewRequest,
+  GetChallengesRequest,
+  PostChallengesRequest,
+  PutChallengesRequest,
+} from '@/types/challenges';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // 챌린지 목록 조회
-export const useGetChallenge = (params: GetChallengeParams) =>
+export const useGetChallenge = (params: GetChallengesRequest) =>
   useQuery({
     queryKey: ['challenges', params],
-    queryFn: () => GetChallenge(params),
+    queryFn: () => getChallenges(params),
   });
 
 // 챌린지 상세 조회
 export const useDetailChallenge = (id: number) =>
   useQuery({
     queryKey: ['challengeDetail', id],
-    queryFn: () => DetailChallenge(id),
+    queryFn: () => getDetailChallenges(id),
     enabled: !!id,
   });
 
@@ -36,7 +44,7 @@ export const useDetailChallenge = (id: number) =>
 export const useCreateChallenge = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (params: CreateChallengeParams) => CreateChallenge(params),
+    mutationFn: (params: PostChallengesRequest) => postChallenges(params),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['challenges'] });
     },
@@ -47,8 +55,13 @@ export const useCreateChallenge = () => {
 export const useChangeChallenge = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, params }: { id: number; params: CreateChallengeParams }) =>
-      ChangeChallenge(id, params),
+    mutationFn: ({
+      id,
+      params,
+    }: {
+      id: number;
+      params: PutChallengesRequest;
+    }) => putChallenges(id, params),
     onSuccess: (_data, { id }) => {
       queryClient.invalidateQueries({ queryKey: ['challengeDetail', id] });
     },
@@ -59,69 +72,68 @@ export const useChangeChallenge = () => {
 export const useDeleteChallenge = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: DeleteChallenge,
+    mutationFn: deleteChallenges,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['challenges'] });
     },
   });
 };
 
-// 신규 챌린지 조회
-export const useNewChallenges = () =>
-  useQuery<PopularChallenge[]>({
-    queryKey: ['newChallenges'],
-    queryFn: NewChallenges,
+// 인기 챌린지 조회 쿼리
+export function useGetChallengesTop() {
+  return useQuery({
+    queryKey: ['challengesTop'],
+    queryFn: getChallengesTop,
   });
-
-
-// 인기 챌린지 조회
-export function usePopularChallenges() {
-  return useQuery<PopularChallenge[]>({
-    queryKey: ["popularChallenges"],
-    queryFn: PopularChallenges,
+}
+// 인기 챌린지 조회 쿼리
+export function useGetChallengesNew({ page, size }: GetChallengesNewRequest) {
+  return useQuery({
+    queryKey: ['challengesTop'],
+    queryFn: () => getChallengesNew({ page, size }),
   });
 }
 
 // 챌린지 퇴장
 export const useExitChallenge = () =>
   useMutation({
-    mutationFn: ExitChallenge,
+    mutationFn: deleteChallengesExit,
   });
 
 // 챌린지 참여
 export const useParticipantChallenge = () =>
   useMutation({
-    mutationFn: ParticipantChallenge,
+    mutationFn: postChallengesParticipation,
   });
 
 // 챌린지 초대
 export const useInvitingChallenge = () =>
   useMutation({
-    mutationFn: InvitingChallenge,
+    mutationFn: postInvites,
   });
 
 // 초대 수락
 export const useAcceptChallenge = () =>
   useMutation({
-    mutationFn: AcceptChallenge,
+    mutationFn: patchInvitesAccept,
   });
 
 // 초대 거절
 export const useRejectChallenge = () =>
   useMutation({
-    mutationFn: RejectChallenge,
+    mutationFn: patchInvitesReject,
   });
 
 // 초대 목록
 export const useInviteList = () =>
   useQuery({
     queryKey: ['challengeInvites'],
-    queryFn: () => getInvitations,
+    queryFn: () => getInvitesMe,
   });
 
-// 내가 참여중인 챌린지 보기 
-export const useMyChallenge = () =>
+// 내가 참여중인 챌린지 보기
+export const useMyChallenge = ({ page, size }: GetChallengesMeRequest) =>
   useQuery({
-    queryKey: ['myChallenges'],
-    queryFn: () => getMyChallenges,
+    queryKey: ['myChallenges', page, size],
+    queryFn: () => getChallengesMe({ page, size }),
   });

@@ -1,13 +1,10 @@
 'use client';
-import { getConsumeFrequency } from '@/api/StatsAPI';
-import BottomNavigation from '@/components/main/BottomNavigation';
 import { CategoryList } from '@/components/statistics/CategoryList';
 import { DonutChart } from '@/components/statistics/DonutChart';
 import { PeriodTabs } from '@/components/statistics/PeriodTabs';
 import { TopCategories } from '@/components/statistics/TopCategories';
 import { CATEGORY_MAP, getCategoryByKorean } from '@/constants/categories';
-import { useGetFrequency } from '@/hooks/useStatics';
-import { useQuery } from '@tanstack/react-query';
+import { useGetStatConsume, useGetStatFrequency } from '@/hooks/useStatistics';
 import { ArrowLeft, ArrowRight, BarChart3, PenLine } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -53,21 +50,16 @@ const periodMap: Record<string, string> = {
 export default function Statistics() {
   const [period, setPeriod] = useState('주간');
   const [selectedCategory, setSelectedCategory] = useState('식비');
-  // const [consumeDelta, setConsumeDelta] = useState<any>(null);
-  // const [error, setError] = useState<string | null>(null);
 
   const frequency = periodMap[period];
-  const { data: rawData } = useGetFrequency(frequency);
-
-  const { data: categoryDetailResponse, isError } = useQuery({
-    queryKey: ['stat', frequency, selectedCategory],
-    queryFn: () => getConsumeFrequency(frequency),
-  });
+  const { data: rawData } = useGetStatFrequency(frequency);
+  const { data: categoryDetailResponse, isError } =
+    useGetStatConsume(frequency);
 
   const categoryData = Array.isArray(rawData)
     ? rawData.map((item) => ({
         name: item.category,
-        value: item.sum,
+        value: item.totalAmount,
         color: getCategoryByKorean(item.category)?.color,
       }))
     : [];
@@ -154,7 +146,12 @@ export default function Statistics() {
             </div>
 
             {/* <ul className="space-y-1 text-sm text-gray-700">
+            {/* <ul className="space-y-1 text-sm text-gray-700">
               {categoryDetailResponse.items?.map(
+                (
+                  item: { description: string; amount: number },
+                  idx: number
+                ) => (
                 (
                   item: { description: string; amount: number },
                   idx: number
@@ -168,7 +165,6 @@ export default function Statistics() {
             </ul> */}
           </div>
         )}
-        <BottomNavigation activeTab="stats" />
       </main>
     </div>
   );

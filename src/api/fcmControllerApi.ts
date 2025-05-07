@@ -1,6 +1,4 @@
-"use client";
-
-import { baseFetch } from './BaseAPI';
+import { baseFetch } from './fetchUtils';
 
 const getAccessTokenFromCookie = (): string | null => {
   const match = document.cookie.match(new RegExp('(^| )access_token=([^;]+)'));
@@ -17,7 +15,7 @@ export async function sendFcmToken(token: string) {
     method: 'POST',
     data: { token },
     headers: {
-      'Content-Type': 'application/json', 
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
     },
   });
@@ -36,4 +34,3 @@ export async function FcmController() {
     method: 'GET',
   });
 }
-

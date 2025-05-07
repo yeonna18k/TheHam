@@ -1,15 +1,14 @@
 'use client';
 
 import { DetailChallenge } from '@/api/ChallengeAPI';
+import { ActionButtons } from '@/components/challenges/ActionButtons';
+import { ChallengeDetailHeader } from '@/components/challenges/ChallengeDetailHeader';
+import { ChallengeProgress } from '@/components/challenges/ChallengeProgress';
+import { ParticipantList } from '@/components/challenges/ParticipantList';
+import { PaymentSection } from '@/components/challenges/PaymentSection';
+import { PublicToggle } from '@/components/challenges/PublicToggle';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import { ActionButtons } from '../../../components/goals/ActionButtons';
-import { ChallengeDetailHeader } from '../../../components/goals/ChallengeDetailHeader';
-import { ChallengeProgress } from '../../../components/goals/ChallengeProgress';
-import { ParticipantList } from '../../../components/goals/ParticipantList';
-import { PaymentSection } from '../../../components/goals/PaymentSection';
-import { PublicToggle } from '../../../components/goals/PublicToggle';
-import BottomNavigation from '../../../components/main/BottomNavigation';
 
 export default function ChallengeDetail() {
   const params = useParams();
@@ -38,7 +37,6 @@ export default function ChallengeDetail() {
           <PaymentSection totalSavings={27000} payments={[]} />
         </div>
       )}
-      <BottomNavigation activeTab="goals" />
     </div>
   );
 }

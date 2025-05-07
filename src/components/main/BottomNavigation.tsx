@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 import Icon from './Icon';
 
@@ -8,42 +7,51 @@ interface NavItem {
   path: string;
   active: boolean;
 }
+export const TABS = {
+  HOME: 'home',
+  STATS: 'stats',
+  CHALLENGES: 'challenges',
+  FRIENDS: 'friends',
+  PROFILE: 'profile',
+} as const;
+
+export type TabType = (typeof TABS)[keyof typeof TABS];
 
 interface BottomNavigationProps {
-  activeTab: string;
+  activeTab: TabType;
 }
 
-const BottomNavigation: React.FC<BottomNavigationProps> = ({ activeTab }) => {
+export const BottomNavigation = ({ activeTab }: BottomNavigationProps) => {
   const navItems: NavItem[] = [
     {
       name: '홈',
       icon: 'home',
       path: '/main',
-      active: activeTab === 'home',
+      active: activeTab === TABS.HOME,
     },
     {
       name: '통계',
       icon: 'stats',
       path: '/stats',
-      active: activeTab === 'stats',
+      active: activeTab === TABS.STATS,
     },
     {
       name: '챌린지',
       icon: 'goals',
-      path: '/goals',
-      active: activeTab === 'goals',
+      path: '/challenges',
+      active: activeTab === TABS.CHALLENGES,
     },
     {
       name: '친구',
       icon: 'friends',
       path: '/friends',
-      active: activeTab === 'friends',
+      active: activeTab === TABS.FRIENDS,
     },
     {
       name: '마이',
       icon: 'profile',
       path: '/profile',
-      active: activeTab === 'profile',
+      active: activeTab === TABS.PROFILE,
     },
   ];
 
@@ -66,5 +74,3 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ activeTab }) => {
     </nav>
   );
 };
-
-export default BottomNavigation;

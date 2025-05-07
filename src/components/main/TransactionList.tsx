@@ -1,7 +1,7 @@
 import { getAccountBookAll } from '@/api/transactionsApi';
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
-import { ChevronRight } from 'lucide-react';
+import { BadgeInfo, ChevronsRight } from 'lucide-react';
 import Link from 'next/link';
 import { TransactionItem } from './TransactionItem';
 
@@ -20,37 +20,36 @@ export const TransactionList = () => {
   });
 
   return (
-    <div>
+    <div className="px-3 py-6 flex flex-col gap-3 rounded-lg bg-white shadow-sm">
       <Link
         href="/transactions/tabs"
-        className="flex justify-between items-center mb-4"
+        className="flex justify-between items-center"
       >
-        <h2 className="text-lg font-bold">오늘 거래 내역</h2>
-        <span className="text-gray-400">≫</span>
+        <h1 className="title1">오늘 거래 내역</h1>
+        <ChevronsRight size={24} />
       </Link>
 
       {data && data.accountBookPeriodResponse.length > 0 ? (
         data.accountBookPeriodResponse
           .slice(0, 3)
           .map((transaction) => (
-            <TransactionItem
-              key={transaction.id}
-              type={transaction.type}
-              category={transaction.category}
-              date={transaction.occurredAt}
-              amount={transaction.amount}
-            />
+            <TransactionItem key={transaction.id} {...transaction} />
           ))
       ) : (
-        <div className="mb-3 bg-white rounded-lg p-3.5 flex flex-col gap-2 shadow-sm">
-          아직 거래내역이 없어요!
-          <Link
-            href="/transactions/create"
-            className="flex title3 text-primary"
-          >
-            <ChevronRight />
-            거래내역 등록하기
-          </Link>
+        <div className="rounded-md p-4 flex border items-center gap-2">
+          <div className="rounded-full bg-primary/20 h-9 w-9 items-center flex justify-center">
+            <BadgeInfo size={24} className="text-primary" />
+          </div>
+          <div className="flex flex-col gap-0.5">
+            <span className="text-gray-500 body3">아직 거래내역이 없어요!</span>
+            <Link
+              href="/transactions/create"
+              className="flex title3 text-primary"
+            >
+              거래내역 등록하기
+              <ChevronsRight />
+            </Link>
+          </div>
         </div>
       )}
     </div>

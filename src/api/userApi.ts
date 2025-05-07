@@ -1,4 +1,4 @@
-import { baseFetch } from './BaseAPI';
+import { baseFetch } from './fetchUtils';
 
 export interface ValidateNicknameRequest {
   nickname: string;
