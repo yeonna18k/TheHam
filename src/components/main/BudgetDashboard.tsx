@@ -1,6 +1,6 @@
 import React from 'react';
 import BudgetContainer from '../transactions/tabs/BudgetContainer';
-import { ChallengeList } from './ChallengesList';
+import { ChallengesList } from './ChallengesList';
 import { TransactionList } from './TransactionList';
 
 export const BudgetDashboard: React.FC = () => {
@@ -10,7 +10,7 @@ export const BudgetDashboard: React.FC = () => {
       <div className="px-4 py-6 flex flex-col gap-3">
         <BudgetContainer page="MAIN" />
         <TransactionList />
-        <ChallengeList />
+        <ChallengesList />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import BottomNavigation from '@/components/main/BottomNavigation';
+import { BottomNavigation, TABS } from '@/components/main/BottomNavigation';
 import { PiggyBank } from 'lucide-react';
 import React from 'react';
 
@@ -14,7 +14,7 @@ export default function MainLayout({
         <h1 className="ml-2 title2">더함</h1>
       </header>
       {children}
-      <BottomNavigation activeTab={'home'} />
+      <BottomNavigation activeTab={TABS.HOME} />
     </div>
   );
 }

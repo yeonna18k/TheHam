@@ -1,5 +1,9 @@
+import {
+  FcmController,
+  getFcmToken,
+  sendFcmToken,
+} from '@/api/fcmControllerApi';
 import { useMutation } from '@tanstack/react-query';
-import { sendFcmToken, getFcmToken, FcmController } from '@/api/FcmControllerAPI';
 
 export const useFcmController = () => {
   return useMutation({

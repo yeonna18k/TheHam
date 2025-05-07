@@ -88,7 +88,7 @@ export async function getChallengesMe({
 }
 
 // 신규 챌린지 조회 API
-export async function NewChallenges({
+export async function getChallengesNew({
   page,
   size,
 }: GetChallengesNewRequest): Promise<GetChallengesNewResponse[]> {

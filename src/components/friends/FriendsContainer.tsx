@@ -1,7 +1,6 @@
 'use client';
 
-import { useEffect, Suspense } from 'react';
-import BottomNavigation from '../main/BottomNavigation';
+import { Suspense, useEffect } from 'react';
 import FriendManagement from './friendManagement';
 
 export default function FriendsContainer() {
@@ -15,7 +14,6 @@ export default function FriendsContainer() {
       script.onload = () => {
         if (window.Kakao && !window.Kakao.isInitialized()) {
           window.Kakao.init(KAKAO_APP_KEY);
-          console.log('Kakao SDK initialized');
         }
       };
 
@@ -32,9 +30,8 @@ export default function FriendsContainer() {
   return (
     <div className="max-w-md mx-auto">
       <Suspense fallback={<div>로딩 중...</div>}>
-        <FriendManagement/>
+        <FriendManagement />
       </Suspense>
-      <BottomNavigation activeTab="friends" />
     </div>
   );
 }

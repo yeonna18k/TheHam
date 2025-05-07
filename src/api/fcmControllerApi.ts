@@ -1,5 +1,3 @@
-'use client';
-
 import { baseFetch } from './fetchUtils';
 
 const getAccessTokenFromCookie = (): string | null => {

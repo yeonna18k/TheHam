@@ -64,12 +64,10 @@ export interface PostChallengesRequest {
   text: string;
   release: string;
   amount: number;
-  targetAmount: number;
   capacity: number;
-  category: string[];
+  categoryList: string[];
   startDate: string;
   endDate: string;
-  description: string;
 }
 
 interface CategoryName {

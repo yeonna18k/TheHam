@@ -1,33 +1,33 @@
-import { useQuery, useMutation } from '@tanstack/react-query';
-import { 
-  SharedKakao, 
-  FriendsGetToken, 
-  FriendsAccept, 
-  FriendsDelete, 
-  FriendsDetail, 
-  FriendsList, 
-  FriendsReject, 
-  FriendsRequestList 
-} from '@/api/FriendsAPI'; // 경로는 프로젝트에 맞게 조정
+import {
+  deleteFriends,
+  getFriends,
+  getFriendsList,
+  getFriendsRequestAccept,
+  getFriendsRequestReject,
+  getFriendsRequestsList,
+  getInviteKakao,
+  getInviteKakaoToken,
+} from '@/api/friendsApi';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 // 카카오 공유하기
 export const useSharedKakao = () => {
   return useMutation({
-    mutationFn: SharedKakao,
+    mutationFn: getInviteKakao,
   });
 };
 
 // 친구 초대 토큰 발급
 export const useFriendsInviteToken = () => {
   return useMutation({
-    mutationFn: FriendsGetToken,
+    mutationFn: getInviteKakaoToken,
   });
 };
 
 // 친구 삭제하기
 export const useFriendsDelete = () => {
   return useMutation({
-    mutationFn: FriendsDelete,
+    mutationFn: deleteFriends,
   });
 };
 
@@ -35,7 +35,7 @@ export const useFriendsDelete = () => {
 export const useFriendsDetail = (id: string) => {
   return useQuery({
     queryKey: ['friendsDetail', id],
-    queryFn: () => FriendsDetail(Number(id)),
+    queryFn: () => getFriends(Number(id)),
     enabled: !!id,
   });
 };
@@ -43,14 +43,14 @@ export const useFriendsDetail = (id: string) => {
 // 친구 허용
 export const useFriendsAccept = () => {
   return useMutation({
-    mutationFn: FriendsAccept,
+    mutationFn: getFriendsRequestAccept,
   });
 };
 
 // 친구 거절
 export const useFriendsReject = () => {
   return useMutation({
-    mutationFn: FriendsReject,
+    mutationFn: getFriendsRequestReject,
   });
 };
 
@@ -58,7 +58,7 @@ export const useFriendsReject = () => {
 export const useFriendsRequestList = () => {
   return useQuery({
     queryKey: ['friendsRequestList'],
-    queryFn: FriendsRequestList,
+    queryFn: getFriendsRequestsList,
   });
 };
 
@@ -66,6 +66,6 @@ export const useFriendsRequestList = () => {
 export const useFriendsList = () => {
   return useQuery({
     queryKey: ['friendsList'],
-    queryFn: FriendsList,
+    queryFn: getFriendsList,
   });
 };

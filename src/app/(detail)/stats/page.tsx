@@ -1,5 +1,4 @@
 'use client';
-import BottomNavigation from '@/components/main/BottomNavigation';
 import { CategoryList } from '@/components/statistics/CategoryList';
 import { DonutChart } from '@/components/statistics/DonutChart';
 import { PeriodTabs } from '@/components/statistics/PeriodTabs';
@@ -51,8 +50,6 @@ const periodMap: Record<string, string> = {
 export default function Statistics() {
   const [period, setPeriod] = useState('주간');
   const [selectedCategory, setSelectedCategory] = useState('식비');
-  // const [consumeDelta, setConsumeDelta] = useState<any>(null);
-  // const [error, setError] = useState<string | null>(null);
 
   const frequency = periodMap[period];
   const { data: rawData } = useGetStatFrequency(frequency);
@@ -168,7 +165,6 @@ export default function Statistics() {
             </ul> */}
           </div>
         )}
-        <BottomNavigation activeTab="stats" />
       </main>
     </div>
   );

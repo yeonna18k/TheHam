@@ -1,6 +1,6 @@
-import { useChallengeFormStore } from '@/store/ChallengeFormState';
 import { useCreateChallenge } from '@/hooks/useChallenges';
-import { CreateChallengeParams } from '@/types/challenge';
+import { useChallengeFormStore } from '@/store/challengeFormState-temp';
+import { PostChallengesRequest } from '@/types/challenges';
 import React from 'react';
 
 interface AddChallengeModalProps {
@@ -8,26 +8,45 @@ interface AddChallengeModalProps {
   onClose: () => void;
 }
 
-export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) => {
-  const { title, description, targetAmount, startDate, endDate, isPublic, capacity, setTitle, setDescription, setTargetAmount, setStartDate, setEndDate, setIsPublic, setCapacity, resetForm } = useChallengeFormStore();
-  const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
+export const AddChallengeModal = ({
+  isOpen,
+  onClose,
+}: AddChallengeModalProps) => {
+  const {
+    title,
+    description,
+    targetAmount,
+    startDate,
+    endDate,
+    isPublic,
+    capacity,
+    setTitle,
+    setDescription,
+    setTargetAmount,
+    setStartDate,
+    setEndDate,
+    setIsPublic,
+    setCapacity,
+    resetForm,
+  } = useChallengeFormStore();
+  const [selectedCategories, setSelectedCategories] = React.useState<string[]>(
+    []
+  );
   const { mutate: createChallenge } = useCreateChallenge();
 
   if (!isOpen) return null;
 
   const handleSubmit = () => {
-    const payload: CreateChallengeParams = {
+    const payload: PostChallengesRequest = {
       title,
-      text: description,              // 반드시 text 로
+      text: description, // 반드시 text 로
       release: isPublic ? 'PUBLIC' : 'PRIVATE',
       amount: Number(targetAmount) || 0,
       capacity: Number(capacity) || 1, // capacity 필드도 폼에 추가하세요
-      categoryList: selectedCategories, 
+      categoryList: selectedCategories,
       startDate,
       endDate,
     };
-
-    console.log('▶️ payload', payload); 
 
     createChallenge(payload, {
       onSuccess: () => {
@@ -48,7 +67,9 @@ export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) =
         <h2 className="text-xl font-bold mb-4">새 챌린지 추가하기</h2>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">제목</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            제목
+          </label>
           <input
             type="text"
             className="w-full border border-gray-300 rounded-md px-3 py-2"
@@ -59,7 +80,9 @@ export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) =
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">설명</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            설명
+          </label>
           <textarea
             className="w-full border border-gray-300 rounded-md px-3 py-2"
             value={description}
@@ -70,7 +93,9 @@ export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) =
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">참여 인원 수</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            참여 인원 수
+          </label>
           <input
             type="number"
             className="w-full border border-gray-300 rounded-md px-3 py-2"
@@ -81,7 +106,9 @@ export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) =
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">목표 금액</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            목표 금액
+          </label>
           <input
             type="number"
             className="w-full border border-gray-300 rounded-md px-3 py-2"
@@ -93,7 +120,9 @@ export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) =
 
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">시작일</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              시작일
+            </label>
             <input
               type="date"
               className="w-full border border-gray-300 rounded-md px-3 py-2"
@@ -102,7 +131,9 @@ export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) =
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">종료일</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              종료일
+            </label>
             <input
               type="date"
               className="w-full border border-gray-300 rounded-md px-3 py-2"
@@ -114,11 +145,17 @@ export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) =
 
         {/* 카테고리 선택 */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">카테고리</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            카테고리
+          </label>
           <select
             className="w-full border border-gray-300 rounded-md px-3 py-2"
             value={selectedCategories}
-            onChange={(e) => setSelectedCategories(Array.from(e.target.selectedOptions, option => option.value))}
+            onChange={(e) =>
+              setSelectedCategories(
+                Array.from(e.target.selectedOptions, (option) => option.value)
+              )
+            }
             multiple
           >
             <option value="FOOD">음식</option>
@@ -137,15 +174,23 @@ export const AddChallengeModal = ({ isOpen, onClose }: AddChallengeModalProps) =
               checked={isPublic}
               onChange={(e) => setIsPublic(e.target.checked)}
             />
-            <span className="ml-2 text-sm text-gray-700">공개 챌린지로 설정</span>
+            <span className="ml-2 text-sm text-gray-700">
+              공개 챌린지로 설정
+            </span>
           </label>
         </div>
 
         <div className="flex justify-end space-x-2">
-          <button className="px-4 py-2 border border-gray-300 rounded-md text-gray-700" onClick={onClose}>
+          <button
+            className="px-4 py-2 border border-gray-300 rounded-md text-gray-700"
+            onClick={onClose}
+          >
             취소
           </button>
-          <button className="px-4 py-2 bg-green-500 text-white rounded-md" onClick={handleSubmit}>
+          <button
+            className="px-4 py-2 bg-green-500 text-white rounded-md"
+            onClick={handleSubmit}
+          >
             추가하기
           </button>
         </div>

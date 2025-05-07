@@ -20,14 +20,14 @@ export const TransactionList = () => {
   });
 
   return (
-    <Link
-      href="/transactions/tabs"
-      className="px-3 py-6 flex flex-col gap-3 rounded-lg bg-white shadow-sm"
-    >
-      <div className="flex justify-between items-center">
+    <div className="px-3 py-6 flex flex-col gap-3 rounded-lg bg-white shadow-sm">
+      <Link
+        href="/transactions/tabs"
+        className="flex justify-between items-center"
+      >
         <h1 className="title1">오늘 거래 내역</h1>
         <ChevronsRight size={24} />
-      </div>
+      </Link>
 
       {data && data.accountBookPeriodResponse.length > 0 ? (
         data.accountBookPeriodResponse
@@ -52,6 +52,6 @@ export const TransactionList = () => {
           </div>
         </div>
       )}
-    </Link>
+    </div>
   );
 };
