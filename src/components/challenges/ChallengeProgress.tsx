@@ -1,7 +1,11 @@
-import { detailChallenge } from '@/types/challenge';
+import { GetDetailChallengesResponse } from '@/types/challenges';
 
-export const ChallengeProgress = ({ challenge }: { challenge: detailChallenge }) => {
-  const progress = Math.round((0 / challenge.amount) * 100); 
+export const ChallengeProgress = ({
+  challenge,
+}: {
+  challenge: GetDetailChallengesResponse;
+}) => {
+  const progress = Math.round((0 / challenge.amount) * 100);
   const daysLeft = calculateDaysLeft(challenge.endDate);
 
   return (

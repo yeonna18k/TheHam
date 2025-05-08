@@ -1,91 +1,85 @@
-
-"use client";
+'use client';
+import { postInvites } from '@/api/invitesApi';
+import {
+  useFriendsAccept,
+  useFriendsDelete,
+  useFriendsInviteToken,
+  useFriendsList,
+  useFriendsReject,
+  useFriendsRequestList,
+  useSharedKakao,
+} from '@/hooks/useFriends';
+import { PostInvitesRequest } from '@/types/invites';
 import { Plus, SearchIcon, X } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { Input } from '../ui/input';
-import { 
-  useSharedKakao, 
-  useFriendsInviteToken, 
-  useFriendsDelete, 
-  useFriendsAccept, 
-  useFriendsReject, 
-  useFriendsList, 
-  useFriendsRequestList 
-} from '@/hooks/useFriends';
-import { StaticImport } from 'next/dist/shared/lib/get-img-props';
-import { env } from 'process';
-
-interface Friend {
-  id: string;
-  name: string;
-  challengeCount: number;
-  profileImage?: string;
-}
 
 const FriendManagement: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const router = useRouter();
   const searchParams = useSearchParams();
-  
+
   // React Query 훅 사용
-  const { 
-    data: friendsList, 
-    isLoading: isLoadingFriends, 
-    refetch: refetchFriends 
+  const {
+    data: friendsList,
+    isLoading: isLoadingFriends,
+    refetch: refetchFriends,
   } = useFriendsList();
-  
-  const { 
-    data: requestList, 
-    isLoading: isLoadingRequests, 
-    refetch: refetchRequests 
+
+  const {
+    data: requestList,
+    isLoading: isLoadingRequests,
+    refetch: refetchRequests,
   } = useFriendsRequestList();
-  
+
   const { mutateAsync: deleteFriend } = useFriendsDelete();
   const { mutateAsync: acceptFriend } = useFriendsAccept();
   const { mutateAsync: rejectFriend } = useFriendsReject();
   const { mutateAsync: getInviteToken } = useFriendsInviteToken();
   const { mutateAsync: shareKakao } = useSharedKakao();
-  
-// FriendManagement.tsx (클라이언트)
-const sendKakaoInvite = async () => {
-  try {
-    // 1) 쿠키 포함해서 토큰 받아오기
-    const { invitingUserToken } = await getInviteToken();  
-    if (!invitingUserToken) throw new Error('토큰 없음');
-    console.log('Invite Token:', invitingUserToken);
 
-    const inviteUrl = `${window.location.origin}/invite?token=${invitingUserToken}`;
-    console.log('Invite URL:', inviteUrl);
+  // FriendManagement.tsx (클라이언트)
+  const sendKakaoInvite = async () => {
+    try {
+      // 1) 쿠키 포함해서 토큰 받아오기
+      const { invitingUserToken } = await getInviteToken();
+      if (!invitingUserToken) throw new Error('토큰 없음');
 
-    // 2) Kakao SDK 초기화 & 공유
-    if (!window.Kakao.isInitialized()) {
-      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
+      const inviteUrl = `${window.location.origin}/invite?token=${invitingUserToken}`;
+
+      // 2) Kakao SDK 초기화 & 공유
+      if (window.Kakao?.isInitialized()) {
+        window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
+      }
+      window.Kakao?.Share.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: '함께 챌린지에 참여해보세요!',
+          description: '함께 목표를 달성하고 습관을 만들어요.',
+          imageUrl: `${window.location.origin}/images/app-logo.png`,
+          link: { mobileWebUrl: inviteUrl, webUrl: inviteUrl },
+        },
+        buttons: [
+          {
+            title: '참여하기',
+            link: { mobileWebUrl: inviteUrl, webUrl: inviteUrl },
+          },
+        ],
+        link: {
+          mobileWebUrl: inviteUrl,
+          webUrl: inviteUrl,
+        },
+      });
+    } catch (err) {
+      console.error('Failed to send Kakao invite:', err);
     }
-    window.Kakao.Share.sendDefault({
-      objectType: 'feed',
-      content: {
-        title: '함께 챌린지에 참여해보세요!',
-        description: '함께 목표를 달성하고 습관을 만들어요.',
-        imageUrl: `${window.location.origin}/images/app-logo.png`,
-        link: { mobileWebUrl: inviteUrl, webUrl: inviteUrl },
-      },
-      buttons: [{
-        title: '참여하기',
-        link: { mobileWebUrl: inviteUrl, webUrl: inviteUrl },
-      }],
-    });
-
-  } catch (err) {
-    console.error('Failed to send Kakao invite:', err);
-  }
-};
+  };
 
   // 친구를 챌린지에 추가하는 함수
-  const addFriendToChallenge = (friendId: string) => {
-    console.log(`Adding friend ${friendId} to challenge`);
-    router.push(`/challenge/create?friend=${friendId}`);
+  const addFriendToChallenge = async ({ id, email }: PostInvitesRequest) => {
+    await postInvites({ id, email });
   };
 
   // 친구 요청 수락 함수
@@ -145,8 +139,8 @@ const sendKakaoInvite = async () => {
   // 데이터 필터링
   const friends = friendsList || [];
   const friendRequests = requestList || [];
-  
-  const filteredFriends = friends.filter((friend) => 
+
+  const filteredFriends = friends.filter((friend) =>
     friend.name?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -172,19 +166,24 @@ const sendKakaoInvite = async () => {
           <h2 className="title2 mb-4">친구 요청</h2>
           <div className="space-y-4">
             {friendRequests.map((request) => (
-              <div key={request.id} className="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
+              <div
+                key={request.friendUserId}
+                className="flex items-center justify-between p-4 bg-blue-50 rounded-lg"
+              >
                 <div className="flex items-center">
                   <div className="w-10 h-10 bg-blue-100 rounded-full overflow-hidden mr-3">
-                    {request.profileImage ? (
+                    {request.profileImageUrl ? (
                       <Image
-                        src={request.profileImage}
+                        src={request.profileImageUrl}
                         alt={request.name}
                         width={40}
                         height={40}
                       />
                     ) : (
                       <div className="w-full h-full bg-blue-200 flex items-center justify-center">
-                        <span className="text-blue-600">{request.name?.[0] || '?'}</span>
+                        <span className="text-blue-600">
+                          {request.name?.[0] || '?'}
+                        </span>
                       </div>
                     )}
                   </div>
@@ -195,13 +194,13 @@ const sendKakaoInvite = async () => {
                 </div>
                 <div className="flex space-x-2">
                   <button
-                    onClick={() => handleAcceptRequest(request.id)}
+                    onClick={() => handleAcceptRequest(request.friendUserId)}
                     className="px-3 py-1 bg-blue-500 text-white rounded-md text-sm"
                   >
                     수락
                   </button>
                   <button
-                    onClick={() => handleRejectRequest(request.id)}
+                    onClick={() => handleRejectRequest(request.friendUserId)}
                     className="px-3 py-1 bg-gray-300 text-gray-700 rounded-md text-sm"
                   >
                     거절
@@ -218,16 +217,16 @@ const sendKakaoInvite = async () => {
 
       {filteredFriends.length > 0 ? (
         <div className="space-y-4">
-          {filteredFriends.map((friend: { id: React.Key | null | undefined; profileImage: string | StaticImport; name: string | number | bigint | boolean | any[] | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; challengeCount: any; }) => (
+          {filteredFriends.map((friend) => (
             <div
-              key={friend.id}
+              key={friend.friendUserId}
               className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
             >
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-green-100 rounded-full overflow-hidden mr-3">
-                  {friend.profileImage ? (
+                  {friend.profileImageUrl ? (
                     <Image
-                      src={friend.profileImage}
+                      src={friend.profileImageUrl}
                       alt={friend.name}
                       width={40}
                       height={40}
@@ -235,26 +234,33 @@ const sendKakaoInvite = async () => {
                     />
                   ) : (
                     <div className="w-full h-full bg-green-200 flex items-center justify-center">
-                      <span className="text-green-600">{friend.name?.[0] || '?'}</span>
+                      <span className="text-green-600">
+                        {friend.name?.[0] || '?'}
+                      </span>
                     </div>
                   )}
                 </div>
                 <div>
                   <div className="font-medium">{friend.name}</div>
                   <div className="text-sm text-gray-500">
-                    {friend.challengeCount || 0}개의 챌린지 참여중
+                    {friend.participatingChallenges || 0}개의 챌린지 참여중
                   </div>
                 </div>
               </div>
               <div className="flex space-x-2">
                 <button
-                  onClick={() => addFriendToChallenge(friend.id)}
+                  onClick={() =>
+                    addFriendToChallenge({
+                      id: friend.friendUserId,
+                      email: 'friend.email',
+                    })
+                  }
                   className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center hover:bg-green-200 transition-colors"
                 >
                   <Plus size={14} className="text-green-700" />
                 </button>
                 <button
-                  onClick={() => handleDeleteFriend(friend.id)}
+                  onClick={() => handleDeleteFriend(friend.friendUserId)}
                   className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center hover:bg-red-200 transition-colors"
                 >
                   <X size={14} className="text-red-700" />
@@ -266,9 +272,25 @@ const sendKakaoInvite = async () => {
       ) : (
         <div className="p-6 bg-white rounded-lg shadow-sm border border-gray-100 text-center">
           <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16 3.46776C17.4817 4.20411 18.5 5.73314 18.5 7.5C18.5 9.26686 17.4817 10.7959 16 11.5322M18 14.5C19.933 14.5 21.5 16.067 21.5 18V19.5C21.5 19.7761 21.2761 20 21 20H3C2.72386 20 2.5 19.7761 2.5 19.5V18C2.5 16.067 4.067 14.5 6 14.5H18Z" stroke="#3B82F6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M15 7.5C15 9.433 13.433 11 11.5 11C9.567 11 8 9.433 8 7.5C8 5.567 9.567 4 11.5 4C13.433 4 15 5.567 15 7.5Z" stroke="#3B82F6" strokeWidth="1.5"/>
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16 3.46776C17.4817 4.20411 18.5 5.73314 18.5 7.5C18.5 9.26686 17.4817 10.7959 16 11.5322M18 14.5C19.933 14.5 21.5 16.067 21.5 18V19.5C21.5 19.7761 21.2761 20 21 20H3C2.72386 20 2.5 19.7761 2.5 19.5V18C2.5 16.067 4.067 14.5 6 14.5H18Z"
+                stroke="#3B82F6"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M15 7.5C15 9.433 13.433 11 11.5 11C9.567 11 8 9.433 8 7.5C8 5.567 9.567 4 11.5 4C13.433 4 15 5.567 15 7.5Z"
+                stroke="#3B82F6"
+                strokeWidth="1.5"
+              />
             </svg>
           </div>
           <p className="text-lg font-semibold text-gray-800 mb-2">

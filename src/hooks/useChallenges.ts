@@ -128,7 +128,7 @@ export const useRejectChallenge = () =>
 export const useInviteList = () =>
   useQuery({
     queryKey: ['challengeInvites'],
-    queryFn: () => getInvitesMe,
+    queryFn: () => getInvitesMe(),
   });
 
 // 내가 참여중인 챌린지 보기

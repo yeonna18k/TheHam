@@ -139,7 +139,7 @@ export interface GetChallengesMeResponse {
   name: string;
   totalSpend: number;
   amount: number;
-  endDay: number;
+  endDay: string;
   isSuccess: boolean;
   isWriteTip: boolean;
 }

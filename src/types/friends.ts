@@ -22,6 +22,6 @@ export interface getFriendsRequestAcceptResponse {
 export interface getFriendsRequestsListResponse {
   friendUserId: number;
   name: string;
+  email: string;
   profileImageUrl: string;
-  participatingChallenges: number;
 }
