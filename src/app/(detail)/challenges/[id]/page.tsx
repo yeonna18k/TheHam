@@ -1,26 +1,25 @@
 'use client';
 
-import { DetailChallenge } from '@/api/ChallengeAPI';
 import { ActionButtons } from '@/components/challenges/ActionButtons';
 import { ChallengeDetailHeader } from '@/components/challenges/ChallengeDetailHeader';
 import { ChallengeProgress } from '@/components/challenges/ChallengeProgress';
 import { ParticipantList } from '@/components/challenges/ParticipantList';
 import { PaymentSection } from '@/components/challenges/PaymentSection';
 import { PublicToggle } from '@/components/challenges/PublicToggle';
-import { useQuery } from '@tanstack/react-query';
+import { useDetailChallenge } from '@/hooks/useChallenges';
 import { useParams } from 'next/navigation';
 
 export default function ChallengeDetail() {
   const params = useParams();
   const id = Number(params?.id);
 
-  // const { data: challenge, isLoading } = useDetailChallenge(id);
-  // if (isLoading || !challenge) return <div>Loading…</div>;
+  const { data: challenge, isLoading } = useDetailChallenge(id);
+  if (isLoading || !challenge) return <div>Loading…</div>;
 
-  const { data: challenge, isLoading } = useQuery({
-    queryKey: ['challenge', id],
-    queryFn: () => DetailChallenge(id),
-  });
+  // const { data: challenge, isLoading } = useQuery({
+  //   queryKey: ['challenge', id],
+  //   queryFn: () => DetailChallenge(id),
+  // });
 
   return (
     <div className="pb-16 max-w-md mx-auto">

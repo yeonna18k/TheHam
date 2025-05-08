@@ -1,4 +1,4 @@
-import { PopularChallenge } from '@/types/challenge';
+import { GetChallengesTopResponse } from '@/types/challenges';
 import ChallengeJoinButton from './JoinButton';
 
 export default function ChallengeCard({
@@ -7,7 +7,7 @@ export default function ChallengeCard({
   participants,
   capacity,
   status,
-}: PopularChallenge) {
+}: GetChallengesTopResponse) {
   return (
     <div className="rounded-md shadow-sm px-3 py-6 flex flex-col gap-3">
       <h1>{title}</h1>
