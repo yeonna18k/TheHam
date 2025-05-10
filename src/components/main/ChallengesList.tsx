@@ -43,6 +43,7 @@ export const ChallengesList = () => {
         fetchedChallenges?.map((challenge) => (
           <ChallengeItem
             key={challenge.id}
+            id={challenge.id}
             title={challenge.name}
             progress={Math.round(
               (challenge.totalSpend / challenge.amount) * 100

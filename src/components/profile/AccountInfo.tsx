@@ -10,6 +10,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
+import { useUsersProfile } from '@/hooks/useUsersProfile';
 
 export default function AccountInfo() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -19,26 +20,15 @@ export default function AccountInfo() {
   const [email, setEmail] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const queryClient = useQueryClient();
-
   const { data: profileData, isPending } = useQuery<UsersProfileResponse>({
     queryKey: ['userProfile'],
     queryFn: getUsersProfile,
   });
 
-  const { mutate: updateProfile, isPending: isUpdating } = useMutation({
-    mutationFn: putUsersProfile,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
-    },
-  });
+  const { updateProfile, isUpdating, validateNickname, isNicknameDuplicated } =
+    useUsersProfile();
 
-  const { mutate: validateNickname, isError } = useMutation({
-    mutationFn: postUsersValidateNickname,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['userNickname'] });
-    },
-  });
+  const isNicknameChanged = profileData?.nickname === nickname;
 
   useEffect(() => {
     if (profileData) {
@@ -127,10 +117,15 @@ export default function AccountInfo() {
             onChange={(e) => setNickname(e.target.value)}
             disabled={isPending}
           />
-          <Button variant="fit" size="fitSm" onClick={handleValidateNickname}>
+          <Button
+            variant="fit"
+            size="fitSm"
+            onClick={handleValidateNickname}
+            disabled={isNicknameChanged}
+          >
             중복 확인
           </Button>
-          {isError && (
+          {isNicknameDuplicated && (
             <span className="text-warning body3 absolute -bottom-4">
               중복된 닉네임입니다
             </span>

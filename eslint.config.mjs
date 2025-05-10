@@ -12,6 +12,7 @@ const compat = new FlatCompat({
 const eslintConfig = [
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
   {
+    plugins: ['unused-imports'],
     rules: {
       'react-hooks/exhaustive-deps': 'off',
       'no-console': ['error', { allow: ['warn', 'error'] }],
