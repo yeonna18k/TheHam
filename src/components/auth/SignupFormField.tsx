@@ -1,13 +1,15 @@
 'use client';
 
 import { postAuthSignUp } from '@/api/authApi';
+import { postUsersValidateNickname } from '@/api/userApi';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CATEGORIES } from '@/constants/categories';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useSearchParams } from 'next/navigation';
+import { AxiosError } from 'axios';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -29,7 +31,8 @@ export default function SignupFormField() {
     getValues,
     watch,
     trigger,
-    formState: { isValid },
+    setError,
+    formState: { isValid, errors },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,7 +46,7 @@ export default function SignupFormField() {
 
   const searchParams = useSearchParams();
   const userEmail = searchParams.get('email');
-  console.log(searchParams.get('email'));
+  const router = useRouter();
 
   const handleCategoryClick = (addCategory: string) => {
     if (getValues('selectedCategories').includes(addCategory)) {
@@ -59,13 +62,37 @@ export default function SignupFormField() {
     }
   };
 
+  const handleValidateNickname = async () => {
+    const nickname = getValues('nickname');
+    try {
+      await postUsersValidateNickname({ nickname });
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response && axiosError.response.status === 409) {
+        setError('nickname', {
+          type: 'duplicate',
+          message: '중복된 닉네임입니다',
+        });
+      } else {
+        setError('nickname', {
+          type: 'manual',
+          message: '닉네임 확인 중 오류가 발생했습니다',
+        });
+      }
+    }
+  };
+
   const onSubmit = (data: FormValues) => {
-    console.log(data);
     if (userEmail) {
-      postAuthSignUp(userEmail, {
-        nickname: data.nickname,
-        categories: data.selectedCategories,
-      });
+      try {
+        postAuthSignUp(userEmail, {
+          nickname: data.nickname,
+          categories: data.selectedCategories,
+        });
+        router.push('/main');
+      } catch (error) {
+        console.error('회원가입 중 에러가 발생하였습니다', error);
+      }
     }
   };
 
@@ -80,11 +107,21 @@ export default function SignupFormField() {
     >
       <div className="flex flex-col gap-2 w-full">
         <Label>닉네임</Label>
-        <div className="w-full flex gap-2 items-center">
+        <div className="w-full flex gap-2 items-center relative">
           <Input id="nickname" {...register('nickname')} />
-          <Button variant="fit" size="fitSm" type="button">
+          <Button
+            variant="fit"
+            size="fitSm"
+            type="button"
+            onClick={handleValidateNickname}
+          >
             중복 확인
           </Button>
+          {errors.nickname && errors.nickname.type === 'duplicate' && (
+            <span className="text-warning body3 absolute -bottom-4">
+              중복된 닉네임입니다
+            </span>
+          )}
         </div>
       </div>
       <span className="text-center text-sm text-gray-600">

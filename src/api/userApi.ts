@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { baseFetch } from './fetchUtils';
 
 export interface ValidateNicknameRequest {
@@ -15,7 +16,7 @@ export const postUsersValidateNickname = async ({
       },
     });
   } catch (error) {
-    console.error('닉네임 중복 확인 에러:', error);
+    const axiosError = error as AxiosError;
     throw error;
   }
 };

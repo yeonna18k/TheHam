@@ -2,6 +2,8 @@
 
 import { format } from 'date-fns';
 import BudgetEditor from './BudgetEditor';
+import { useQuery } from '@tanstack/react-query';
+import { getBudget } from '@/api/budgetApi';
 
 const CURRENT_MONTH = new Date().getMonth() + 1;
 
@@ -12,18 +14,18 @@ export default function BudgetContainer({
 }) {
   const budgetRequestDate = format(new Date(), 'yyyy-MM-01');
 
-  // const {
-  //   data: budgetData,
-  //   isPending,
-  //   isError,
-  // } = useQuery({
-  //   queryKey: ['budget'],
-  //   queryFn: () => getBudget({ date: budgetRequestDate }),
-  // });
+  const {
+    data: budgetData,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: ['budget'],
+    queryFn: () => getBudget({ date: budgetRequestDate }),
+  });
 
-  // const hasBudget = budgetData && budgetData.budget > 0;
-  // if (isError) {
-  // }
+  const hasBudget = budgetData && budgetData.budget > 0;
+  if (isError) {
+  }
 
   const BudgetSkeleton = () => (
     <div className="animate-pulse">

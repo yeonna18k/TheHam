@@ -1,7 +1,14 @@
+import { GetChallengesMeResponse } from '@/types/challenges';
 import { Check } from 'lucide-react';
 import Link from 'next/link';
 
-export const ChallengeItem = ({ title, progress, daysLeft }) => {
+export const ChallengeItem = ({
+  id,
+  name,
+  totalSpend,
+  amount,
+  endDay,
+}: GetChallengesMeResponse) => {
   return (
     <Link
       href={`/challenges/?id=${id}`}
@@ -14,16 +21,16 @@ export const ChallengeItem = ({ title, progress, daysLeft }) => {
           <Check size={24} className="text-white" />
         </div>
         <div>
-          <p className="title4">{title}</p>
+          <p className="title4">{name}</p>
           <div className="w-32 bg-gray-200 rounded-full h-1.5 mt-1">
             <div
               className="bg-green-400 h-1.5 rounded-full"
-              style={{ width: `${progress}%` }}
+              style={{ width: `${Math.round((amount / totalSpend) * 100)}%` }}
             ></div>
           </div>
         </div>
       </div>
-      <span className="text-gray-500 body2">D-{daysLeft}</span>
+      <span className="text-gray-500 body2">D-{endDay}</span>
     </Link>
   );
 };

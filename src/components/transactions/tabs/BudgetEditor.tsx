@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { PERIOD_TYPES } from '@/constants/period';
-import { GetBudgetResponse } from '@/types/budgetTypes';
+import { GetBudgetResponse } from '@/types/budget';
 import { EmptyResponse } from '@/types/common';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { getDaysInMonth, getWeeksInMonth } from 'date-fns';
@@ -136,7 +136,7 @@ export default function BudgetEditor({
         <Input
           maxLength={10}
           value={budget}
-          onChange={(e) => setBudget(e.target.value)}
+          onChange={(e) => setBudget(parseInt(e.target.value))}
           className="text-right pr-6"
         />
         <span className="absolute text-gray-500 right-2 bottom-3">원</span>

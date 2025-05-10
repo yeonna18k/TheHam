@@ -27,7 +27,7 @@ export const postBudget = async ({ budget }: PostBudgetRequest) => {
 export const getBudget = async ({ date }: GetBudgetRequest) => {
   try {
     return await baseFetch<GetBudgetResponse>(`budget/${date}`, {
-      method: 'GET',
+      method: 'PUT',
     });
   } catch (error) {
     console.error('예산 조회 에러: ', error);
