@@ -91,11 +91,12 @@ npm run dev
 
 ### 프론트엔드
 
-- **강나연**
-- **신혜서**
+|<a href="https://github.com/yeonna18k">강나연</a>|<a href="https://github.com/tlsgptj">신혜서</a>|
+|------|---|
+|<img src="https://github.com/yeonna18k.png" width="100px;" alt="강나연 프로필"/>|<img src="https://github.com/tlsgptj.png" width="100px;" alt="신혜서 프로필"/>|
 
 ### 백엔드
 
-- **박현철**
-- **천준민**
-- **김민경**
+|<a href="https://github.com/BHC-Chicken">박현철</a>|<a href="https://github.com/2unmini">천준민</a>|<a href="https://github.com/X1n9fU">김민경</a>|
+|------|---|---|
+|<img src="https://github.com/BHC-Chicken.png" width="100px;" alt="박현철 프로필"/>|<img src="https://github.com/2unmini.png" width="100px;" alt="천준민 프로필"/>|<img src="https://github.com/X1n9fU.png" width="100px;" alt="김민경 프로필"/>|
