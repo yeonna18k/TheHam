@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 더함 (TheHAM)
 
-## Getting Started
+> 함께해서 더 아끼다. 더 함께, 더 많이!
 
-First, run the development server:
+## 🚀 프로젝트 실행 방법
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+git clone https://github.com/Growith-1-1/Frontend.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 의존성 설치 및 개발 서버 실행
+```
+npm install
+npm run dev
+```
+개발 서버가 실행되면 http://localhost:3000에서 애플리케이션에 접속할 수 있습니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📌 프로젝트 소개
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**더함**은 사용자들이 함께 목표를 설정하고 지속적으로 돈을 모으는 절약 챌린지 서비스입니다. 매일, 주간, 월간으로 카테고리별 Top3 소비 내역을 파악하고, 챌린지를 통해 목표 예산을 설정하고 사람들과 함께 절약하는 재미를 느끼고 실제로 절약되는 효과까지 경험할 수 있습니다.
 
-## Learn More
+## 📋 주요 기능
 
-To learn more about Next.js, take a look at the following resources:
+### 1. 간단한 수입/지출 내역 관리와 분석
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- 일간, 주간, 월간으로 카테고리별 Top3 소비 내역 파악할 수 있습니다
+- 기간, 카테고리 별로 내역 조회(캘린더 및 리스트 형식)가 가능합니다
+- 사용자가 선호하는 카테고리 7개를 선정하여 지출 내역 등록 시 간편하게 사용할 수 있습니다
+- 월간 목표 예산을 설정하여 과소비를 방지하고 절약의 동기부여를 얻을 수 있습니다
+- codef API를 사용하여 사용자의 실제 카드 내역 반영 (진행 중)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 2. 절약 챌린지 기능
 
-## Deploy on Vercel
+- 절약 목표 설정하여 소소한 성취감을 얻을 수 있습니다
+- 사람들과 함께 진행하는 챌린지로 중간에 포기하지 않을 수 있도록 지속적인 동기부여가 됩니다
+- **챌린지 예시:**
+    - **30일 커피 줄이기 챌린지:** 30일간 주 2회 커피마시기 챌린지
+    - **15일 점심 도시락 챌린지:** 2주동안 도시락 싸기 챌린지
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 3. 업적 및 목표 달성 시스템
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- 절약 습관 형성을 위한 다양한 업적 시스템을 제공합니다
+- 성공한 챌린지 수, 절약 누적 금액 등 수치화된 결과를 제공하여 사용자의 성취감을 높입니다
+
+### 4. 지속적인 알림 및 사용자 맞춤 기능
+
+- FCM, SSE, WebSocket을 사용한 실시간 알림 기능을 지원합니다
+- 다양한 업적 달성에 대한 알림을 제공합니다
+- 챌린지를 성공한 사용자들의 절약 TIP을 공유하며 챌린지 성공을 유도하고, 팁을 얻을 수 있습니다
+- 반복 지출 항목 자동 등록 기능으로 편의성 제공합니다
+
+## 💻 기술 스택
+
+### 프론트엔드
+
+- **기술 스택:** Next.js, React, PWA
+- **주요 라이브러리:**
+    - TanStack Query, Axios
+    - React-Hook-Form, Zod
+    - shadcn/ui
+
+## 🔧 기술적 문제 해결
+
+1. **웹 브라우저 제한 문제**
+    - 웹에서 카카오톡 공유 기능이 동작하지 않는 문제 발생
+    - 카카오 JavaScript SDK는 모바일 웹 또는 카카오톡 인앱 브라우저에서만 공유 기능이 지원
+    - 실행 전, 모바일 디바이스 또는 인앱 브라우저를 감지하여 조건부 공유 버튼을 활성화
+2. **타입 불일치 문제**
+    - searchParams가 Promise<any>로 추론되어, 실제 사용하는 객체와 타입 불일치로 빌드 에러 발생
+    - Nest.js 13에서 searchParams를 서버 컴포넌트에 넘기지 않고, 클라이언트에서 querystring 파싱 없이 사용하는 경우 타입 추론이 잘못됨
+    - PageProps에 명확한 타입 선언자, 실제 사용 시 async 처리 로직에서 명확히 파싱 후 사용
+3. **리프레시 토큰 발급 문제**
+    - 만료된 토큰에도 재발급 과정과 로그인 화면으로 리다이렉트 되지 않는 오류 발생
+    - 요청 인터셉터는 요청이 서버로 가기 전에 실행되므로 401 에러를 받을 수 없음
+    - 응답 인터셉터로 axiosError 분기 처리 코드를 이용하여 해결
+
+## ⏰ 개발 일정
+
+- 총 18일 간의 진행 일정 (2025년 4월 13일 ~ 4월 30일)
+- 주요 마일스톤:
+    - 아이디어 선정 (13일)
+    - 디자인, 회의구상 (14일 ~ 19일)
+    - 로그인 회원가입 구현 (14일 ~ 16일)
+    - 서버 구축 (16일 ~ 19일)
+    - CRUD 기능 개발 (14일 ~ 25일)
+    - 알림 기능 구현 (18일 ~ 23일, 25일 ~ 28일)
+    - API 연동 (23일 ~ 30일)
+    - 기능 개선 (29일 ~ 30일)
+
+## 👨‍👩‍👧‍👦 팀 소개
+
+### 프론트엔드
+
+|<a href="https://github.com/yeonna18k">강나연</a>|<a href="https://github.com/tlsgptj">신혜서</a>|
+|------|---|
+|<img src="https://github.com/yeonna18k.png" width="100px;" alt="강나연 프로필"/>|<img src="https://github.com/tlsgptj.png" width="100px;" alt="신혜서 프로필"/>|
+
+### 백엔드
+
+|<a href="https://github.com/BHC-Chicken">박현철</a>|<a href="https://github.com/2unmini">천준민</a>|<a href="https://github.com/X1n9fU">김민경</a>|
+|------|---|---|
+|<img src="https://github.com/BHC-Chicken.png" width="100px;" alt="박현철 프로필"/>|<img src="https://github.com/2unmini.png" width="100px;" alt="천준민 프로필"/>|<img src="https://github.com/X1n9fU.png" width="100px;" alt="김민경 프로필"/>|
