@@ -1,3 +1,4 @@
+
 # 더함 (TheHam)
 
 > 함께해서 더 아끼다. 더 함께, 더 많이!
@@ -5,7 +6,7 @@
 ## 🚀 프로젝트 실행 방법
 
 ```
-https://github.com/yeonna18k/TheHam.git
+git clone https://github.com/Growith-1-1/Frontend.git
 ```
 
 ### 의존성 설치 및 개발 서버 실행
