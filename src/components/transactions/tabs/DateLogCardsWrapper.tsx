@@ -7,6 +7,7 @@ import Lottie from 'react-lottie-player';
 import animationLoadingData from '../../../../public/lottie/piggy_loading.json';
 import animationErrorData from '../../../../public/lottie/query_error.json';
 import TransactionsLogCard from './TransactionsLogCard';
+import { useInfiniteAccountBook } from '@/hooks/useInfiniteAccountBook';
 
 interface DateProps {
   startDate: string;
@@ -18,23 +19,13 @@ export default function DateLogCardsWrapper({ startDate, endDate }: DateProps) {
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   const {
-    data,
+    allTransactions,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     isError,
     isPending,
-  } = useInfiniteQuery({
-    queryKey: ['accountBook', startDate, endDate],
-    queryFn: ({ pageParam = 1 }) =>
-      getAccountBookAll({ startDate, endDate, page: pageParam }),
-    getNextPageParam: (lastPage) => {
-      return lastPage.number < lastPage.totalPage
-        ? lastPage.number + 1
-        : undefined;
-    },
-    initialPageParam: 1,
-  });
+  } = useInfiniteAccountBook({ startDate, endDate });
 
   const handleObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
@@ -66,9 +57,6 @@ export default function DateLogCardsWrapper({ startDate, endDate }: DateProps) {
       }
     };
   }, [handleObserver]);
-
-  const allTransactions =
-    data?.pages.flatMap((page) => page.accountBookPeriodResponse) || [];
 
   return (
     <>
