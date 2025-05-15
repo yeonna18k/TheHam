@@ -9,6 +9,7 @@ import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import Lottie from 'react-lottie-player';
 import animationLoadingData from '../../../../../../public/lottie/piggy_loading.json';
+import { Loader } from 'lucide-react';
 
 function TransactionDetail() {
   const searchParam = useSearchParams();
@@ -42,9 +43,7 @@ function TransactionDetail() {
 
 export default function Page() {
   return (
-    <Suspense
-      fallback={<Lottie animationData={animationLoadingData} loop play />}
-    >
+    <Suspense fallback={<Loader className="animate-spin ml-2" size={20} />}>
       <TransactionDetail />
     </Suspense>
   );
