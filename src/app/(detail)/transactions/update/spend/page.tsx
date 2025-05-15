@@ -10,8 +10,10 @@ import TransactionsContainer, {
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
+import Lottie from 'react-lottie-player';
+import animationLoadingData from '../../../../../../public/lottie/piggy_loading.json';
 
-export default function Page() {
+function TransactionDetail() {
   const searchParam = useSearchParams();
   const id = searchParam.get('id');
 
@@ -31,7 +33,7 @@ export default function Page() {
   if (id) getAccountBookIncomeDetail({ id });
 
   return (
-    <Suspense>
+    <>
       {data && (
         <TransactionsContainer
           transaction={'SPEND'}
@@ -39,6 +41,16 @@ export default function Page() {
           isEdit
         />
       )}
+    </>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense
+      fallback={<Lottie animationData={animationLoadingData} loop play />}
+    >
+      <TransactionDetail />
     </Suspense>
   );
 }
