@@ -15,6 +15,8 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const isProduction = process.env.NODE_ENV === 'production';
+    console.log('isProduction', isProduction);
+
     if (isProduction && typeof window !== 'undefined') {
       const isLocalhost = window.location.href.includes('localhost');
       if (isLocalhost) {
