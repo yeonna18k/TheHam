@@ -14,7 +14,9 @@ const Home: NextPage = () => {
   const { mutate: createFcmToken } = useFcmToken();
 
   useEffect(() => {
-    const isProduction = process.env.NODE_ENV === 'production';
+    const isProduction =
+      process.env.NEXT_PUBLIC_NODE_ENV === 'production' ||
+      process.env.NODE_ENV === 'production';
     console.log('isProduction', isProduction);
 
     if (isProduction && typeof window !== 'undefined') {
