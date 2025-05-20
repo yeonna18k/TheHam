@@ -45,7 +45,7 @@ export default function CalendarContainer() {
           nav: 'absolute top-3 right-3 flex gap-2',
           nav_button_previous: 'border-none',
           nav_button_next: 'border-none',
-          cell: 'pt-2 text-warning',
+          cell: "body2 text-center content-start",
           month: 'gap-6',
           months: 'w-full',
         }}
@@ -60,11 +60,12 @@ export default function CalendarContainer() {
           Day({ displayMonth, date }) {
             const koDate = date.getDate();
             return (
-              <td
-                className="body2 w-full text-center"
-                role="gridcell"
-                data-day={format(date, 'yyyy-MM-dd')}
-              >
+              // <td
+              //   className="body2 w-full text-center"
+              //   role="gridcell"
+              //   data-day={format(date, 'yyyy-MM-dd')}
+              // >
+              <>
                 {date.getMonth() !== displayMonth.getMonth() ? (
                   <span className="text-gray-500">-</span>
                 ) : (
@@ -96,7 +97,8 @@ export default function CalendarContainer() {
                     )}
                   </button>
                 )}
-              </td>
+              </>
+              // </td>
             );
           },
         }}

@@ -33,16 +33,9 @@ function Calendar({
         nav_button_previous: 'absolute left-1',
         nav_button_next: 'absolute right-1',
         table: 'w-full border-collapse space-x-1',
-
-        head_cell: "body3",
-        // cell: 'text-center rounded-md w-8 h-8 font-normal text-[0.8rem]',
-row: "w-full mt-2",
-        // weekdays: 'flex',
-        // weekday:
-        //   'text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]',
-        // week: 'flex w-full mt-2',
-        cell: cn(
-          'text-center rounded-md w-8 h-8 font-normal text-[0.8rem]',
+        head_cell: "body3 pb-2",
+        day: cn(
+          'mt-2 text-center w-8 h-8 font-normal text-[0.8rem]',
           'relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-range-end)]:rounded-r-md',
           props.mode === 'range'
             ? '[&:has(>.day-range-end)]:rounded-r-md [&:has(>.day-range-start)]:rounded-l-md first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md'
@@ -58,7 +51,7 @@ row: "w-full mt-2",
           'day-range-end aria-selected:bg-primary aria-selected:text-primary-foreground rounded-r-sm',
         day_selected:
           'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground',
-        day_today: 'bg-accent text-accent-foreground',
+        day_today: 'bg-accent text-accent-foreground rounded-md',
         day_outside:
           'day-outside text-muted-foreground aria-selected:text-muted-foreground',
         day_disabled: 'text-muted-foreground opacity-50',
