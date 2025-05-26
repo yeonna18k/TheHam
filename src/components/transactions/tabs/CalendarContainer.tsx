@@ -50,14 +50,14 @@ export default function CalendarContainer() {
           months: 'w-full',
         }}
         components={{
-          CaptionLabel({ displayMonth }) {
+          CaptionLabel({ displayMonth }: {displayMonth: Date}) {
             return (
               <div className="title1 mb-2">
                 {format(displayMonth, 'yyyy. MM')}
               </div>
             );
           },
-          Day({ displayMonth, date }) {
+          Day({ displayMonth, date }: { displayMonth: Date; date: Date }) {
             const koDate = date.getDate();
             return (
               // <td
